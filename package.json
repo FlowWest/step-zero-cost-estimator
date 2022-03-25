@@ -1,12 +1,11 @@
 {
-    "name": "gatsby-material-typescript-starter",
-    "description": "A simple starter using Typescript & Material-ui",
+    "name": "step-zero-cost-estimator",
+    "description": "SAFER Step Zero Cost Estimator web application",
     "version": "0.1.0",
-    "homepage": "https://gatsby-material-typescript-starter.vercel.app",
-    "author": {
-        "name": "Christian Lindeneg",
-        "email": "hi@lindeneg.org",
-        "url": "https://lindeneg.org"
+    "homepage": "https://github.com/FlowWest/step-zero-cost-estimator",
+     "author": {
+        "name": "FlowWest",
+        "url": "https://www.flowwest.com/"
     },
     "keywords": [
         "gatsby",
@@ -62,9 +61,9 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Lindeneg/gatsby-material-typescript-starter"
+        "url": "https://github.com/FlowWest/step-zero-cost-estimator"
     },
     "bugs": {
-        "url": "https://github.com/Lindeneg/gatsby-material-typescript-starter/issues"
+        "url": "https://github.com/FlowWest/step-zero-cost-estimator/issues"
     }
 }
