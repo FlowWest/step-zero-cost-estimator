@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 type MetaLayoutProps = {
-  switchTheme: () => void;
+  switchTheme: (darkModeOn: boolean) => void;
 };
 
 const MetaLayout: FCR<MetaLayoutProps> = (props) => {
