@@ -10,9 +10,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(3, 2),
     marginTop: 'auto',
     position: 'static',
-    left: '0',
-    bottom: '0',
-    right: '0',
     width: '100%',
     backgroundColor: theme.palette.background.paper
   },
