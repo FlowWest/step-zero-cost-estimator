@@ -1,6 +1,6 @@
 import React from 'react';
 import { Theme, makeStyles } from '@material-ui/core/styles';
-
+import { Grid } from '@material-ui/core';
 import useSiteMetadata from '../../hooks/useSiteMetadata';
 import Header from './header';
 import Footer from './footer';
@@ -10,10 +10,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: theme.palette.background.default
+    backgroundColor: theme.palette.background.default,
+    position: 'relative',
+    minHeight: '100vh'
   },
   main: {
-    marginTop: '5rem',
+    paddingBlock: '5rem',
     backgroundColor: theme.palette.background.default
   }
 }));
@@ -28,7 +30,9 @@ const MetaLayout: FCR<MetaLayoutProps> = (props) => {
   return (
     <div className={styles.root}>
       <Header switchTheme={props.switchTheme} siteTitle={title} />
-      <main className={styles.main}>{props.children}</main>
+      <main className={styles.main}>
+        <Grid container>{props.children}</Grid>
+      </main>
       <Footer />
     </div>
   );

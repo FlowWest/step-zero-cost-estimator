@@ -3,7 +3,7 @@
     "description": "SAFER Step Zero Cost Estimator web application",
     "version": "0.1.0",
     "homepage": "https://github.com/FlowWest/step-zero-cost-estimator",
-     "author": {
+    "author": {
         "name": "FlowWest",
         "url": "https://www.flowwest.com/"
     },
@@ -32,11 +32,14 @@
         "@material-ui/core": "^4.11.4",
         "deepmerge": "^4.2.2",
         "gatsby": "^3.4.2",
+        "gatsby-image": "^3.11.0",
+        "gatsby-plugin-image": "^2.10.1",
         "gatsby-plugin-layout": "^2.4.0",
         "gatsby-plugin-manifest": "^3.4.0",
         "gatsby-plugin-material-ui": "^3.0.1",
         "gatsby-plugin-offline": "^4.4.0",
         "gatsby-plugin-react-helmet": "^4.4.0",
+        "gatsby-plugin-sharp": "^4.10.2",
         "gatsby-plugin-typescript": "^3.4.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",

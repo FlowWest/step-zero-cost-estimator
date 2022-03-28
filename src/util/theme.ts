@@ -27,7 +27,7 @@ const light: ThemeOptions = {
   palette: {
     type: 'light',
     primary: {
-      main: '#1582e8'
+      main: '#306b99'
     },
     secondary: {
       main: '#7cd2f7'
@@ -45,14 +45,14 @@ const light: ThemeOptions = {
       main: '#4fe054'
     },
     text: {
-      primary: '#343a40',
+      primary: '#fff',
       secondary: '#2e3133',
       hint: '#363c42',
       disabled: '#48494a'
     },
     background: {
-      default: '#f2f2f2',
-      paper: '#dce3f2'
+      default: '#f6f6f7',
+      paper: '#0c7cba'
     }
   }
 };
@@ -61,7 +61,7 @@ const dark: ThemeOptions = {
   palette: {
     type: 'dark',
     primary: {
-      main: '#0d3054'
+      main: '#5988ad'
     },
     secondary: {
       main: '#0b1e26'
@@ -86,7 +86,7 @@ const dark: ThemeOptions = {
     },
     background: {
       default: '#1c2c33',
-      paper: '#162024'
+      paper: '#214a6b'
     }
   }
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link as GatsbyLink } from 'gatsby';
-import { AppBar, Toolbar, Typography, Link, Button, Tooltip } from '@material-ui/core';
+import { AppBar, Grid, Toolbar, Typography, Link, Button, Tooltip } from '@material-ui/core';
 import { Theme, makeStyles } from '@material-ui/core/styles';
 import { BsToggleOn, BsToggleOff } from 'react-icons/bs';
 
@@ -42,11 +42,23 @@ const Header: FC<HeaderProps> = (props) => {
   return (
     <AppBar component="header" position="static" className={styles.root}>
       <Toolbar>
-        <Typography variant="h6" className={styles.title}>
-          <Link to="/" component={GatsbyLink} color="inherit" className={styles.link}>
-            {props.siteTitle || ''}
-          </Link>
-        </Typography>
+        <Grid container>
+          <Grid item spacing={3}>
+            <Typography variant="h6" className={styles.title}>
+              <Link to="/" component={GatsbyLink} color="inherit" className={styles.link}>
+                SAFER
+              </Link>
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Button variant="text">
+              <GatsbyLink to="/page-two">Step Zero Calulator</GatsbyLink>
+            </Button>
+            <Button variant="text">
+              <GatsbyLink to="/">Resources</GatsbyLink>
+            </Button>
+          </Grid>
+        </Grid>
         <Tooltip title="switch theme">
           <Button onClick={onSwitch}>
             {darkModeOn ? <BsToggleOn size="40" /> : <BsToggleOff size="40" />}

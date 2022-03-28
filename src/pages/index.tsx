@@ -15,33 +15,22 @@ const useStyles = makeStyles((theme: Theme) => ({
 const IndexPage: FC = () => {
   const styles = useStyles();
   return (
-    <>
+    <Grid container item justifyContent="center" xs={12}>
       <Seo title="Home" />
-      <Lazy type="grow" delay={500} timeout={1000} mountOnEnter unmountOnExit>
+      <Grid item xs={10}>
         <Hero
           title="Hi people"
           description="Welcome to your new Gatsby site. Now go build something great with
-          Typescript and Material-ui."
+            Typescript and Material-ui."
         >
           <div className={styles.heroButtons}>
-            <Grid container spacing={2} justify="center">
-              <Grid item>
-                <Lazy type="slide" direction="left" delay={500}>
-                  <Button
-                    component={GatsbyLink}
-                    to="/page-two/"
-                    variant="contained"
-                    color="primary"
-                  >
-                    Go to page 2
-                  </Button>
-                </Lazy>
-              </Grid>
+            <Grid container justify="center">
+              <Grid item></Grid>
             </Grid>
           </div>
         </Hero>
-      </Lazy>
-    </>
+      </Grid>
+    </Grid>
   );
 };
 
