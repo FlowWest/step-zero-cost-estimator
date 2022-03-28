@@ -26,18 +26,18 @@ export interface HeaderProps {
 
 const Header: FC<HeaderProps> = (props) => {
   // use default theme from user os settings
-  const [showOn, setShowOn] = useState<boolean>(
+  const [darkModeOn, setDarkModeOn] = useState<boolean>(
     window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
   );
   const styles = useStyles();
 
   const onSwitch = (): void => {
-    setShowOn((prev) => !prev);
+    setDarkModeOn((prev) => !prev);
   };
 
   useEffect(() => {
-    props.switchTheme(showOn);
-  }, [showOn]);
+    props.switchTheme(darkModeOn);
+  }, [darkModeOn]);
 
   return (
     <AppBar component="header" position="static" className={styles.root}>
@@ -49,7 +49,7 @@ const Header: FC<HeaderProps> = (props) => {
         </Typography>
         <Tooltip title="switch theme">
           <Button onClick={onSwitch}>
-            {showOn ? <BsToggleOn size="40" /> : <BsToggleOff size="40" />}
+            {darkModeOn ? <BsToggleOn size="40" /> : <BsToggleOff size="40" />}
           </Button>
         </Tooltip>
       </Toolbar>
