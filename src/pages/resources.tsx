@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link as GatsbyLink } from 'gatsby';
-import { makeStyles } from '@material-ui/styles';
-import { Typography, Link, Container, Theme } from '@material-ui/core';
-
+import { makeStyles } from '@mui/styles';
+import { Typography, Link, Container, Theme } from '@mui/material';
 import { Seo, Lazy } from '../components';
 import { FC } from '../util';
 

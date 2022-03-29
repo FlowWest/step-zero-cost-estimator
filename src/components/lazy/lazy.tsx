@@ -10,7 +10,7 @@ import {
   GrowProps,
   SlideProps,
   ZoomProps
-} from '@material-ui/core';
+} from '@mui/material';
 
 import { RequiredChild } from '../../util';
 

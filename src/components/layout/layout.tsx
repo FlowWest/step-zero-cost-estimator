@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { Theme, ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { Theme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 
 import MetaLayout from './meta-layout';
 import { FCR, themes, getCookie, setCookie, themeCookie } from '../../util';
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
 
 const Layout: FCR = (props) => {
   const [theme, setTheme] = useState<Theme>(themes[getCookie(themeCookie) || 'light']);
@@ -16,10 +23,12 @@ const Layout: FCR = (props) => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <MetaLayout switchTheme={switchTheme}>{props.children}</MetaLayout>
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <MetaLayout switchTheme={switchTheme}>{props.children}</MetaLayout>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 

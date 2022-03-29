@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Box, TextField, MenuItem, Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Box, TextField, MenuItem, Theme } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { DropdownProps } from '../../util/interfaces';
 
 const useStyles = makeStyles((theme: Theme) => ({
