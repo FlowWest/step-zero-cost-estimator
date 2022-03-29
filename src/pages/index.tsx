@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link as GatsbyLink } from 'gatsby';
-import { Button, Grid, MenuItem, TextField, Theme, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Button, Grid, MenuItem, TextField, Theme, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { FC } from '../util';
 import Dropdown from '../components/uiComponents/Dropdown';
 import CostComparisonSummary from '../components/CostComparisonSummary/CostComparisonSummary';

@@ -1,5 +1,12 @@
-/**
- * Implement Gatsby's Browser APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/browser-apis/
- */
+import React from 'react';
+import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material';
+
+import makeStyles from '@mui/styles/makeStyles';
+
+export const wrapRootElement = ({ element }) => {
+  return (
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider>{element}</ThemeProvider>
+    </StyledEngineProvider>
+  );
+};

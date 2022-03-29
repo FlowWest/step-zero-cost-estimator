@@ -1,6 +1,7 @@
 import React from 'react';
-import { Container, Typography, Link } from '@material-ui/core';
-import { Theme, makeStyles } from '@material-ui/core/styles';
+import { Container, Typography, Link } from '@mui/material';
+import { Theme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import { StaticImage } from 'gatsby-plugin-image';
 
 import { FC } from '../../util';

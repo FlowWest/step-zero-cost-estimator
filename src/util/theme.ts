@@ -1,7 +1,7 @@
 import deepMerge from 'deepmerge';
-import { createTheme, responsiveFontSizes, ThemeOptions, Theme } from '@material-ui/core/styles';
+import { createTheme, responsiveFontSizes, DeprecatedThemeOptions, Theme, adaptV4Theme } from '@mui/material/styles';
 
-const makeTheme = (variant: ThemeOptions): Theme => {
+const makeTheme = (variant: DeprecatedThemeOptions): Theme => {
   const common = {
     overrides: {
       MuiCssBaseline: {
@@ -25,13 +25,13 @@ const makeTheme = (variant: ThemeOptions): Theme => {
       }
     }
   };
-  const theme = createTheme(deepMerge(common, variant));
+  const theme = createTheme(adaptV4Theme(deepMerge(common, variant)));
   return responsiveFontSizes(theme);
 };
 
-const light: ThemeOptions = {
+const light: DeprecatedThemeOptions = {
   palette: {
-    type: 'light',
+    mode: 'light',
     primary: {
       main: '#306b99'
     },
@@ -63,9 +63,9 @@ const light: ThemeOptions = {
   }
 };
 
-const dark: ThemeOptions = {
+const dark: DeprecatedThemeOptions = {
   palette: {
-    type: 'dark',
+    mode: 'dark',
     primary: {
       main: '#5988ad'
     },

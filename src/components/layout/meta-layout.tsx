@@ -1,6 +1,7 @@
 import React from 'react';
-import { Theme, makeStyles } from '@material-ui/core/styles';
-import { Container, Grid } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
+import { Container, Grid } from '@mui/material';
 import useSiteMetadata from '../../hooks/useSiteMetadata';
 import Header from './header';
 import Footer from './footer';

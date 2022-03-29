@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Button } from '@mui/material';
+import { Theme } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
   navButton: {

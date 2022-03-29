@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link as GatsbyLink } from 'gatsby';
-import { AppBar, Grid, Toolbar, Typography, Link, Tooltip } from '@material-ui/core';
-import { Theme, makeStyles } from '@material-ui/core/styles';
+import { AppBar, Grid, Toolbar, Typography, Link, Tooltip } from '@mui/material';
+import { Theme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import { BsToggleOn, BsToggleOff } from 'react-icons/bs';
 import Button from '../uiComponents/NavButton';
 
