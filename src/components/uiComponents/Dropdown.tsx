@@ -14,10 +14,23 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   fieldInput: {
     width: '50ch'
+  },
+  MuiList: {
+    root: {
+      backgroundColor: 'orange'
+    }
+  },
+  MuiPaper: {
+    popover: {
+      backgroundColor: 'orange'
+    }
+  },
+  selectItem: {
+    backgroundColor: theme.palette.background.default
   }
 }));
 
-const Dropdown = ({ dropdownLabel, dropdownHelperText, dropdownOptions }: DropdownProps) => {
+const Dropdown = ({ dropdownLabel, dropdownPlaceholder, dropdownOptions }: DropdownProps) => {
   const selectData = dropdownOptions;
   const styles = useStyles();
   console.log(selectData);
@@ -31,15 +44,21 @@ const Dropdown = ({ dropdownLabel, dropdownHelperText, dropdownOptions }: Dropdo
     <Box component="form" className={styles.boxContainer}>
       <div>
         <TextField
-          id="outlined-select-currency"
           select
+          InputLabelProps={{ shrink: true }}
           label={dropdownLabel}
           value={value}
           onChange={handleChange}
-          helperText={dropdownHelperText}
           variant="outlined"
           className={styles.fieldInput}
+          SelectProps={{
+            displayEmpty: true,
+            MenuProps: { classes: { paper: styles.selectItem } }
+          }}
         >
+          <MenuItem disabled value="">
+            <em>{dropdownPlaceholder}</em>
+          </MenuItem>
           {selectData.map((option: any, index: number) => {
             option.id = index;
             return (

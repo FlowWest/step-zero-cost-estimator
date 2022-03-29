@@ -1,5 +1,5 @@
 export interface DropdownProps {
   dropdownLabel: string;
-  dropdownHelperText: string;
+  dropdownPlaceholder: string;
   dropdownOptions: Array<Object>;
 }

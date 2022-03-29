@@ -5,6 +5,7 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
   navButton: {
+    color: '#fff',
     backgroundColor: 'transparent',
     borderRadius: 0,
     height: '100%',
