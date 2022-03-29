@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link as GatsbyLink } from 'gatsby';
-import { AppBar, Grid, Toolbar, Typography, Link, Button, Tooltip } from '@material-ui/core';
+import { AppBar, Grid, Toolbar, Typography, Link, Tooltip } from '@material-ui/core';
 import { Theme, makeStyles } from '@material-ui/core/styles';
 import { BsToggleOn, BsToggleOff } from 'react-icons/bs';
+import Button from '../uiComponents/NavButton';
 
 import { FC } from '../../util';
 
@@ -12,7 +13,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.palette.text.primary
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
+    fontSize: '3rem',
+    fontWeight: 300
   },
   link: {
     textDecoration: 'none'
@@ -42,8 +45,8 @@ const Header: FC<HeaderProps> = (props) => {
   return (
     <AppBar component="header" position="static" className={styles.root}>
       <Toolbar>
-        <Grid container>
-          <Grid item spacing={3}>
+        <Grid container spacing={3}>
+          <Grid item>
             <Typography variant="h6" className={styles.title}>
               <Link to="/" component={GatsbyLink} color="inherit" className={styles.link}>
                 SAFER
@@ -51,11 +54,11 @@ const Header: FC<HeaderProps> = (props) => {
             </Typography>
           </Grid>
           <Grid item>
-            <Button variant="text">
-              <GatsbyLink to="/page-two">Step Zero Calulator</GatsbyLink>
+            <Button component={GatsbyLink} to="/">
+              Step Zero Calculator
             </Button>
-            <Button variant="text">
-              <GatsbyLink to="/">Resources</GatsbyLink>
+            <Button component={GatsbyLink} to="/resources">
+              Resources
             </Button>
           </Grid>
         </Grid>

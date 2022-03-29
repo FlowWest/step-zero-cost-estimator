@@ -1,6 +1,6 @@
 import React from 'react';
 import { Theme, makeStyles } from '@material-ui/core/styles';
-import { Grid } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import useSiteMetadata from '../../hooks/useSiteMetadata';
 import Header from './header';
 import Footer from './footer';
@@ -30,9 +30,9 @@ const MetaLayout: FCR<MetaLayoutProps> = (props) => {
   return (
     <div className={styles.root}>
       <Header switchTheme={props.switchTheme} siteTitle={title} />
-      <main className={styles.main}>
-        <Grid container>{props.children}</Grid>
-      </main>
+      <Container maxWidth="md">
+        <main className={styles.main}>{props.children}</main>
+      </Container>
       <Footer />
     </div>
   );
