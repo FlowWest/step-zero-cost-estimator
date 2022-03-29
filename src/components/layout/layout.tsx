@@ -7,9 +7,9 @@ import { FCR, themes, getCookie, setCookie, themeCookie } from '../../util';
 
 const Layout: FCR = (props) => {
   const [theme, setTheme] = useState<Theme>(themes[getCookie(themeCookie) || 'light']);
-  const switchTheme = (): void => {
-    setTheme((prev) => {
-      const newTheme = prev.palette.type === 'dark' ? 'light' : 'dark';
+  const switchTheme = (darkModeOn: boolean): void => {
+    setTheme(() => {
+      const newTheme = darkModeOn ? 'dark' : 'light';
       setCookie(themeCookie, newTheme);
       return themes[newTheme];
     });

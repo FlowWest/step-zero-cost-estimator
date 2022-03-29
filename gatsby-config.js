@@ -11,6 +11,9 @@ module.exports = {
     }
   },
   plugins: [
+    `gatsby-image`,
+    `gatsby-plugin-image`,
+    `gatsby-plugin-sharp`,
     `gatsby-plugin-typescript`,
     `gatsby-plugin-react-helmet`,
     {

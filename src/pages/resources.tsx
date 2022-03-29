@@ -17,17 +17,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const PageTwo: FC = () => {
+const Resources: FC = () => {
   const styles = useStyles();
   return (
     <Lazy type="fade" delay={500} timeout={1000}>
       <Container maxWidth="md" className={styles.root}>
-        <Seo title="page-two" />
+        <Seo title="resources" />
         <Typography variant="h2" gutterBottom component="h1">
-          Hi from the second page
+          Resources Page
         </Typography>
-
-        <Typography variant="body1">Welcome to page 2.</Typography>
 
         <Typography variant="body1">
           <Link component={GatsbyLink} to="/" className={styles.link}>
@@ -39,4 +37,4 @@ const PageTwo: FC = () => {
   );
 };
 
-export default PageTwo;
+export default Resources;
