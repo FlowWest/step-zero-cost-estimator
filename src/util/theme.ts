@@ -16,6 +16,12 @@ const makeTheme = (variant: ThemeOptions): Theme => {
             background: '#555'
           }
         }
+      },
+      MuiInputBase: {
+        root: {
+          color: 'black',
+          margin: '1px'
+        }
       }
     }
   };
