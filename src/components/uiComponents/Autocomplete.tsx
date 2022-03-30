@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, TextField, Theme } from '@mui/material';
 import MUIAutocomplete from '@mui/material/Autocomplete';
 import { makeStyles } from '@mui/styles';
-import { DropdownProps } from '../../util/interfaces';
+import { AutocompleteProps } from '../../util/interfaces';
 
 const useStyles = makeStyles((theme: Theme) => ({
   boxContainer: {
@@ -13,19 +13,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       }
     }
   },
-  fieldInput: {
-    // width: '50ch'
-  },
-  MuiList: {
-    root: {
-      backgroundColor: 'orange'
-    }
-  },
-  MuiPaper: {
-    popover: {
-      backgroundColor: 'orange'
-    }
-  },
   selectItem: {
     backgroundColor: theme.palette.background.default
   },
@@ -34,13 +21,22 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const Autocomplete = ({ dropdownLabel, dropdownPlaceholder, dropdownOptions }: DropdownProps) => {
+const Autocomplete = ({
+  dropdownLabel,
+  dropdownPlaceholder,
+  dropdownOptions,
+  selectedObject,
+  setSelectedObject
+}: AutocompleteProps) => {
   const selectData = dropdownOptions;
   const styles = useStyles();
   const [value, setValue] = useState('' as any);
-  const [inputValue, setInputValue] = useState('' as any);
 
-  useEffect(() => {}, [value, inputValue]);
+  useEffect(() => {
+    if (!Object.keys(selectedObject).length) {
+      setValue('');
+    }
+  }, [selectedObject]);
 
   return (
     <Box component="form" className={styles.boxContainer}>
@@ -49,7 +45,9 @@ const Autocomplete = ({ dropdownLabel, dropdownPlaceholder, dropdownOptions }: D
         fullWidth
         forcePopupIcon
         disableClearable
+        blurOnSelect
         autoSelect
+        disabled={Object.keys(selectedObject).length > 0}
         id={`${dropdownLabel}-autocomplete`}
         classes={{ paper: styles.selectItem }}
         options={selectData}
@@ -67,15 +65,9 @@ const Autocomplete = ({ dropdownLabel, dropdownPlaceholder, dropdownOptions }: D
         }}
         value={value}
         onChange={(event: any, newValue: string | null) => {
-          console.log('new value', newValue);
+          event.preventDefault();
           setValue(newValue);
-          event.preventDefault();
-        }}
-        inputValue={inputValue}
-        onInputChange={(event, newInputValue) => {
-          console.log('new input value', newInputValue);
-          setInputValue(newInputValue);
-          event.preventDefault();
+          setSelectedObject(newValue);
         }}
         renderInput={(params: any) => (
           <TextField
