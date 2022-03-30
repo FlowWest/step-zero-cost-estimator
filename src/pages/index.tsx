@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
-import { Button, Grid, MenuItem, Box, Theme, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Button, Grid, Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { FC } from '../util';
 import Autocomplete from '../components/uiComponents/Autocomplete';
 import ContentWrapper from '../components/uiComponents/ContentWrapper';
 import CostComparisonSummary from '../components/CostComparisonSummary/CostComparisonSummary';
+import { WaterSystem } from '../util/interfaces';
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
     alignSelf: 'center',
     margin: '0 1rem'
+  },
+  gridItemContainer: {
+    margin: '1rem 0'
   }
 }));
 
 const waterSystems = {
   dropdownLabel: 'Water System',
-  dropdownPlaceholder: 'Select a water system',
+  dropdownPlaceholder: 'Select or type in your water system',
   dropdownOptions: [
     { name: 'Water System A', id: 1 },
     { name: 'Water System B', id: 2 },
@@ -26,6 +30,19 @@ const waterSystems = {
 
 const IndexPage: FC = () => {
   const styles = useStyles();
+  const [selectedWaterSystem, setSelectedWaterSystem] = useState({} as WaterSystem);
+
+  const handleWaterSystemChange = (value: any) => {
+    // from autocomplete value will be object or string
+    if (value?.constructor === Object) {
+      setSelectedWaterSystem(value);
+    } else if (typeof value === 'string') {
+      setSelectedWaterSystem({
+        name: value,
+        id: null
+      });
+    }
+  };
 
   return (
     <Grid container spacing={2} justifyContent="center">
@@ -42,20 +59,36 @@ const IndexPage: FC = () => {
         </Typography>
       </Grid>
       <Grid container item xs={12}>
-        <Grid item xs={12} md={6}>
-          <Autocomplete {...waterSystems} />
+        <Grid item xs={8} md={5}>
+          <Autocomplete
+            {...waterSystems}
+            selectedObject={selectedWaterSystem}
+            setSelectedObject={handleWaterSystemChange}
+          />
         </Grid>
-        <Grid item xs={12} md={4} className={styles.buttonContainer}>
-          <Button>Start a new calculation</Button>
-        </Grid>
+        {Object.keys(selectedWaterSystem).length > 0 && (
+          <Grid item xs={12} md={4} className={styles.buttonContainer}>
+            <Button
+              onClick={() => {
+                setSelectedWaterSystem({} as WaterSystem);
+              }}
+            >
+              Select a new water system
+            </Button>
+          </Grid>
+        )}
       </Grid>
       <Grid container item xs={12} style={{ gap: '50px' }}>
-        <Grid item xs={12}>
-          <ContentWrapper title="Cost Comparison Summary">
-            <CostComparisonSummary />
+        <Grid item xs={12} className={styles.gridItemContainer}>
+          <ContentWrapper
+            title={`Cost Comparison Summary ${
+              selectedWaterSystem?.name ? `for ${selectedWaterSystem?.name}` : ''
+            }`}
+          >
+            <CostComparisonSummary selectedWaterSystem={selectedWaterSystem} />
           </ContentWrapper>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} className={styles.gridItemContainer}>
           <ContentWrapper title="Explanation / FAQs / etc?">
             <Typography paragraph>
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit quis voluptates

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Typography, Link } from '@mui/material';
-import { Theme, useTheme } from '@mui/material/styles';
+import { Theme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import { StaticImage } from 'gatsby-plugin-image';
 
@@ -26,9 +26,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Footer: FC = () => {
   const styles = useStyles();
-  const theme = useTheme();
-
-  console.log('themememe', theme);
 
   return (
     <footer className={styles.footer}>
