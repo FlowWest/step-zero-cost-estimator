@@ -1,12 +1,17 @@
-import React from 'react';
-import { Grid, MenuItem, TextField, Theme, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { Button, Grid, MenuItem, Box, Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { FC } from '../util';
-import Dropdown from '../components/uiComponents/Dropdown';
+import Autocomplete from '../components/uiComponents/Autocomplete';
 import ContentWrapper from '../components/uiComponents/ContentWrapper';
 import CostComparisonSummary from '../components/CostComparisonSummary/CostComparisonSummary';
 
-const useStyles = makeStyles((theme: Theme) => ({}));
+const useStyles = makeStyles((theme: Theme) => ({
+  buttonContainer: {
+    alignSelf: 'center',
+    margin: '0 1rem'
+  }
+}));
 
 const waterSystems = {
   dropdownLabel: 'Water System',
@@ -36,8 +41,13 @@ const IndexPage: FC = () => {
           dolore magna aliqua.
         </Typography>
       </Grid>
-      <Grid item xs={12}>
-        <Dropdown {...waterSystems} />
+      <Grid container item xs={12}>
+        <Grid item xs={12} md={6}>
+          <Autocomplete {...waterSystems} />
+        </Grid>
+        <Grid item xs={12} md={4} className={styles.buttonContainer}>
+          <Button>Start a new calculation</Button>
+        </Grid>
       </Grid>
       <Grid container item xs={12} style={{ gap: '50px' }}>
         <Grid item xs={12}>

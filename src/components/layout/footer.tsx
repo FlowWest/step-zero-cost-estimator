@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Typography, Link } from '@mui/material';
-import { Theme } from '@mui/material/styles';
+import { Theme, useTheme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import { StaticImage } from 'gatsby-plugin-image';
 
@@ -15,7 +15,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.paper
   },
   footerText: {
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#fff'
   },
   logo: {
     margin: '0 5px',
@@ -25,14 +26,17 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Footer: FC = () => {
   const styles = useStyles();
+  const theme = useTheme();
+
+  console.log('themememe', theme);
 
   return (
     <footer className={styles.footer}>
       <Container maxWidth="md">
-        <Typography variant="body1" color="textSecondary" className={styles.footerText}>
+        <Typography variant="body1" className={styles.footerText}>
           © {new Date().getFullYear()}, Built and maintained by
           {` `}
-          <Link href="https://flowwest.com/" target="_blank" color="inherit">
+          <Link href="https://flowwest.com/" target="_blank" color="inherit" underline="none">
             FlowWest
             <StaticImage
               src="../../images/fw-logo-transparent.png"

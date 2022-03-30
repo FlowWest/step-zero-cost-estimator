@@ -8,10 +8,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 'bold'
   },
   contentWrapper: {
-    background: '#fff',
-    borderTop: `1rem solid ${theme.palette.primary.main}`,
-    minHeight: '300px',
-    padding: '25px'
+    background: theme.palette.background.content,
+    borderTop: `.5rem solid ${theme.palette.primary.main}`,
+    minHeight: '18.75rem',
+    padding: '1.56rem'
   }
 }));
 

@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: 'transparent',
     borderRadius: 0,
     height: '100%',
-    padding: '0 10px',
+    padding: '0 1.25rem',
     '&:hover': {
       backgroundColor: theme.palette.primary.light
     }

@@ -1,6 +1,12 @@
 import deepMerge from 'deepmerge';
 import { createTheme, responsiveFontSizes, ThemeOptions, Theme } from '@mui/material/styles';
 
+declare module '@mui/material/styles' {
+  interface TypeBackground {
+    content: string;
+  }
+}
+
 const makeTheme = (variant: ThemeOptions): Theme => {
   const common = {
     overrides: {
@@ -32,6 +38,7 @@ const light: ThemeOptions = {
   palette: {
     mode: 'light',
     primary: {
+      light: '#83bbe5',
       main: '#306b99'
     },
     secondary: {
@@ -51,7 +58,8 @@ const light: ThemeOptions = {
     },
     background: {
       default: '#f6f6f7',
-      paper: '#0c7cba'
+      paper: '#0c7cba',
+      content: '#ffffff'
     }
   }
 };
@@ -79,7 +87,8 @@ const dark: ThemeOptions = {
     },
     background: {
       default: '#1c2c33',
-      paper: '#214a6b'
+      paper: '#214a6b',
+      content: '#424242'
     }
   }
 };
