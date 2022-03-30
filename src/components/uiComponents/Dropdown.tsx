@@ -12,9 +12,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       }
     }
   },
-  fieldInput: {
-    width: '50ch'
-  },
   MuiList: {
     root: {
       backgroundColor: 'orange'
@@ -42,33 +39,31 @@ const Dropdown = ({ dropdownLabel, dropdownPlaceholder, dropdownOptions }: Dropd
 
   return (
     <Box component="form" className={styles.boxContainer}>
-      <div>
-        <TextField
-          select
-          InputLabelProps={{ shrink: true }}
-          label={dropdownLabel}
-          value={value}
-          onChange={handleChange}
-          variant="outlined"
-          className={styles.fieldInput}
-          SelectProps={{
-            displayEmpty: true,
-            MenuProps: { classes: { paper: styles.selectItem } }
-          }}
-        >
-          <MenuItem disabled value="">
-            <em>{dropdownPlaceholder}</em>
-          </MenuItem>
-          {selectData.map((option: any, index: number) => {
-            option.id = index;
-            return (
-              <MenuItem key={option.id} value={option.name}>
-                {option.name}
-              </MenuItem>
-            );
-          })}
-        </TextField>
-      </div>
+      <TextField
+        select
+        InputLabelProps={{ shrink: true }}
+        label={dropdownLabel}
+        value={value}
+        onChange={handleChange}
+        variant="outlined"
+        SelectProps={{
+          displayEmpty: true,
+          MenuProps: { classes: { paper: styles.selectItem } }
+        }}
+        fullWidth
+      >
+        <MenuItem disabled value="">
+          <em>{dropdownPlaceholder}</em>
+        </MenuItem>
+        {selectData.map((option: any, index: number) => {
+          option.id = index;
+          return (
+            <MenuItem key={option.id} value={option.name}>
+              {option.name}
+            </MenuItem>
+          );
+        })}
+      </TextField>
     </Box>
   );
 };
