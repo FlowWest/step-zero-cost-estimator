@@ -3,6 +3,7 @@ import { FC } from '../../util';
 import { Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import CostComparisonWrapper from './CostComparisonWrapper';
+import { WaterSystem } from '../../util/interfaces';
 
 const useStyles = makeStyles((theme: Theme) => ({
   totalCostLabel: {
@@ -10,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const CostComparisonSummary: FC = (props) => {
+const CostComparisonSummary = ({ selectedWaterSystem }: { selectedWaterSystem: WaterSystem }) => {
   const styles = useStyles();
   const dummyCosts = {
     cc: 564545289,
@@ -23,18 +24,29 @@ const CostComparisonSummary: FC = (props) => {
   });
 
   return (
-    <div>
-      <Typography paragraph>Complete both calculators for cost comparison</Typography>
-      <Typography paragraph>
-        <span className={styles.totalCostLabel}>Consolidation Costs: </span>
-        {convertUSD.format(dummyCosts.cc)}
-      </Typography>
-      <Typography paragraph>
-        <span className={styles.totalCostLabel}>Capital Improvement Costs: </span>
-        {convertUSD.format(dummyCosts.cip)}
-      </Typography>
+    <>
+      {Object.keys(selectedWaterSystem).length ? (
+        <div>
+          <Typography paragraph>Complete both calculators for cost comparison</Typography>
+          <Typography paragraph>
+            <span className={styles.totalCostLabel}>Consolidation Costs: </span>
+            {convertUSD.format(dummyCosts.cc)}
+          </Typography>
+          <Typography paragraph>
+            <span className={styles.totalCostLabel}>Capital Improvement Costs: </span>
+            {convertUSD.format(dummyCosts.cip)}
+          </Typography>
+        </div>
+      ) : (
+        <div>
+          <Typography paragraph>
+            Select a water system above and complete the Consolidation and Capital Improvement
+            Calculators to see a comparison of costs.
+          </Typography>
+        </div>
+      )}
       <CostComparisonWrapper />
-    </div>
+    </>
   );
 };
 
