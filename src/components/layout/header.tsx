@@ -50,13 +50,13 @@ const Header: FC<HeaderProps> = (props) => {
           <Grid item>
             <Typography variant="h6" className={styles.title}>
               <Link to="/" component={GatsbyLink} color="#fff" className={styles.link}>
-                SAFER
+                Step Zero
               </Link>
             </Typography>
           </Grid>
           <Grid item>
             <Button component={GatsbyLink} to="/">
-              Step Zero Calculator
+              Calculator
             </Button>
             <Button component={GatsbyLink} to="/resources">
               Resources
