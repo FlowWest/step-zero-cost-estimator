@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 
 const InputSlider = ({
   minValue = 0,
-  maxValue = 200,
+  maxValue = 20000,
   ...otherProps
 }: {
   minValue?: number;
