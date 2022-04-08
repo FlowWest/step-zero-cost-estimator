@@ -41,10 +41,7 @@ const ConsolidationCalculator = () => {
         <WaterSystemDetails />
       </Grid>
       <Grid item xs={8} className={`${styles.contentContainer} ${styles.totalCostContainer}`}>
-        <Typography variant="h5" paragraph>
-          Total Consolidation Cost:
-          <TotalConsolidationCost />
-        </Typography>
+        <TotalConsolidationCost />
       </Grid>
     </Grid>
   );

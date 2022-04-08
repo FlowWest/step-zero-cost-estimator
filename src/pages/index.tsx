@@ -19,10 +19,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const dropdownOptions = [
-  { id: 1, name: 'Water System A', connections: 100 },
-  { id: 2, name: 'Water System B', connections: 200 },
-  { id: 3, name: 'Water System C', connections: 350 },
-  { id: 4, name: 'Water System D', connections: 50 }
+  { id: 1, name: 'Water System A', connections: 100, totalDistance: 4000 },
+  { id: 2, name: 'Water System B', connections: 200, totalDistance: 2000 },
+  { id: 3, name: 'Water System C', connections: 350, totalDistance: 3500 },
+  { id: 4, name: 'Water System D', connections: 50, totalDistance: 1000 }
 ];
 
 const IndexPage: FC = () => {

@@ -17,6 +17,7 @@ export interface WaterSystem {
   name: string | null;
   id?: number;
   connections?: number;
+  totalDistance?: number;
 }
 
 export interface ConsolidationCostParams {
