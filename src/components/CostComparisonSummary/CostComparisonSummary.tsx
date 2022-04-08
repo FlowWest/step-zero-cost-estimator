@@ -41,8 +41,8 @@ const CostComparisonSummary = ({ selectedWaterSystem }: { selectedWaterSystem: W
       ) : (
         <div>
           <Typography paragraph>
-            Select a water system above and complete the Consolidation and Capital Improvement
-            Calculators to see a comparison of costs.
+            Select a water system from the dropdown box above to complete the Consolidation and
+            Capital Improvement Calculators to see a comparison of costs.
           </Typography>
         </div>
       )}
