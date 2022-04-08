@@ -36,6 +36,7 @@ const CostComparisonSummary = ({ selectedWaterSystem }: { selectedWaterSystem: W
             <span className={styles.totalCostLabel}>Capital Improvement Costs: </span>
             {convertUSD.format(dummyCosts.cip)}
           </Typography>
+          <CostComparisonWrapper />
         </div>
       ) : (
         <div>
@@ -45,7 +46,6 @@ const CostComparisonSummary = ({ selectedWaterSystem }: { selectedWaterSystem: W
           </Typography>
         </div>
       )}
-      <CostComparisonWrapper />
     </>
   );
 };

@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Box, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import ConsolidationCalculator from './Consolidation/ConsolidationCalculator';
 import CapitalImprovementCalculator from './CapitalImprovement/CapitalImprovementCalculator';
 
 const CostComparisonWrapper = () => {
-  const [value, setValue] = React.useState('1');
+  const [value, setValue] = useState('1');
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Button, Grid, Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { FC } from '../util';
 import Autocomplete from '../components/uiComponents/Autocomplete';
 import ContentWrapper from '../components/uiComponents/ContentWrapper';
 import CostComparisonSummary from '../components/CostComparisonSummary/CostComparisonSummary';
-import { WaterSystem } from '../util/interfaces';
+import { WaterSystemContext } from '../contexts/WaterSystem';
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
@@ -30,18 +30,20 @@ const waterSystems = {
 
 const IndexPage: FC = () => {
   const styles = useStyles();
-  const [selectedWaterSystem, setSelectedWaterSystem] = useState({} as WaterSystem);
+  const [state, dispatch] = useContext(WaterSystemContext);
 
   const handleWaterSystemChange = (value: any) => {
     // from autocomplete value will be object or string
+    let payload;
     if (value?.constructor === Object) {
-      setSelectedWaterSystem(value);
+      payload = value;
     } else if (typeof value === 'string') {
-      setSelectedWaterSystem({
+      payload = {
         name: value,
         id: null
-      });
+      };
     }
+    dispatch({ type: 'update_water_system', payload });
   };
 
   return (
@@ -62,15 +64,15 @@ const IndexPage: FC = () => {
         <Grid item xs={8} md={5}>
           <Autocomplete
             {...waterSystems}
-            selectedObject={selectedWaterSystem}
+            selectedObject={state.currentWaterSystem}
             setSelectedObject={handleWaterSystemChange}
           />
         </Grid>
-        {Object.keys(selectedWaterSystem).length > 0 && (
+        {Object.keys(state.currentWaterSystem).length > 0 && (
           <Grid item xs={12} md={4} className={styles.buttonContainer}>
             <Button
               onClick={() => {
-                setSelectedWaterSystem({} as WaterSystem);
+                dispatch({ type: 'update_water_system', payload: {} });
               }}
             >
               Select a new water system
@@ -82,14 +84,14 @@ const IndexPage: FC = () => {
         <Grid item xs={12} className={styles.gridItemContainer}>
           <ContentWrapper
             title={`Cost Comparison Summary ${
-              selectedWaterSystem?.name ? `for ${selectedWaterSystem?.name}` : ''
+              state.currentWaterSystem?.name ? `for ${state.currentWaterSystem?.name}` : ''
             }`}
           >
-            <CostComparisonSummary selectedWaterSystem={selectedWaterSystem} />
+            <CostComparisonSummary selectedWaterSystem={state.currentWaterSystem} />
           </ContentWrapper>
         </Grid>
         <Grid item xs={12} className={styles.gridItemContainer}>
-          <ContentWrapper title="Explanation / FAQs / etc?">
+          <ContentWrapper title="Explanation">
             <Typography paragraph>
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit quis voluptates
               perspiciatis quas. Officiis, eligendi!
