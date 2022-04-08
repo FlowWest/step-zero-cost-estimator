@@ -44,7 +44,7 @@ const InputSlider = ({
           <TextField
             sx={{ mb: 0.5 }}
             label={label}
-            value={value}
+            value={value.toLocaleString()}
             onChange={handleInputChange}
             onBlur={handleBlur}
             fullWidth
@@ -52,8 +52,8 @@ const InputSlider = ({
               step: incrementBy,
               min: minValue,
               max: maxValue,
-              type: 'number',
-              'aria-labelledby': 'input-slider'
+              'aria-labelledby': 'input-slider',
+              pattern: '[0-9,]*'
             }}
             InputProps={{
               startAdornment: (

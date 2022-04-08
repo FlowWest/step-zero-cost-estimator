@@ -4,7 +4,7 @@ import InputSlider from '../../uiComponents/InputSlider';
 const WaterSystemDetails = () => {
   return (
     <>
-      <InputSlider minValue={0} maxValue={500} start={100} label="Number of Connections" />
+      <InputSlider minValue={0} start={100} label="Number of Connections" />
       <InputSlider
         isCurrency={true}
         label="Pipeline Costs"
@@ -26,12 +26,13 @@ const WaterSystemDetails = () => {
       <InputSlider
         isCurrency={true}
         label={`Admin & Legal Costs`}
-        start={500}
+        start={285000}
+        maxValue={1000000}
         incrementBy={100}
         inputAdornment={{ start: '$' }}
       />
       <InputSlider
-        label="contingency"
+        label="Contingency"
         maxValue={100}
         start={20}
         incrementBy={5}
