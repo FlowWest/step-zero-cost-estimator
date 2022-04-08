@@ -8,7 +8,7 @@ const ConsolidationCalculator = (props: any) => {
       <Grid item xs={12}>
         <Typography variant="h6">Consolidation Calculator</Typography>
       </Grid>
-      <Grid item xs={4} style={{ padding: '2rem' }}>
+      <Grid item xs={12} md={5} order={{ xs: 3, md: 2 }} style={{ padding: '2rem' }}>
         <Typography paragraph>Edit Water System Details</Typography>
         <Typography paragraph>
           Paragraph describing how these values are prepopulated from existing data, but user is
@@ -16,7 +16,7 @@ const ConsolidationCalculator = (props: any) => {
         </Typography>
         <WaterSystemDetails />
       </Grid>
-      <Grid item xs={8} style={{ background: 'yellow' }}>
+      <Grid item xs={12} md={7} order={{ xs: 2, md: 3 }} style={{ background: 'yellow' }}>
         <Typography paragraph>Consolidation Calculator</Typography>
       </Grid>
     </Grid>
