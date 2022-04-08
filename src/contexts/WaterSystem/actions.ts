@@ -7,3 +7,10 @@ export const updateWaterSystem = (newWaterSystem: WaterSystem) => {
     payload: newWaterSystem
   };
 };
+
+export const updateConsolidationCostParams = (updatedParam: Object) => {
+  return {
+    type: ACTIONS.UPDATE_CONSOLIDATION_COST_PARAMS,
+    payload: updatedParam
+  };
+};

@@ -20,10 +20,9 @@ export interface WaterSystem {
 }
 
 export interface ConsolidationCostParams {
-  connections: number;
-  pipelineCost: number;
-  connectionCost: number;
-  adminLegalCost: number;
+  pipelineCosts: number;
+  connectionCosts: number;
+  adminLegalCosts: number;
   contingency: number;
 }
 
