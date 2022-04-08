@@ -4,11 +4,11 @@ import WaterSystemDetails from './WaterSystemDetails';
 
 const ConsolidationCalculator = (props: any) => {
   return (
-    <Grid container>
-      <Grid item xs={12} spacing={2}>
+    <Grid container spacing={0}>
+      <Grid item xs={12}>
         <Typography variant="h6">Consolidation Calculator</Typography>
       </Grid>
-      <Grid item xs={4} style={{ background: 'pink' }}>
+      <Grid item xs={4} style={{ padding: '2rem' }}>
         <Typography paragraph>Edit Water System Details</Typography>
         <Typography paragraph>
           Paragraph describing how these values are prepopulated from existing data, but user is

@@ -38,10 +38,11 @@ const InputSlider = ({
   };
 
   return (
-    <Box sx={{ width: 250 }}>
-      <Grid container spacing={2} alignItems="center">
+    <Box sx={{ width: 250, marginBottom: '.8rem' }}>
+      <Grid container alignItems="center">
         <Grid item xs={12}>
           <TextField
+            sx={{ mb: 0.5 }}
             label={label}
             value={value}
             onChange={handleInputChange}
@@ -61,8 +62,6 @@ const InputSlider = ({
               endAdornment: <InputAdornment position="end">{inputAdornment.end}</InputAdornment>
             }}
           />
-        </Grid>
-        <Grid item xs>
           <Slider
             value={typeof value === 'number' ? value : 0}
             onChange={handleSliderChange}
@@ -71,6 +70,9 @@ const InputSlider = ({
             max={maxValue}
           />
         </Grid>
+        {/* <Grid item xs>
+         
+        </Grid> */}
       </Grid>
     </Box>
   );
