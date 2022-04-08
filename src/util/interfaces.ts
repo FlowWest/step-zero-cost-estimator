@@ -14,6 +14,25 @@ export interface AutocompleteProps {
 }
 
 export interface WaterSystem {
-  id: number | null;
-  name: string;
+  name: string | null;
+  id?: number;
+  connections?: number;
+}
+
+export interface ConsolidationCostParams {
+  connections: number;
+  pipelineCost: number;
+  connectionCost: number;
+  adminLegalCost: number;
+  contingency: number;
+}
+
+export interface WaterSystemAction {
+  type: string;
+  payload: any;
+}
+
+export interface WaterSystemState {
+  currentWaterSystem: WaterSystem;
+  consolidationCostParams: ConsolidationCostParams;
 }

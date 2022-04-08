@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import InputSlider from '../../uiComponents/InputSlider';
+import { WaterSystemContext } from '../../../contexts/WaterSystem';
 
 const WaterSystemDetails = () => {
+  const [state, dispatch] = useContext(WaterSystemContext);
   return (
     <>
-      <InputSlider minValue={0} start={100} label="Number of Connections" />
+      <InputSlider
+        minValue={0}
+        start={state.currentWaterSystem?.connections}
+        label="Number of Connections"
+      />
       <InputSlider
         isCurrency={true}
         label="Pipeline Costs"

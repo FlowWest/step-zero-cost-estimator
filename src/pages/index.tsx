@@ -6,6 +6,7 @@ import Autocomplete from '../components/uiComponents/Autocomplete';
 import ContentWrapper from '../components/uiComponents/ContentWrapper';
 import CostComparisonSummary from '../components/CostComparisonSummary/CostComparisonSummary';
 import { WaterSystemContext } from '../contexts/WaterSystem';
+import { updateWaterSystem } from '../contexts/WaterSystem/actions';
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
@@ -17,16 +18,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const waterSystems = {
-  dropdownLabel: 'Water System',
-  dropdownPlaceholder: 'Select or type in your water system',
-  dropdownOptions: [
-    { name: 'Water System A', id: 1 },
-    { name: 'Water System B', id: 2 },
-    { name: 'Water System C', id: 3 },
-    { name: 'Water System D', id: 4 }
-  ]
-};
+const dropdownOptions = [
+  { id: 1, name: 'Water System A', connections: 100 },
+  { id: 2, name: 'Water System B', connections: 200 },
+  { id: 3, name: 'Water System C', connections: 350 },
+  { id: 4, name: 'Water System D', connections: 50 }
+];
 
 const IndexPage: FC = () => {
   const styles = useStyles();
@@ -34,16 +31,16 @@ const IndexPage: FC = () => {
 
   const handleWaterSystemChange = (value: any) => {
     // from autocomplete value will be object or string
-    let payload;
+    let newWaterSystem;
     if (value?.constructor === Object) {
-      payload = value;
+      newWaterSystem = value;
     } else if (typeof value === 'string') {
-      payload = {
+      newWaterSystem = {
         name: value,
         id: null
       };
     }
-    dispatch({ type: 'update_water_system', payload });
+    dispatch(updateWaterSystem(newWaterSystem));
   };
 
   return (
@@ -63,7 +60,9 @@ const IndexPage: FC = () => {
       <Grid container item xs={12}>
         <Grid item xs={8} md={5}>
           <Autocomplete
-            {...waterSystems}
+            dropdownLabel={'Water System'}
+            dropdownPlaceholder={'Select or type in your water system'}
+            dropdownOptions={dropdownOptions}
             selectedObject={state.currentWaterSystem}
             setSelectedObject={handleWaterSystemChange}
           />

@@ -5,14 +5,17 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
   contentContainer: {
-    padding: '2rem'
+    paddingTop: '2rem'
   },
   waterSystemsDetailsContainer: {
-    borderRight: `1px solid rgba(0, 0, 0, 0.12)`
+    borderRight: `1px solid ${theme.palette.background.divider}`
+  },
+  totalCostContainer: {
+    textAlign: 'center'
   }
 }));
 
-const ConsolidationCalculator = (props: any) => {
+const ConsolidationCalculator = () => {
   const styles = useStyles();
   return (
     <Grid container spacing={0}>
@@ -31,8 +34,8 @@ const ConsolidationCalculator = (props: any) => {
         </Typography>
         <WaterSystemDetails />
       </Grid>
-      <Grid item xs={8} className={styles.contentContainer}>
-        <Typography paragraph>Consolidation Calculator</Typography>
+      <Grid item xs={8} className={`${styles.contentContainer} ${styles.totalCostContainer}`}>
+        <Typography paragraph>Total Consolidation Costs</Typography>
       </Grid>
     </Grid>
   );
