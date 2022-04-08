@@ -70,9 +70,6 @@ const InputSlider = ({
             max={maxValue}
           />
         </Grid>
-        {/* <Grid item xs>
-         
-        </Grid> */}
       </Grid>
     </Box>
   );
