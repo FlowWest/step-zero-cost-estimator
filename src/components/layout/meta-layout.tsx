@@ -31,7 +31,7 @@ const MetaLayout: FCR<MetaLayoutProps> = (props) => {
   return (
     <div className={styles.root}>
       <Header switchTheme={props.switchTheme} siteTitle={title} />
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <main className={styles.main}>{props.children}</main>
       </Container>
       <Footer />

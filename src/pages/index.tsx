@@ -1,23 +1,25 @@
-import React from 'react';
-import { Link as GatsbyLink } from 'gatsby';
-import { Button, Grid, MenuItem, TextField, Theme, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Button, Grid, Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { FC } from '../util';
-import Dropdown from '../components/uiComponents/Dropdown';
+import Autocomplete from '../components/uiComponents/Autocomplete';
+import ContentWrapper from '../components/uiComponents/ContentWrapper';
 import CostComparisonSummary from '../components/CostComparisonSummary/CostComparisonSummary';
+import { WaterSystem } from '../util/interfaces';
 
 const useStyles = makeStyles((theme: Theme) => ({
-  container: {
-    color: '#333333'
+  buttonContainer: {
+    alignSelf: 'center',
+    margin: '0 1rem'
   },
-  gridItem: {
+  gridItemContainer: {
     margin: '1rem 0'
   }
 }));
 
 const waterSystems = {
   dropdownLabel: 'Water System',
-  dropdownHelperText: 'Select a water system',
+  dropdownPlaceholder: 'Select or type in your water system',
   dropdownOptions: [
     { name: 'Water System A', id: 1 },
     { name: 'Water System B', id: 2 },
@@ -28,9 +30,22 @@ const waterSystems = {
 
 const IndexPage: FC = () => {
   const styles = useStyles();
+  const [selectedWaterSystem, setSelectedWaterSystem] = useState({} as WaterSystem);
+
+  const handleWaterSystemChange = (value: any) => {
+    // from autocomplete value will be object or string
+    if (value?.constructor === Object) {
+      setSelectedWaterSystem(value);
+    } else if (typeof value === 'string') {
+      setSelectedWaterSystem({
+        name: value,
+        id: null
+      });
+    }
+  };
 
   return (
-    <Grid container spacing={2} justifyContent="center" className={styles.container}>
+    <Grid container spacing={2} justifyContent="center">
       <Grid item xs={12}>
         <Typography variant="h4" gutterBottom>
           Step Zero Calculator
@@ -43,11 +58,86 @@ const IndexPage: FC = () => {
           dolore magna aliqua.
         </Typography>
       </Grid>
-      <Grid item xs={12}>
-        <Dropdown {...waterSystems} />
+      <Grid container item xs={12}>
+        <Grid item xs={8} md={5}>
+          <Autocomplete
+            {...waterSystems}
+            selectedObject={selectedWaterSystem}
+            setSelectedObject={handleWaterSystemChange}
+          />
+        </Grid>
+        {Object.keys(selectedWaterSystem).length > 0 && (
+          <Grid item xs={12} md={4} className={styles.buttonContainer}>
+            <Button
+              onClick={() => {
+                setSelectedWaterSystem({} as WaterSystem);
+              }}
+            >
+              Select a new water system
+            </Button>
+          </Grid>
+        )}
       </Grid>
-      <Grid item xs={12} className={styles.gridItem}>
-        <CostComparisonSummary />
+      <Grid container item xs={12} style={{ gap: '50px' }}>
+        <Grid item xs={12} className={styles.gridItemContainer}>
+          <ContentWrapper
+            title={`Cost Comparison Summary ${
+              selectedWaterSystem?.name ? `for ${selectedWaterSystem?.name}` : ''
+            }`}
+          >
+            <CostComparisonSummary selectedWaterSystem={selectedWaterSystem} />
+          </ContentWrapper>
+        </Grid>
+        <Grid item xs={12} className={styles.gridItemContainer}>
+          <ContentWrapper title="Explanation / FAQs / etc?">
+            <Typography paragraph>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit quis voluptates
+              perspiciatis quas. Officiis, eligendi!
+            </Typography>
+            <Typography paragraph>
+              Paragraph describing math behind the calculations, providing helpful information,
+              answering FAQS etc? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+              officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
+              adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+              proident, sunt in
+            </Typography>
+            <Typography paragraph>
+              Paragraph describing math behind the calculations, providing helpful information,
+              answering FAQS etc? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+              officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
+              adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+              proident, sunt in
+            </Typography>
+            <Typography paragraph>
+              Paragraph describing math behind the calculations, providing helpful information,
+              answering FAQS etc? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+              officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
+              adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+              proident, sunt in
+            </Typography>
+          </ContentWrapper>
+        </Grid>
       </Grid>
     </Grid>
   );

@@ -1,22 +1,52 @@
 import React from 'react';
 import { FC } from '../../util';
-import { Button, Grid, MenuItem, TextField, Theme, Typography } from '@mui/material';
+import { Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import CostComparisonWrapper from './CostComparisonWrapper';
+import { WaterSystem } from '../../util/interfaces';
 
 const useStyles = makeStyles((theme: Theme) => ({
-  header: {
-    fontWeight: 'bold'
+  totalCostLabel: {
+    fontWeight: 600
   }
 }));
 
-const CostComparisonSummary: FC = () => {
+const CostComparisonSummary = ({ selectedWaterSystem }: { selectedWaterSystem: WaterSystem }) => {
   const styles = useStyles();
+  const dummyCosts = {
+    cc: 564545289,
+    cip: 4453454335
+  };
+
+  const convertUSD = Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  });
+
   return (
-    <div>
-      <Typography variant="h5" gutterBottom className={styles.header}>
-        Cost Comparison Summary
-      </Typography>
-    </div>
+    <>
+      {Object.keys(selectedWaterSystem).length ? (
+        <div>
+          <Typography paragraph>Complete both calculators for cost comparison</Typography>
+          <Typography paragraph>
+            <span className={styles.totalCostLabel}>Consolidation Costs: </span>
+            {convertUSD.format(dummyCosts.cc)}
+          </Typography>
+          <Typography paragraph>
+            <span className={styles.totalCostLabel}>Capital Improvement Costs: </span>
+            {convertUSD.format(dummyCosts.cip)}
+          </Typography>
+        </div>
+      ) : (
+        <div>
+          <Typography paragraph>
+            Select a water system above and complete the Consolidation and Capital Improvement
+            Calculators to see a comparison of costs.
+          </Typography>
+        </div>
+      )}
+      <CostComparisonWrapper />
+    </>
   );
 };
 

@@ -1,7 +1,13 @@
 import deepMerge from 'deepmerge';
-import { createTheme, responsiveFontSizes, DeprecatedThemeOptions, Theme, adaptV4Theme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes, ThemeOptions, Theme } from '@mui/material/styles';
 
-const makeTheme = (variant: DeprecatedThemeOptions): Theme => {
+declare module '@mui/material/styles' {
+  interface TypeBackground {
+    content: string;
+  }
+}
+
+const makeTheme = (variant: ThemeOptions): Theme => {
   const common = {
     overrides: {
       MuiCssBaseline: {
@@ -19,20 +25,20 @@ const makeTheme = (variant: DeprecatedThemeOptions): Theme => {
       },
       MuiInputBase: {
         root: {
-          color: 'black',
           margin: '1px'
         }
       }
     }
   };
-  const theme = createTheme(adaptV4Theme(deepMerge(common, variant)));
+  const theme = createTheme(deepMerge(common, variant));
   return responsiveFontSizes(theme);
 };
 
-const light: DeprecatedThemeOptions = {
+const light: ThemeOptions = {
   palette: {
     mode: 'light',
     primary: {
+      light: '#83bbe5',
       main: '#306b99'
     },
     secondary: {
@@ -50,20 +56,15 @@ const light: DeprecatedThemeOptions = {
     success: {
       main: '#4fe054'
     },
-    text: {
-      primary: '#fff',
-      secondary: '#2e3133',
-      hint: '#363c42',
-      disabled: '#48494a'
-    },
     background: {
       default: '#f6f6f7',
-      paper: '#0c7cba'
+      paper: '#0c7cba',
+      content: '#ffffff'
     }
   }
 };
 
-const dark: DeprecatedThemeOptions = {
+const dark: ThemeOptions = {
   palette: {
     mode: 'dark',
     primary: {
@@ -84,15 +85,10 @@ const dark: DeprecatedThemeOptions = {
     success: {
       main: '#034d06'
     },
-    text: {
-      primary: '#f8f9fa',
-      secondary: '#e4e7eb',
-      hint: '#bbbcbd',
-      disabled: '#ccc'
-    },
     background: {
       default: '#1c2c33',
-      paper: '#214a6b'
+      paper: '#214a6b',
+      content: '#424242'
     }
   }
 };

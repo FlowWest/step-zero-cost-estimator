@@ -44,19 +44,19 @@ const Header: FC<HeaderProps> = (props) => {
   }, [darkModeOn]);
 
   return (
-    <AppBar component="header" position="static" className={styles.root}>
+    <AppBar component="header" position="static" elevation={0} className={styles.root}>
       <Toolbar>
         <Grid container spacing={3}>
           <Grid item>
             <Typography variant="h6" className={styles.title}>
-              <Link to="/" component={GatsbyLink} color="inherit" className={styles.link}>
-                SAFER
+              <Link to="/" component={GatsbyLink} color="#fff" className={styles.link}>
+                Step Zero
               </Link>
             </Typography>
           </Grid>
           <Grid item>
             <Button component={GatsbyLink} to="/">
-              Step Zero Calculator
+              Calculator
             </Button>
             <Button component={GatsbyLink} to="/resources">
               Resources

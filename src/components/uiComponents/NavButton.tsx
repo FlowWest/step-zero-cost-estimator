@@ -5,10 +5,11 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
   navButton: {
+    color: '#fff',
     backgroundColor: 'transparent',
     borderRadius: 0,
     height: '100%',
-    padding: '0 10px',
+    padding: '0 1.25rem',
     '&:hover': {
       backgroundColor: theme.palette.primary.light
     }
