@@ -56,15 +56,11 @@ const Autocomplete = ({
           if (typeof option === 'string') {
             return option;
           }
-          // Add "xxx" option created dynamically
-          if (option.inputValue) {
-            return option.inputValue;
-          }
           // Regular option
           return option.name;
         }}
         value={value}
-        onChange={(event: any, newValue: string | null) => {
+        onChange={(event: React.SyntheticEvent, newValue: string | null) => {
           event.preventDefault();
           setValue(newValue);
           setSelectedObject(newValue);
