@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography, Theme } from '@mui/material';
+import { Grid, Typography, Theme, Button } from '@mui/material';
 import WaterSystemDetails from './WaterSystemDetails';
 import { makeStyles } from '@mui/styles';
 import TotalConsolidationCost from './TotalConsolidationCost';
@@ -42,6 +42,30 @@ const ConsolidationCalculator = () => {
       </Grid>
       <Grid item xs={8} className={`${styles.contentContainer} ${styles.totalCostContainer}`}>
         <TotalConsolidationCost />
+      </Grid>
+      <Grid
+        spacing={2}
+        container
+        item
+        xs={12}
+        className={styles.contentContainer}
+        justifyContent="flex-end"
+      >
+        <Grid item xs={12} md={4} lg={2}>
+          <Button variant="contained" fullWidth>
+            Export Excel
+          </Button>
+        </Grid>
+        <Grid item xs={12} md={4} lg={2}>
+          <Button variant="contained" fullWidth>
+            Export CSV
+          </Button>
+        </Grid>
+        <Grid item xs={12} md={4} lg={2}>
+          <Button variant="contained" fullWidth>
+            Export PDF
+          </Button>
+        </Grid>
       </Grid>
     </Grid>
   );

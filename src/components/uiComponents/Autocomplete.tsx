@@ -5,14 +5,6 @@ import { makeStyles } from '@mui/styles';
 import { AutocompleteProps } from '../../util/interfaces';
 
 const useStyles = makeStyles((theme: Theme) => ({
-  boxContainer: {
-    '&:hover': {
-      '&& fieldset': {
-        border: '2px solid',
-        borderColor: theme.palette.primary.dark
-      }
-    }
-  },
   selectItem: {
     backgroundColor: theme.palette.background.default
   },
@@ -39,7 +31,7 @@ const Autocomplete = ({
   }, [selectedObject]);
 
   return (
-    <Box component="form" className={styles.boxContainer}>
+    <Box component="form">
       <MUIAutocomplete
         freeSolo
         fullWidth
