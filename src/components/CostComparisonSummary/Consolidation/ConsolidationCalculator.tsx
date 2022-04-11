@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Typography } from '@mui/material';
 import WaterSystemDetails from './WaterSystemDetails';
+import BarChart from '../../uiComponents/BarChart';
 
 const ConsolidationCalculator = (props: any) => {
   return (
@@ -16,8 +17,9 @@ const ConsolidationCalculator = (props: any) => {
         </Typography>
         <WaterSystemDetails />
       </Grid>
-      <Grid item xs={12} md={7} order={{ xs: 2, md: 3 }} style={{ background: 'yellow' }}>
-        <Typography paragraph>Consolidation Calculator</Typography>
+      <Grid item xs={12} md={7} order={{ xs: 2, md: 3 }} style={{}}>
+        <Typography variant="h5">Total Consolidation Cost: $4,445,459</Typography>
+        <BarChart />
       </Grid>
     </Grid>
   );
