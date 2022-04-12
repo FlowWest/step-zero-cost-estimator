@@ -23,6 +23,19 @@ const WaterSystemDetails = () => {
         updateState={updateWaterSystemDetails}
       />
       <InputSlider
+        isCurrency={true}
+        inputProperty="connectionCosts"
+        label="Connection Costs"
+        start={6600}
+        maxValue={100000}
+        incrementBy={1000}
+        inputAdornment={{
+          start: '$',
+          end: 'per connection'
+        }}
+        updateState={updateWaterSystemDetails}
+      />
+      <InputSlider
         minValue={0}
         maxValue={10000}
         start={state.currentWaterSystem?.distance}
@@ -38,19 +51,6 @@ const WaterSystemDetails = () => {
         start={155}
         incrementBy={5}
         inputAdornment={{ start: '$', end: 'per feet' }}
-        updateState={updateWaterSystemDetails}
-      />
-      <InputSlider
-        isCurrency={true}
-        inputProperty="connectionCosts"
-        label="Connection Costs"
-        start={6600}
-        maxValue={100000}
-        incrementBy={1000}
-        inputAdornment={{
-          start: '$',
-          end: 'per connection'
-        }}
         updateState={updateWaterSystemDetails}
       />
       <InputSlider

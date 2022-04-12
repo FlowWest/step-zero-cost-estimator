@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Typography, Theme } from '@mui/material';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import { getConsolidationCostDetails } from '../../../util/consolidationUtil';
-import BarChart from '../../uiComponents/BarChart';
+import DoughnutChart from '../../uiComponents/DoughnutChart';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -16,20 +16,37 @@ const TotalConsolidationCost = () => {
   const styles = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
 
-  const { waterSystemDetails, consolidationCostParams } = state;
-  const test = getConsolidationCostDetails({ waterSystemDetails, consolidationCostParams });
+  const { currentWaterSystem, consolidationCostParams } = state;
+  const [consolidationCostDetails, setConsolidationCostDetailset] = useState({} as any);
+
+  // const { waterSystemDetails, consolidationCostParams } = state;
+  // const consolidationCostDetails = getConsolidationCostDetails({ waterSystemDetails, consolidationCostParams });
+  useEffect(() => {
+    setConsolidationCostDetailset(
+      getConsolidationCostDetails({
+        currentWaterSystem,
+        consolidationCostParams
+      })
+    );
+  }, [state.consolidationCostParams]);
+
   return (
     <div className={styles.totalCostContainer}>
       <Typography variant="h5" paragraph>
         Total Consolidation Cost: $
-        {test.total.toLocaleString('en-US', {
+        {consolidationCostDetails.total?.toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         })}
       </Typography>
       <Typography variant="h6" paragraph>
-        Water Rate per Connection: $
-        {(test.total / consolidationCostParams.connections / 12 / 10).toLocaleString('en-US', {
+        Cost per Connection: $
+        {(
+          consolidationCostDetails.total /
+          consolidationCostParams.connections /
+          12 /
+          10
+        ).toLocaleString('en-US', {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         })}
@@ -41,7 +58,7 @@ const TotalConsolidationCost = () => {
           </div>
         );
       })} */}
-      <BarChart />
+      <DoughnutChart chartData={consolidationCostDetails} />
     </div>
   );
 };
