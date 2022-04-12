@@ -37,3 +37,22 @@ export interface WaterSystemState {
   currentWaterSystem: WaterSystem;
   consolidationCostParams: ConsolidationCostParams;
 }
+
+export interface ConsolidationCostDetails {
+  materialCosts: {
+    total: number;
+    totalPipelineCosts: number;
+    totalServiceFee: number;
+    totalConnectionCosts: number;
+  };
+  adminFees: {
+    total: number;
+    adminLegalCosts: number;
+  };
+  financialAssistance: {};
+  adjustments: {
+    total: number;
+    totalContingency: number;
+  };
+  total: number;
+}
