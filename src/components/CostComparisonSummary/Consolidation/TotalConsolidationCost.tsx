@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Typography } from '@mui/material';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import { getConsolidationCostDetails } from '../../../util/consolidationUtil';
+import BarChart from '../../uiComponents/BarChart';
 
 const TotalConsolidationCost = () => {
   const [state, dispatch] = useContext(WaterSystemContext);
@@ -31,6 +32,7 @@ const TotalConsolidationCost = () => {
           </div>
         );
       })}
+      <BarChart />
     </div>
   );
 };

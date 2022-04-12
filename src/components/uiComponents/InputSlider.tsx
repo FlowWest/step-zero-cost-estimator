@@ -49,7 +49,7 @@ const InputSlider = ({
   }, [value]);
 
   return (
-    <Box sx={{ width: 250, marginBottom: '.8rem' }}>
+    <Box sx={{ marginBottom: '.8rem' }}>
       <Grid container alignItems="center">
         <Grid item xs={12}>
           <TextField
