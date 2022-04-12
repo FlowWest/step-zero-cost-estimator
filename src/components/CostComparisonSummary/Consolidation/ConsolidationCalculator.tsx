@@ -9,8 +9,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingTop: '2rem'
   },
   waterSystemsDetailsContainer: {
-    paddingRight: '1rem',
-    borderRight: `1px solid ${theme.palette.background.divider}`
+    [theme.breakpoints.up('md')]: {
+      paddingRight: '1rem',
+      borderRight: `1px solid ${theme.palette.background.divider}`
+    }
   },
   editWaterSystemHeader: {
     fontWeight: 600
@@ -26,7 +28,8 @@ const ConsolidationCalculator = () => {
       </Grid>
       <Grid
         item
-        xs={4}
+        xs={12}
+        md={4}
         order={{ xs: 3, md: 2 }}
         className={`${styles.contentContainer} ${styles.waterSystemsDetailsContainer}`}
       >

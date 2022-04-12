@@ -3,6 +3,7 @@ import { Box, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import DoughnutChart from '../../../uiComponents/DoughnutChart';
 import { ConsolidationCostDetails } from '../../../../util/interfaces';
+import ConsolidationDetailsTab from './ConsolidationDetailsTab';
 
 const ConsolidationTabs = ({ chartData }: { chartData: ConsolidationCostDetails }) => {
   const [value, setValue] = useState('1');
@@ -29,7 +30,9 @@ const ConsolidationTabs = ({ chartData }: { chartData: ConsolidationCostDetails 
         <TabPanel value="1">
           <DoughnutChart chartData={chartData} />
         </TabPanel>
-        <TabPanel value="2">Cost Details Panel</TabPanel>
+        <TabPanel value="2">
+          <ConsolidationDetailsTab chartData={chartData} />
+        </TabPanel>
       </TabContext>
     </Box>
   );
