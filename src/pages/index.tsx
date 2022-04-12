@@ -19,10 +19,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const dropdownOptions = [
-  { id: 1, name: 'Water System A', connections: 100, totalDistance: 4000 },
-  { id: 2, name: 'Water System B', connections: 200, totalDistance: 2000 },
-  { id: 3, name: 'Water System C', connections: 350, totalDistance: 3500 },
-  { id: 4, name: 'Water System D', connections: 50, totalDistance: 1000 }
+  { id: 1, name: 'Water System A', connections: 100, distance: 3000, totalDistance: 4000 },
+  { id: 2, name: 'Water System B', connections: 200, distance: 1000, totalDistance: 2000 },
+  { id: 3, name: 'Water System C', connections: 350, distance: 2500, totalDistance: 3500 },
+  { id: 4, name: 'Water System D', connections: 50, distance: 0, totalDistance: 1000 }
 ];
 
 const IndexPage: FC = () => {
@@ -90,7 +90,7 @@ const IndexPage: FC = () => {
           </ContentWrapper>
         </Grid>
         <Grid item xs={12} className={styles.gridItemContainer}>
-          <ContentWrapper title="Explanation">
+          <ContentWrapper title="Calculation Explanation">
             <Typography paragraph>
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit quis voluptates
               perspiciatis quas. Officiis, eligendi!

@@ -10,9 +10,11 @@ export const getConsolidationCostDetails = ({
   waterSystemDetails,
   consolidationCostParams
 }: any) => {
-  const totalDistance = waterSystemDetails || 1000;
-  const { connections, connectionCosts, pipelineCosts, adminLegalCosts, contingency } =
+  const { connections, connectionCosts, distance, pipelineCosts, adminLegalCosts, contingency } =
     consolidationCostParams;
+
+  // total distance always += 1000 because of buffer
+  const totalDistance = distance + 1000;
 
   const totalPipelineCosts = pipelineCosts * totalDistance;
   // total distance always += 1000 because of buffer

@@ -11,7 +11,8 @@ export const initialState = {
     pipelineCosts: 155,
     connectionCosts: 6600,
     adminLegalCosts: 285000,
-    contingency: 20
+    contingency: 20,
+    distance: 1000
   }
 };
 

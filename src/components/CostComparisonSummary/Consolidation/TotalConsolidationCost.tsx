@@ -17,6 +17,13 @@ const TotalConsolidationCost = () => {
           maximumFractionDigits: 2
         })}
       </Typography>
+      <Typography variant="h4" paragraph>
+        Water Rate per Connection: $
+        {(test.total / consolidationCostParams.connections / 12 / 10).toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        })}
+      </Typography>
       {Object.entries(state.consolidationCostParams)?.map(([key, value]: any) => {
         return (
           <div>

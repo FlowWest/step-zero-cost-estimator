@@ -23,6 +23,15 @@ const WaterSystemDetails = () => {
         updateState={updateWaterSystemDetails}
       />
       <InputSlider
+        minValue={0}
+        maxValue={10000}
+        start={state.currentWaterSystem?.distance}
+        inputProperty="distance"
+        label="Distance to Receiving System"
+        inputAdornment={{ end: 'feet' }}
+        updateState={updateWaterSystemDetails}
+      />
+      <InputSlider
         isCurrency={true}
         inputProperty="pipelineCosts"
         label="Pipeline Costs"

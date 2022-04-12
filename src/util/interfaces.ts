@@ -14,9 +14,10 @@ export interface AutocompleteProps {
 }
 
 export interface WaterSystem {
-  name: string | null;
+  name?: string | null;
   id?: number;
   connections?: number;
+  distance?: number;
   totalDistance?: number;
 }
 
