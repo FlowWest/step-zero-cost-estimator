@@ -21,7 +21,7 @@ const DoughnutChart = ({ chartData }: { chartData: ConsolidationCostDetails }) =
         ],
         backgroundColor: doughnutColors,
         borderColor: doughnutColors,
-        hoverOffset: 8
+        hoverOffset: 3
       }
     ]
   };
@@ -29,11 +29,24 @@ const DoughnutChart = ({ chartData }: { chartData: ConsolidationCostDetails }) =
     <Doughnut
       data={doughnutData}
       options={{
-        cutout: '70%',
+        cutout: '65%',
         plugins: {
           legend: {
             labels: { usePointStyle: true, pointStyle: 'rectRounded' }
           }
+          // tooltip: {
+          //   callbacks: {
+          //     label: (tooltipItem, data) => {
+          //       var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+          //       if (label) {
+          //         label += ': ';
+          //       }
+          //       label += tooltipItem.yLabel;
+          //       return '$' + label;
+          //     }
+          //   }
+          // }
         }
       }}
     />

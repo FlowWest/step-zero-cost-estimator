@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Typography, Theme } from '@mui/material';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import { getConsolidationCostDetails } from '../../../util/consolidationUtil';
-import DoughnutChart from '../../uiComponents/DoughnutChart';
 import { makeStyles } from '@mui/styles';
+import ConsolidationTabs from './ConsolidationTabs/ConsolidationTabs';
 
 const useStyles = makeStyles((theme: Theme) => ({
   totalCostContainer: {
@@ -29,7 +29,7 @@ const TotalConsolidationCost = () => {
         consolidationCostParams
       })
     );
-    console.log(consolidationCostDetails);
+    console.log('Consolidation Cost Details', consolidationCostDetails);
   }, [state.consolidationCostParams]);
 
   return (
@@ -60,7 +60,7 @@ const TotalConsolidationCost = () => {
           </div>
         );
       })} */}
-      <DoughnutChart chartData={consolidationCostDetails} />
+      <ConsolidationTabs chartData={consolidationCostDetails} />
     </div>
   );
 };
