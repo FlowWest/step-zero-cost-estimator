@@ -8,6 +8,7 @@ export const ACTIONS = {
 export const initialState = {
   currentWaterSystem: {},
   consolidationCostParams: {
+    connections: 100,
     pipelineCosts: 155,
     connectionCosts: 6600,
     adminLegalCosts: 285000,
