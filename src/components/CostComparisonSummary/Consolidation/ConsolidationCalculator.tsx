@@ -12,9 +12,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingRight: '1rem',
     borderRight: `1px solid ${theme.palette.background.divider}`
   },
-  totalCostContainer: {
-    textAlign: 'center'
-  },
   editWaterSystemHeader: {
     fontWeight: 600
   }
@@ -42,13 +39,7 @@ const ConsolidationCalculator = () => {
         </Typography>
         <WaterSystemDetails />
       </Grid>
-      <Grid
-        item
-        xs={12}
-        md={8}
-        order={{ xs: 2, md: 3 }}
-        className={`${styles.contentContainer} ${styles.totalCostContainer}`}
-      >
+      <Grid item xs={12} md={8} order={{ xs: 2, md: 3 }} className={styles.contentContainer}>
         <TotalConsolidationCost />
       </Grid>
       <Grid
