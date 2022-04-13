@@ -1,25 +1,26 @@
 import React, { useState } from 'react';
-import { Typography, List, ListItemButton, ListItemText, Collapse } from '@mui/material';
+import { Typography, List, ListItemButton, ListItemText, Collapse, Theme } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import { ConsolidationCostDetails } from '../../../../util/interfaces';
-import { makeStyles } from '@mui/material';
+import { formatToUSD } from '../../../../util/util';
+
+const useStyles = makeStyles((theme: Theme) => ({
+  listSubItem: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  }
+}));
 
 const ConsolidationDetailsTab = ({ chartData }: { chartData: ConsolidationCostDetails }) => {
   const { materialCosts, adminFees, financialAssistance, adjustments, total } = chartData;
   console.log(chartData);
 
-  const [detailOpen1, setDetailOpen1] = useState(true);
-  const [detailOpen2, setDetailOpen2] = useState(true);
-  const [detailOpen3, setDetailOpen3] = useState(true);
+  const [detailOpen1, setDetailOpen1] = useState(false);
+  const [detailOpen2, setDetailOpen2] = useState(false);
+  const [detailOpen3, setDetailOpen3] = useState(false);
 
-  const handleClick = (event: React.SyntheticEvent) => {
-    const eventTarget = event.target as HTMLElement;
-    let text: string = eventTarget.innerText;
-    console.log(text);
-    if (text.includes('Material Costs')) setDetailOpen1(!detailOpen1);
-    if (text.includes('Administrative Fees')) setDetailOpen2(!detailOpen2);
-    if (text.includes('Adjustments')) setDetailOpen3(!detailOpen3);
-  };
+  const classes = useStyles();
 
   return (
     <>
@@ -29,40 +30,66 @@ const ConsolidationDetailsTab = ({ chartData }: { chartData: ConsolidationCostDe
         aria-labelledby="nested-list-subheader"
       >
         {/* First List Item */}
-        <ListItemButton divider onClick={handleClick}>
-          <ListItemText primary={`Material Costs: ${materialCosts.total}`} />
+        <ListItemButton divider onClick={() => setDetailOpen1(!detailOpen1)}>
+          <ListItemText primary={`Material Costs:`} secondary={formatToUSD(materialCosts.total)} />
           {detailOpen1 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={detailOpen1} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItemButton sx={{ pl: 5 }}>
-              <ListItemText primary={'Testing A1'} />
+              <ListItemText
+                className={classes.listSubItem}
+                primary={`Pipeline Costs`}
+                secondary={formatToUSD(materialCosts.totalPipelineCosts)}
+              />
+            </ListItemButton>
+            <ListItemButton sx={{ pl: 5 }}>
+              <ListItemText
+                className={classes.listSubItem}
+                primary={`Connection Costs`}
+                secondary={formatToUSD(materialCosts.totalConnectionCosts)}
+              />
+            </ListItemButton>
+            <ListItemButton sx={{ pl: 5 }}>
+              <ListItemText
+                className={classes.listSubItem}
+                primary={`Service Fees`}
+                secondary={formatToUSD(materialCosts.totalServiceFee)}
+              />
             </ListItemButton>
           </List>
         </Collapse>
 
         {/* Second List Item */}
-        <ListItemButton divider onClick={handleClick}>
-          <ListItemText primary={`Administrative Fees: ${adminFees.total}`} />
+        <ListItemButton divider onClick={() => setDetailOpen2(!detailOpen2)}>
+          <ListItemText primary={`Administrative Fees:`} secondary={formatToUSD(adminFees.total)} />
           {detailOpen2 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={detailOpen2} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItemButton sx={{ pl: 5 }}>
-              <ListItemText primary={'Testing B2'} />
+              <ListItemText
+                className={classes.listSubItem}
+                primary={`Admin & Legal`}
+                secondary={formatToUSD(adminFees.adminLegalCosts)}
+              />
             </ListItemButton>
           </List>
         </Collapse>
 
         {/* Third List Item */}
-        <ListItemButton divider onClick={handleClick}>
-          <ListItemText primary={`Adjustments: ${adjustments.total}`} />
+        <ListItemButton divider onClick={() => setDetailOpen3(!detailOpen3)}>
+          <ListItemText primary={`Adjustments:`} secondary={formatToUSD(adjustments.total)} />
           {detailOpen3 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={detailOpen3} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItemButton sx={{ pl: 5 }}>
-              <ListItemText primary={'Testing C3'} />
+              <ListItemText
+                className={classes.listSubItem}
+                primary={`Contingency Costs`}
+                secondary={formatToUSD(adjustments.totalContingency)}
+              />
             </ListItemButton>
           </List>
         </Collapse>
