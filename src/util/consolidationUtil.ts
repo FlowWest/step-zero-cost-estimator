@@ -1,10 +1,4 @@
-interface CostBreakdown {
-  total: number;
-  materialCosts: number;
-  adminFees: number;
-  financialAssistance: number;
-  adjustments: number;
-}
+import { ConsolidationCostDetails } from './interfaces';
 
 export const getConsolidationCostDetails = ({
   waterSystemDetails,
@@ -54,7 +48,7 @@ export const getConsolidationCostDetails = ({
     },
     total,
     costPerConnection
-  } as any;
+  } as ConsolidationCostDetails;
 
   return costBreakdown;
 };

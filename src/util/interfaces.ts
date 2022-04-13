@@ -55,4 +55,5 @@ export interface ConsolidationCostDetails {
     totalContingency: number;
   };
   total: number;
+  costPerConnection: number;
 }
