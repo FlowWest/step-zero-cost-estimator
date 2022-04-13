@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Typography, Theme, Grid } from '@mui/material';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import { getConsolidationCostDetails } from '../../../util/consolidationUtil';
+import { formatToUSD } from '../../../util/util';
 import { makeStyles } from '@mui/styles';
 import ConsolidationTabs from './ConsolidationTabs/ConsolidationTabs';
 
@@ -46,23 +47,10 @@ const TotalConsolidationCost = () => {
     >
       <Grid item className={styles.gridItem}>
         <Typography variant="h5" paragraph>
-          Total Consolidation Cost: $
-          {consolidationCostDetails.total?.toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          })}
+          Total Consolidation Cost: {formatToUSD(consolidationCostDetails.total)}
         </Typography>
         <Typography variant="h6" paragraph>
-          Cost per Connection: $
-          {(
-            consolidationCostDetails.total /
-            consolidationCostParams.connections /
-            12 /
-            10
-          ).toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          })}
+          Cost per Connection: {formatToUSD(consolidationCostDetails.costPerConnection)}
         </Typography>
         <ConsolidationTabs chartData={consolidationCostDetails} />
       </Grid>

@@ -38,6 +38,7 @@ const DoughnutChart = ({ chartData }: { chartData: ConsolidationCostDetails }) =
             callbacks: {
               label: (tooltipItem: TooltipItem<'doughnut'>) => {
                 const { label, formattedValue } = tooltipItem;
+
                 return `${label}: $${formattedValue}`;
               }
             }
