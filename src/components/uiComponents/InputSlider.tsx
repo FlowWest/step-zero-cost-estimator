@@ -1,5 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { InputAdornment, Box, Grid, Slider, TextField } from '@mui/material';
+import {
+  InputAdornment,
+  Box,
+  Grid,
+  Slider,
+  TextField,
+  Tooltip,
+  Theme,
+  tooltipClasses
+} from '@mui/material';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    '& .MuiInputLabel-shrink, & fieldset': {
+      fontSize: '1.1rem'
+    }
+  },
+  tooltipContent: {
+    fontSize: '1rem'
+  },
+  hoverableLabel: {
+    textDecoration: 'underline',
+    textDecorationStyle: 'dotted',
+    textDecorationColor: theme.palette.primary.main,
+    textUnderlineOffset: '3px'
+  }
+}));
 
 const InputSlider = ({
   inputProperty,
@@ -11,6 +38,7 @@ const InputSlider = ({
   inputAdornment = {},
   isCurrency = false,
   updateState,
+  tooltipText,
   ...otherProps
 }: {
   inputProperty: string;
@@ -22,7 +50,9 @@ const InputSlider = ({
   start?: number;
   isCurrency?: boolean;
   updateState?: Function;
+  tooltipText?: string;
 }) => {
+  const styles = useStyles();
   const [value, setValue] = useState(start as number | string);
 
   const handleSliderChange = (event: Event, newValue: any) => {
@@ -53,9 +83,22 @@ const InputSlider = ({
       <Grid container alignItems="center">
         <Grid item xs={12}>
           <TextField
+            className={styles.root}
             id={inputProperty}
             sx={{ mb: 0.5 }}
-            label={label}
+            label={
+              tooltipText ? (
+                <Tooltip
+                  title={<div className={styles.tooltipContent}>{tooltipText}</div>}
+                  arrow
+                  placement="right"
+                >
+                  <div className={styles.hoverableLabel}>{label}</div>
+                </Tooltip>
+              ) : (
+                <div>{label}</div>
+              )
+            }
             value={value.toLocaleString()}
             onChange={handleInputChange}
             onBlur={handleBlur}

@@ -66,10 +66,12 @@ const WaterSystemDetails = () => {
       <InputSlider
         inputProperty="contingency"
         label="Contingency"
+        minValue={-100}
         maxValue={100}
         start={20}
         incrementBy={5}
         inputAdornment={{ end: '%' }}
+        tooltipText="Contingency value may range from -100% to 100%. Negative values can be used to help account for financial assistance such as loans, grants, subsidies, etc"
         updateState={updateWaterSystemDetails}
       />
     </>
