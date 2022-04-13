@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Button, Grid, Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { FC } from '../util';
 import Autocomplete from '../components/uiComponents/Autocomplete';
 import ContentWrapper from '../components/uiComponents/ContentWrapper';
 import CostComparisonSummary from '../components/CostComparisonSummary/CostComparisonSummary';
-import { WaterSystem } from '../util/interfaces';
+import { WaterSystemContext } from '../contexts/WaterSystem';
+import { updateWaterSystem } from '../contexts/WaterSystem/actions';
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
@@ -17,31 +18,29 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const waterSystems = {
-  dropdownLabel: 'Water System',
-  dropdownPlaceholder: 'Select or type in your water system',
-  dropdownOptions: [
-    { name: 'Water System A', id: 1 },
-    { name: 'Water System B', id: 2 },
-    { name: 'Water System C', id: 3 },
-    { name: 'Water System D', id: 4 }
-  ]
-};
+const dropdownOptions = [
+  { id: 1, name: 'Water System A', connections: 100, distance: 3000, totalDistance: 4000 },
+  { id: 2, name: 'Water System B', connections: 200, distance: 1000, totalDistance: 2000 },
+  { id: 3, name: 'Water System C', connections: 350, distance: 2500, totalDistance: 3500 },
+  { id: 4, name: 'Water System D', connections: 50, distance: 0, totalDistance: 1000 }
+];
 
 const IndexPage: FC = () => {
   const styles = useStyles();
-  const [selectedWaterSystem, setSelectedWaterSystem] = useState({} as WaterSystem);
+  const [state, dispatch] = useContext(WaterSystemContext);
 
   const handleWaterSystemChange = (value: any) => {
     // from autocomplete value will be object or string
+    let newWaterSystem;
     if (value?.constructor === Object) {
-      setSelectedWaterSystem(value);
+      newWaterSystem = value;
     } else if (typeof value === 'string') {
-      setSelectedWaterSystem({
+      newWaterSystem = {
         name: value,
         id: null
-      });
+      };
     }
+    dispatch(updateWaterSystem(newWaterSystem));
   };
 
   return (
@@ -61,16 +60,18 @@ const IndexPage: FC = () => {
       <Grid container item xs={12}>
         <Grid item xs={8} md={5}>
           <Autocomplete
-            {...waterSystems}
-            selectedObject={selectedWaterSystem}
+            dropdownLabel={'Water System'}
+            dropdownPlaceholder={'Select or type in your water system'}
+            dropdownOptions={dropdownOptions}
+            selectedObject={state.currentWaterSystem}
             setSelectedObject={handleWaterSystemChange}
           />
         </Grid>
-        {Object.keys(selectedWaterSystem).length > 0 && (
+        {Object.keys(state.currentWaterSystem).length > 0 && (
           <Grid item xs={12} md={4} className={styles.buttonContainer}>
             <Button
               onClick={() => {
-                setSelectedWaterSystem({} as WaterSystem);
+                dispatch({ type: 'update_water_system', payload: {} });
               }}
             >
               Select a new water system
@@ -82,14 +83,14 @@ const IndexPage: FC = () => {
         <Grid item xs={12} className={styles.gridItemContainer}>
           <ContentWrapper
             title={`Cost Comparison Summary ${
-              selectedWaterSystem?.name ? `for ${selectedWaterSystem?.name}` : ''
+              state.currentWaterSystem?.name ? `for ${state.currentWaterSystem?.name}` : ''
             }`}
           >
-            <CostComparisonSummary selectedWaterSystem={selectedWaterSystem} />
+            <CostComparisonSummary selectedWaterSystem={state.currentWaterSystem} />
           </ContentWrapper>
         </Grid>
         <Grid item xs={12} className={styles.gridItemContainer}>
-          <ContentWrapper title="Explanation / FAQs / etc?">
+          <ContentWrapper title="Calculation Explanation">
             <Typography paragraph>
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit quis voluptates
               perspiciatis quas. Officiis, eligendi!

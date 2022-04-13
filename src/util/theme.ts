@@ -4,6 +4,7 @@ import { createTheme, responsiveFontSizes, ThemeOptions, Theme } from '@mui/mate
 declare module '@mui/material/styles' {
   interface TypeBackground {
     content: string;
+    divider: string;
   }
 }
 
@@ -59,7 +60,8 @@ const light: ThemeOptions = {
     background: {
       default: '#f6f6f7',
       paper: '#0c7cba',
-      content: '#ffffff'
+      content: '#ffffff',
+      divider: 'rgba(0, 0, 0, 0.12)'
     }
   }
 };
@@ -88,7 +90,8 @@ const dark: ThemeOptions = {
     background: {
       default: '#1c2c33',
       paper: '#214a6b',
-      content: '#424242'
+      content: '#424242',
+      divider: 'rgba(255, 255, 255, 0.12)'
     }
   }
 };

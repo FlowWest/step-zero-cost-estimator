@@ -14,6 +14,46 @@ export interface AutocompleteProps {
 }
 
 export interface WaterSystem {
-  id: number | null;
-  name: string;
+  name?: string | null;
+  id?: number;
+  connections?: number;
+  distance?: number;
+  totalDistance?: number;
+}
+
+export interface ConsolidationCostParams {
+  pipelineCosts: number;
+  connectionCosts: number;
+  adminLegalCosts: number;
+  contingency: number;
+}
+
+export interface WaterSystemAction {
+  type: string;
+  payload: any;
+}
+
+export interface WaterSystemState {
+  currentWaterSystem: WaterSystem;
+  consolidationCostParams: ConsolidationCostParams;
+}
+
+export interface ConsolidationCostDetails {
+  materialCosts: {
+    total: number;
+    totalPipelineCosts: number;
+    totalServiceFee: number;
+    totalConnectionCosts: number;
+  };
+  adminFees: {
+    total: number;
+    adminLegalCosts: number;
+  };
+  financialAssistance: {};
+  adjustments: {
+    total: number;
+    totalContingency: number;
+  };
+  total: number;
+  costPerConnection: number;
 }

@@ -16,3 +16,14 @@ export const getCookie = (cookie: string): string | null => {
   }
   return null;
 };
+
+export const formatToUSD = (value: number): string => {
+  const convertToUSD = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+
+    //call the format method and pass in number to return dollar amount
+  });
+
+  return convertToUSD.format(value);
+};

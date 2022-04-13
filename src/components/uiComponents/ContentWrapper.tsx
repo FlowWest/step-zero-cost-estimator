@@ -1,6 +1,5 @@
 import React from 'react';
-import { FC } from '../../util';
-import { Button, Container, Grid, MenuItem, TextField, Theme, Typography } from '@mui/material';
+import { Container, Grid, Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -10,7 +9,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   contentWrapper: {
     background: theme.palette.background.content,
     borderTop: `.5rem solid ${theme.palette.primary.main}`,
-    minHeight: '18.75rem',
+    // minHeight: '18.75rem',
     padding: '1.56rem'
   }
 }));
