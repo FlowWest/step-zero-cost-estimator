@@ -24,17 +24,13 @@ const TotalConsolidationCost = () => {
   const { currentWaterSystem, consolidationCostParams } = state;
   const [consolidationCostDetails, setConsolidationCostDetailset] = useState({} as any);
 
-  // const { waterSystemDetails, consolidationCostParams } = state;
-  // const consolidationCostDetails = getConsolidationCostDetails({ waterSystemDetails, consolidationCostParams });
   useEffect(() => {
-    console.log('consolidationCostParams', consolidationCostParams);
     setConsolidationCostDetailset(
       getConsolidationCostDetails({
         currentWaterSystem,
         consolidationCostParams
       })
     );
-    console.log('Consolidation Cost Details', consolidationCostDetails);
   }, [state.consolidationCostParams]);
 
   return (
