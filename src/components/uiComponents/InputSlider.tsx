@@ -60,7 +60,6 @@ const InputSlider = ({
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value === '' ? '' : Number(event.target.value);
     setValue(event.target.value === '' ? '' : Number(event.target.value));
   };
 
