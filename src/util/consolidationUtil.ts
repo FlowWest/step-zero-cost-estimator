@@ -13,6 +13,9 @@ export const getConsolidationCostDetails = ({
   const { connections, connectionCosts, distance, pipelineCosts, adminLegalCosts, contingency } =
     consolidationCostParams;
 
+  // if connections > 0, use connections, else use 8
+  const calcConnections = connections || 8;
+
   // total distance always += 1000 because of buffer
   const totalDistance = distance + 1000;
 
@@ -20,7 +23,7 @@ export const getConsolidationCostDetails = ({
   // total distance always += 1000 because of buffer
   // so if total distance = 1000 (distance = 0), indicates intersecting system
   const totalServiceFee = totalDistance === 1000 ? 5000 : 0;
-  const totalConnectionCosts = connectionCosts * connections;
+  const totalConnectionCosts = connectionCosts * calcConnections;
   const totalMaterialCosts = totalPipelineCosts + totalServiceFee + totalConnectionCosts;
 
   const totalAdminFees = adminLegalCosts;
@@ -31,6 +34,7 @@ export const getConsolidationCostDetails = ({
   const totalAdjustments = totalContingency;
 
   const total = subtotal + totalAdjustments;
+  const costPerConnection = total / calcConnections / 12;
 
   const costBreakdown = {
     materialCosts: {
@@ -48,7 +52,8 @@ export const getConsolidationCostDetails = ({
       total: totalAdjustments,
       totalContingency
     },
-    total
+    total,
+    costPerConnection
   } as any;
 
   return costBreakdown;
