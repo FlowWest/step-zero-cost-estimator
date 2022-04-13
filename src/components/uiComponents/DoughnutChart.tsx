@@ -8,7 +8,6 @@ ChartJS.register(...registerables);
 const doughnutColors = ['#22576B', '#306B99', '#83BBE5'];
 
 const DoughnutChart = ({ chartData }: { chartData: ConsolidationCostDetails }) => {
-  console.log('chart data', chartData);
   const doughnutData = {
     labels: ['Material Costs', 'Administrative Costs', 'Adjustments'],
     datasets: [
