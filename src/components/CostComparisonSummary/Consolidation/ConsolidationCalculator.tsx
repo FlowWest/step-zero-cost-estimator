@@ -6,7 +6,7 @@ import TotalConsolidationCost from './TotalConsolidationCost';
 
 const useStyles = makeStyles((theme: Theme) => ({
   contentContainer: {
-    paddingTop: '2rem'
+    paddingTop: '1rem'
   },
   waterSystemsDetailsContainer: {
     [theme.breakpoints.up('md')]: {
@@ -23,9 +23,6 @@ const ConsolidationCalculator = () => {
   const styles = useStyles();
   return (
     <Grid container spacing={0}>
-      <Grid item xs={12}>
-        <Typography variant="h5">Consolidation Calculator</Typography>
-      </Grid>
       <Grid
         item
         xs={12}
