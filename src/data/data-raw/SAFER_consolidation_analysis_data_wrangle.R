@@ -1,4 +1,5 @@
-# Using Consolidation Analysis.xlsx (attached in Files section) extract water system data as csv from the "RESULTS_Consolidations" sheet
+# Using Consolidation Analysis.xlsx (attached in Files section) extract water system data as csv from the 
+# "RESULTS_Consolidations" sheet
 # Return all columns
 # basic QC
 
@@ -12,18 +13,20 @@ janitor::get_dupes(consolidations)
 user_inputs <- read_excel('consolidation_cost_methodology.xlsx', range = 'A3:S3') %>% janitor::clean_names() %>% glimpse()
 user_inputs <- names(user_inputs)
 
-cost_variables <- read_excel('consolidation_cost_methodology.xlsx', range = 'A8:A14') %>% janitor::clean_names() %>% glimpse()
-cost_variables <- unique(cost_variables$variable)
+all_vars <- c(user_inputs)
 
-system_calcs <- read_excel('consolidation_cost_methodology.xlsx', range = 'A21:A33') %>% janitor::clean_names() %>% glimpse()
-system_calcs <- unique(system_calcs$variable)
-
-all_vars <- c(user_inputs, cost_variables, system_calcs)
-
-consolidations <- consolidations %>%
+consolidations_final <- consolidations %>%
   select(all_vars)
 
+write.csv(consolidations_final, '../water_system_details.csv')
+
+# TODO: will need to update to fill in NAs for PWSIDs when data becomes available 
+
+# Quick data exploration -------------------------------------------------------
 summary(consolidations)
+
+# N Nas
+consolidations %>% filter(is.na(j_sys_pwsid)) %>% glimpse()
 
 # distance_miles
 hist(consolidations$distance_miles)
