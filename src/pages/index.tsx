@@ -90,7 +90,7 @@ const IndexPage: FC = () => {
           </ContentWrapper>
         </Grid>
         <Grid item xs={12} className={styles.gridItemContainer}>
-          <ContentWrapper title="Calculation Explanation">
+          <ContentWrapper title="Calculation Methodology Explanation">
             <Typography paragraph>
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit quis voluptates
               perspiciatis quas. Officiis, eligendi!
