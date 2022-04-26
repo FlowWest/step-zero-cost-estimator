@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Button, Grid, Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { FC } from '../util';
@@ -7,10 +7,8 @@ import ContentWrapper from '../components/uiComponents/ContentWrapper';
 import CostComparisonSummary from '../components/CostComparisonSummary/CostComparisonSummary';
 import { WaterSystemContext } from '../contexts/WaterSystem';
 import { updateWaterSystem } from '../contexts/WaterSystem/actions';
-import { StaticQuery, graphql } from 'gatsby';
-import { WaterSystemDetailsCsvFragment } from '../graphql-fragments/WaterSystemsDetailsCSV';
+import { graphql } from 'gatsby';
 import { WaterSystem } from '../util/interfaces';
-// import waterSystemDetailsCSV from '../data/water_system_details.csv'
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
@@ -29,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 //   { id: 4, name: 'Water System D', population: 45, connections: 50, distance: 0 }
 // ];
 
-export default (props: any) => {
+const IndexPage: FC = (props: any) => {
   const styles = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
 
@@ -151,6 +149,7 @@ export default (props: any) => {
     </Grid>
   );
 };
+export default IndexPage;
 
 export const query = graphql`
   query MyQuery {
