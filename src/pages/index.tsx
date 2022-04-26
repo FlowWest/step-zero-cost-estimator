@@ -7,6 +7,10 @@ import ContentWrapper from '../components/uiComponents/ContentWrapper';
 import CostComparisonSummary from '../components/CostComparisonSummary/CostComparisonSummary';
 import { WaterSystemContext } from '../contexts/WaterSystem';
 import { updateWaterSystem } from '../contexts/WaterSystem/actions';
+import { StaticQuery, graphql } from 'gatsby';
+import { WaterSystemDetailsCsvFragment } from '../graphql-fragments/WaterSystemsDetailsCSV';
+import { WaterSystem } from '../util/interfaces';
+// import waterSystemDetailsCSV from '../data/water_system_details.csv'
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
@@ -18,16 +22,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const dropdownOptions = [
-  { id: 1, name: 'Water System A', population: 110, connections: 100, distance: 3000 },
-  { id: 2, name: 'Water System B', population: 200, connections: 200, distance: 1000 },
-  { id: 3, name: 'Water System C', population: 0, connections: 0, distance: 2500 },
-  { id: 4, name: 'Water System D', population: 45, connections: 50, distance: 0 }
-];
+// const dropdownOptions = [
+//   { id: 1, name: 'Water System A', population: 110, connections: 100, distance: 3000 },
+//   { id: 2, name: 'Water System B', population: 200, connections: 200, distance: 1000 },
+//   { id: 3, name: 'Water System C', population: 0, connections: 0, distance: 2500 },
+//   { id: 4, name: 'Water System D', population: 45, connections: 50, distance: 0 }
+// ];
 
-const IndexPage: FC = () => {
+export default (props: any) => {
   const styles = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
+
+  const dropdownOptions = props.data.allWaterSystemDetailsCsv.nodes.map(
+    (waterSystem: WaterSystem) => waterSystem.joinSystemName
+  );
 
   const handleWaterSystemChange = (value: any) => {
     // from autocomplete value will be object or string
@@ -144,4 +152,31 @@ const IndexPage: FC = () => {
   );
 };
 
-export default IndexPage;
+export const query = graphql`
+  query MyQuery {
+    allWaterSystemDetailsCsv {
+      nodes {
+        connectionId: id
+        distanceFeet: distance_feet
+        joinClassNew: j_class_new
+        joinConnection: j_conn
+        joinCounty: j_county
+        joinElevation: elevation_j
+        joinPopulation: j_pop
+        joinSystemName: j_sys_name
+        joinSystemPWSID: j_sys_pwsid
+        mergeType: merge_type
+        receivingCounty: r_county
+        receivingElevation: elevation_r
+        receivingSystemName: r_sys_name
+        receivingSystemPWSID: r_sys_pwsid
+        receivingType: r_type
+        routeElevationMax: route_elev_max
+        routeElevationMean: route_elev_mean
+        routeElevationMin: route_elev_min
+        routeElevationRange: route_elev_range
+        routeName: route_name
+      }
+    }
+  }
+`;
