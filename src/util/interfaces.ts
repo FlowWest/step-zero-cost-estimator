@@ -56,3 +56,26 @@ export interface ConsolidationCostDetails {
   total: number;
   costPerConnection: number;
 }
+
+export interface WaterSystem {
+  distanceFeet: string;
+  connectionId: string;
+  joinClassNew: string;
+  joinConnection: string;
+  joinCounty: string;
+  joinElevation: string;
+  joinPopulation: string;
+  joinSystemName: string;
+  joinSystemPWSID: string;
+  mergeType: string;
+  receivingElevation: string;
+  receivingType: string;
+  receivingCounty: string;
+  receivingSystemName: string;
+  receivingSystemPWSID: string;
+  routeElevationMax: string;
+  routeElevationMean: string;
+  routeElevationMin: string;
+  routeElevationRange: string;
+  routeName: string;
+}
