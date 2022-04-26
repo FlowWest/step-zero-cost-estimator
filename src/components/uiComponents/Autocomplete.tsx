@@ -43,14 +43,15 @@ const Autocomplete = ({
         id={`${dropdownLabel}-autocomplete`}
         classes={{ paper: styles.selectItem }}
         options={selectData}
-        getOptionLabel={(option: any) => {
-          // Value selected with enter, right from the input
-          if (typeof option === 'string') {
-            return option;
-          }
-          // Regular option
-          return option.name;
-        }}
+        // getOptionLabel={(option: any) => {
+        //   // console.log('option:', option);
+        //   // Value selected with enter, right from the input
+        //   if (typeof option === 'string') {
+        //     return option;
+        //   }
+        //   // Regular option
+        //   return option.name;
+        // }}
         value={value}
         onChange={(event: React.SyntheticEvent, newValue: string | null) => {
           event.preventDefault();
@@ -67,6 +68,17 @@ const Autocomplete = ({
             InputLabelProps={{ shrink: true }}
           />
         )}
+        renderOption={(props, option) => {
+          // console.log('props: ', props);
+          // console.log('option: ', option);
+          return (
+            <div>
+              {option}
+              <br />
+            </div>
+          );
+        }}
+        renderGroup={(params) => params}
       />
     </Box>
   );
