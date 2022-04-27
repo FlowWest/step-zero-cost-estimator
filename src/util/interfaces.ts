@@ -13,13 +13,6 @@ export interface AutocompleteProps {
   setSelectedObject: any;
 }
 
-export interface WaterSystem {
-  name?: string | null;
-  id?: number;
-  connections?: number;
-  distance?: number;
-}
-
 export interface ConsolidationCostParams {
   pipelineCosts: number;
   connectionCosts: number;
@@ -58,13 +51,13 @@ export interface ConsolidationCostDetails {
 }
 
 export interface WaterSystem {
-  distanceFeet: string;
+  totalDistanceFeet: string;
   connectionId: string;
   joinClassNew: string;
   joinConnection: string;
   joinCounty: string;
   joinElevation: string;
-  joinPopulation: string;
+  joinPipelineCost: string;
   joinSystemName: string;
   joinSystemPWSID: string;
   mergeType: string;
@@ -78,4 +71,6 @@ export interface WaterSystem {
   routeElevationMin: string;
   routeElevationRange: string;
   routeName: string;
+  connectionFee: string;
+  adminFee: string;
 }
