@@ -60,7 +60,7 @@ const InputSlider = ({
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value === '' ? '' : Number(event.target.value));
+    setValue(event.target.value === '' ? '' : event.target.value);
   };
 
   const handleBlur = () => {
@@ -117,7 +117,7 @@ const InputSlider = ({
             }}
           />
           <Slider
-            value={typeof value === 'number' ? value : 0}
+            value={typeof value === 'number' ? value : Number(value)}
             onChange={handleSliderChange}
             aria-labelledby="input-slider"
             min={minValue}
