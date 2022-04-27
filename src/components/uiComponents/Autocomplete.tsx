@@ -23,6 +23,7 @@ const Autocomplete = ({
   const selectData = dropdownOptions;
   const styles = useStyles();
   const [value, setValue] = useState('' as any);
+ 
 
   useEffect(() => {
     if (!Object.keys(selectedObject).length) {
@@ -55,6 +56,7 @@ const Autocomplete = ({
         value={value}
         onChange={(event: React.SyntheticEvent, newValue: string | null) => {
           event.preventDefault();
+          console.log(newValue)
           setValue(newValue);
           setSelectedObject(newValue);
         }}
