@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FC } from '../../util';
 import { Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import CostComparisonWrapper from './CostComparisonWrapper';
 import { WaterSystem } from '../../util/interfaces';
 import { formatToUSD } from '../../util/util';
+import { getConsolidationCostDetails } from '../../util/consolidationUtil';
+import { WaterSystemContext } from '../../contexts/WaterSystem';
 
 const useStyles = makeStyles((theme: Theme) => ({
   totalCostLabel: {
@@ -12,8 +14,29 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const CostComparisonSummary = ({ selectedWaterSystem }: { selectedWaterSystem: WaterSystem }) => {
+const CostComparisonSummary = ({
+  selectedWaterSystem,
+  consolidationCostParams
+}: {
+  selectedWaterSystem: WaterSystem;
+  consolidationCostParams: any;
+}) => {
   const styles = useStyles();
+
+  // function that calculates total cost of consolidation
+  // getConsolidationCostDetails({
+  //   waterSystemDetails: selectedWaterSystem,
+  //   consolidationCostParams: consolidationCostParams
+  // });
+
+  // console.log(
+  //   getConsolidationCostDetails({
+  //     waterSystemDetails: selectedWaterSystem,
+  //     consolidationCostParams: consolidationCostParams
+  //   })
+  // );
+
+
   const dummyCosts = {
     cc: 564545289,
     cip: 4453454335
