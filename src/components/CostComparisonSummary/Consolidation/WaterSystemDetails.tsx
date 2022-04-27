@@ -7,6 +7,7 @@ const WaterSystemDetails = () => {
   const [state, dispatch] = useContext(WaterSystemContext);
 
   const updateWaterSystemDetails = (inputProperty: string, value: any) => {
+    console.log('hit details dispatch')
     dispatch(
       updateConsolidationCostParams({
         [inputProperty]: value
@@ -17,7 +18,7 @@ const WaterSystemDetails = () => {
     <>
       <InputSlider
         minValue={0}
-        start={state.currentWaterSystem?.connections}
+        start={state.consolidationCostParams?.connections}
         inputProperty="connections"
         label="Number of Connections"
         updateState={updateWaterSystemDetails}
@@ -26,7 +27,7 @@ const WaterSystemDetails = () => {
         isCurrency={true}
         inputProperty="connectionCosts"
         label="Connection Costs"
-        start={6600}
+        start={state.consolidationCostParams?.connectionCosts}
         maxValue={100000}
         incrementBy={1000}
         inputAdornment={{
@@ -38,7 +39,7 @@ const WaterSystemDetails = () => {
       <InputSlider
         minValue={0}
         maxValue={10000}
-        start={state.currentWaterSystem?.distance}
+        start={state.consolidationCostParams?.distance}
         inputProperty="distance"
         label="Distance to Receiving System"
         inputAdornment={{ end: 'feet' }}
@@ -48,7 +49,7 @@ const WaterSystemDetails = () => {
         isCurrency={true}
         inputProperty="pipelineCosts"
         label="Pipeline Costs"
-        start={155}
+        start={state.consolidationCostParams?.pipelineCosts}
         incrementBy={5}
         inputAdornment={{ start: '$', end: 'per feet' }}
         updateState={updateWaterSystemDetails}
@@ -57,7 +58,7 @@ const WaterSystemDetails = () => {
         isCurrency={true}
         inputProperty="adminLegalCosts"
         label={`Admin & Legal Costs`}
-        start={285000}
+        start={state.consolidationCostParams?.adminLegalCosts}
         maxValue={1000000}
         incrementBy={100}
         inputAdornment={{ start: '$' }}
