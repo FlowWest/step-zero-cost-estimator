@@ -23,7 +23,6 @@ const Autocomplete = ({
   const selectData = dropdownOptions;
   const styles = useStyles();
   const [value, setValue] = useState('' as any);
- 
 
   useEffect(() => {
     if (!Object.keys(selectedObject).length) {
@@ -32,7 +31,7 @@ const Autocomplete = ({
   }, [selectedObject]);
 
   return (
-    <Box component="form">
+    <Box component="form" sx={{ display: 'flex !important', alignItems: 'flex-start !important' }}>
       <MUIAutocomplete
         freeSolo
         fullWidth
@@ -56,7 +55,7 @@ const Autocomplete = ({
         value={value}
         onChange={(event: React.SyntheticEvent, newValue: string | null) => {
           event.preventDefault();
-          console.log(newValue)
+          console.log(newValue);
           setValue(newValue);
           setSelectedObject(newValue);
         }}
@@ -71,11 +70,7 @@ const Autocomplete = ({
           />
         )}
         renderOption={(props, option) => {
-          return (
-            <li {...props}>
-              {option}
-            </li>
-          );
+          return <li {...props}>{option}</li>;
         }}
         renderGroup={(params) => params}
       />
