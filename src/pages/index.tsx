@@ -6,7 +6,11 @@ import Autocomplete from '../components/uiComponents/Autocomplete';
 import ContentWrapper from '../components/uiComponents/ContentWrapper';
 import CostComparisonSummary from '../components/CostComparisonSummary/CostComparisonSummary';
 import { WaterSystemContext } from '../contexts/WaterSystem';
-import { updateWaterSystem, updateConsolidationCostParams, updateWaterSystemAndParams } from '../contexts/WaterSystem/actions';
+import {
+  updateWaterSystem,
+  updateConsolidationCostParams,
+  updateWaterSystemAndParams
+} from '../contexts/WaterSystem/actions';
 import { graphql } from 'gatsby';
 import { WaterSystem } from '../util/interfaces';
 
@@ -31,26 +35,25 @@ const IndexPage: FC = (props: any) => {
   const styles = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
 
-  const allWaterSystems = props.data.allWaterSystemDetailsCsv.nodes
+  const allWaterSystems = props.data.allWaterSystemDetailsCsv.nodes;
   const dropdownOptions = props.data.allWaterSystemDetailsCsv.nodes.map(
     (waterSystem: WaterSystem) => waterSystem.joinSystemName
   );
 
-    // Approach 1: handleWaterSystemChange handling objects
-    // dispatch(updateWaterSystem(newWaterSystem))
+  // Approach 1: handleWaterSystemChange handling objects
+  // dispatch(updateWaterSystem(newWaterSystem))
 
-    // Approach 2: handlingSystemChange handling strings
-    // value -> 'Hotel 5'
-    // props.data.allWaterSystemDetailsCompleteCsv.nodes aka huge list of objects
-    // .filter(item => name == item.name)
-
+  // Approach 2: handlingSystemChange handling strings
+  // value -> 'Hotel 5'
+  // props.data.allWaterSystemDetailsCompleteCsv.nodes aka huge list of objects
+  // .filter(item => name == item.name)
 
   const handleWaterSystemChange = (value: string) => {
     // from autocomplete value will be object or string
-    
+
     let newWaterSystem;
-    const query = allWaterSystems.filter((obj: WaterSystem) => obj.joinSystemName == value)
-    
+    const query = allWaterSystems.filter((obj: WaterSystem) => obj.joinSystemName == value);
+
     if (query.length !== 0) {
       newWaterSystem = query[0];
     } else if (query.length === 0) {
@@ -60,24 +63,22 @@ const IndexPage: FC = (props: any) => {
       };
     }
 
-    dispatch(updateWaterSystemAndParams(newWaterSystem, {
-      connections: newWaterSystem.joinConnection,
-      pipelineCosts: newWaterSystem.joinPipelineCost,
-      connectionCosts: newWaterSystem.connectionFee,
-      adminLegalCosts: newWaterSystem.adminFee,
-      distance: newWaterSystem.totalDistanceFeet,
-    }))
-    
-    // dispatch(updateWaterSystem(newWaterSystem));
-    // dispatch(updateConsolidationCostParams({
-    //   connections: newWaterSystem.joinConnection,
-    //   pipelineCosts: newWaterSystem.joinPipelineCost,
-    //   connectionCosts: newWaterSystem.connectionFee,
-    //   adminLegalCosts: newWaterSystem.adminFee,
-    //   distance: newWaterSystem.totalDistanceFeet,
-    // }));
+    // format data before dispatch?
+    const convertStrToNum = (string: string) =>
+      parseInt(string.toString().substr(1).split(',').join(''));
+
+    dispatch(
+      updateWaterSystemAndParams(newWaterSystem, {
+        connections: Number(newWaterSystem.joinConnection),
+        pipelineCosts:
+          convertStrToNum(newWaterSystem.joinPipelineCost) /
+          Number(newWaterSystem.totalDistanceFeet),
+        connectionCosts: convertStrToNum(newWaterSystem.connectionFee),
+        adminLegalCosts: convertStrToNum(newWaterSystem.adminFee),
+        distance: parseInt(newWaterSystem.totalDistanceFeet)
+      })
+    );
   };
-  
 
   return (
     <Grid container spacing={2} justifyContent="center">
@@ -122,7 +123,10 @@ const IndexPage: FC = (props: any) => {
               state.currentWaterSystem?.name ? `for ${state.currentWaterSystem?.name}` : ''
             }`}
           >
-            <CostComparisonSummary selectedWaterSystem={state.currentWaterSystem} consolidationCostParams={state.consolidationCostParams}/>
+            <CostComparisonSummary
+              selectedWaterSystem={state.currentWaterSystem}
+              consolidationCostParams={state.consolidationCostParams}
+            />
           </ContentWrapper>
         </Grid>
         <Grid item xs={12} className={styles.gridItemContainer}>
@@ -193,7 +197,7 @@ export const query = graphql`
         joinConnection: J_Conn
         joinCounty: J_County
         joinElevation: Elevation_J
-        joinPipelineCost: J_Pop
+        joinPipelineCost: Pipeline_Cost
         joinSystemName: J_Sys_Name
         joinSystemPWSID: J_Sys_PWSID
         mergeType: MergeType
