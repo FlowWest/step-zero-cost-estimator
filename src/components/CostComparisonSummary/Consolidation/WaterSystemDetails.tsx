@@ -7,7 +7,7 @@ const WaterSystemDetails = () => {
   const [state, dispatch] = useContext(WaterSystemContext);
 
   const updateWaterSystemDetails = (inputProperty: string, value: any) => {
-    console.log('hit details dispatch')
+    console.log('updating global state from slider:', value);
     dispatch(
       updateConsolidationCostParams({
         [inputProperty]: value
@@ -28,7 +28,7 @@ const WaterSystemDetails = () => {
         inputProperty="connectionCosts"
         label="Connection Costs"
         start={state.consolidationCostParams?.connectionCosts}
-        maxValue={100000}
+        maxValue={35000000}
         incrementBy={1000}
         inputAdornment={{
           start: '$',
@@ -38,7 +38,7 @@ const WaterSystemDetails = () => {
       />
       <InputSlider
         minValue={0}
-        maxValue={10000}
+        maxValue={100000}
         start={state.consolidationCostParams?.distance}
         inputProperty="distance"
         label="Distance to Receiving System"
