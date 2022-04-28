@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { FC } from '../../util';
 import { Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -23,19 +23,11 @@ const CostComparisonSummary = ({
 }) => {
   const styles = useStyles();
 
-  // function that calculates total cost of consolidation
-  // getConsolidationCostDetails({
-  //   waterSystemDetails: selectedWaterSystem,
-  //   consolidationCostParams: consolidationCostParams
-  // });
-
-  // console.log(
-  //   getConsolidationCostDetails({
-  //     waterSystemDetails: selectedWaterSystem,
-  //     consolidationCostParams: consolidationCostParams
-  //   })
-  // );
-
+  // Variable that holds calculated total cost of consolidation
+  const consolidationCostDetails = getConsolidationCostDetails({
+    waterSystemDetails: selectedWaterSystem,
+    consolidationCostParams: consolidationCostParams
+  });
 
   const dummyCosts = {
     cc: 564545289,
@@ -49,7 +41,7 @@ const CostComparisonSummary = ({
           <Typography paragraph>Complete both calculators for cost comparison</Typography>
           <Typography paragraph>
             <span className={styles.totalCostLabel}>Consolidation Costs: </span>
-            {formatToUSD(dummyCosts.cc)}
+            {formatToUSD(consolidationCostDetails.total)}
           </Typography>
           <Typography paragraph>
             <span className={styles.totalCostLabel}>Capital Improvement Costs: </span>
