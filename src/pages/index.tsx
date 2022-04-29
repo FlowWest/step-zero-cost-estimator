@@ -24,13 +24,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-// const dropdownOptions = [
-//   { id: 1, name: 'Water System A', population: 110, connections: 100, distance: 3000 },
-//   { id: 2, name: 'Water System B', population: 200, connections: 200, distance: 1000 },
-//   { id: 3, name: 'Water System C', population: 0, connections: 0, distance: 2500 },
-//   { id: 4, name: 'Water System D', population: 45, connections: 50, distance: 0 }
-// ];
-
 const IndexPage: FC = (props: any) => {
   const styles = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
@@ -40,17 +33,7 @@ const IndexPage: FC = (props: any) => {
     (waterSystem: WaterSystem) => waterSystem.joinSystemName
   );
 
-  // Approach 1: handleWaterSystemChange handling objects
-  // dispatch(updateWaterSystem(newWaterSystem))
-
-  // Approach 2: handlingSystemChange handling strings
-  // value -> 'Hotel 5'
-  // props.data.allWaterSystemDetailsCompleteCsv.nodes aka huge list of objects
-  // .filter(item => name == item.name)
-
   const handleWaterSystemChange = (value: string) => {
-    // from autocomplete value will be object or string
-
     let newWaterSystem;
     const query = allWaterSystems.filter((obj: WaterSystem) => obj.joinSystemName == value);
 
@@ -63,7 +46,6 @@ const IndexPage: FC = (props: any) => {
       };
     }
 
-    // format data before dispatch?
     const convertStrToNum = (string: string) =>
       parseInt(string.toString().substr(1).split(',').join(''));
 

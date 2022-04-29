@@ -25,17 +25,16 @@ const Autocomplete = ({
   const [value, setValue] = useState('' as any);
 
   useEffect(() => {
-
-    // [1,2, 3] so length = 3
-    // !(3) = falsey
-    // [] so length = 0
-    // !(0) = truthey
-
-    if (!Object.keys(selectedObject).length) {
-      setValue('');
+    if (Object.keys(selectedObject).length > 0) {
       setValue(selectedObject?.joinSystemName);
     }
-    
+  }, []);
+
+  useEffect(() => {
+    if (!Object.keys(selectedObject).length) {
+      // setValue('');
+      setValue(selectedObject?.joinSystemName);
+    }
   }, [selectedObject]);
 
   return (
@@ -51,19 +50,9 @@ const Autocomplete = ({
         id={`${dropdownLabel}-autocomplete`}
         classes={{ paper: styles.selectItem }}
         options={selectData}
-        // getOptionLabel={(option: any) => {
-        //   // console.log('option:', option);
-        //   // Value selected with enter, right from the input
-        //   if (typeof option === 'string') {
-        //     return option;
-        //   }
-        //   // Regular option
-        //   return option.name;
-        // }}
         value={value}
         onChange={(event: React.SyntheticEvent, newValue: string | null) => {
           event.preventDefault();
-          console.log(newValue);
           setValue(newValue);
           setSelectedObject(newValue);
         }}
@@ -80,7 +69,7 @@ const Autocomplete = ({
         renderOption={(props, option) => {
           return <li {...props}>{option}</li>;
         }}
-        // renderGroup={(params) => params}
+        renderGroup={(params) => params}
       />
     </Box>
   );
