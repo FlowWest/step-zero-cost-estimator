@@ -25,13 +25,21 @@ const Autocomplete = ({
   const [value, setValue] = useState('' as any);
 
   useEffect(() => {
+
+    // [1,2, 3] so length = 3
+    // !(3) = falsey
+    // [] so length = 0
+    // !(0) = truthey
+
     if (!Object.keys(selectedObject).length) {
       setValue('');
+      setValue(selectedObject?.joinSystemName);
     }
+    
   }, [selectedObject]);
 
   return (
-    <Box component="form" sx={{ display: 'flex !important', alignItems: 'flex-start !important' }}>
+    <Box component="form">
       <MUIAutocomplete
         freeSolo
         fullWidth
@@ -72,7 +80,7 @@ const Autocomplete = ({
         renderOption={(props, option) => {
           return <li {...props}>{option}</li>;
         }}
-        renderGroup={(params) => params}
+        // renderGroup={(params) => params}
       />
     </Box>
   );
