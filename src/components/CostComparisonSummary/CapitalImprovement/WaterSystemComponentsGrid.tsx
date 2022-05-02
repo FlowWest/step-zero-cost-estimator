@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Button,
   Grid,
@@ -11,6 +11,8 @@ import {
   TableRow
 } from '@mui/material';
 import { updateConsolidationCostParams } from '../../../contexts/WaterSystem/actions';
+import { WaterSystemContext } from '../../../contexts/WaterSystem';
+import { ComponentProperties } from '../../../util/interfaces';
 const WaterSystemComponentsGrid = () => {
   //DUMMY DATA
   useEffect(() => {
@@ -23,13 +25,16 @@ const WaterSystemComponentsGrid = () => {
       .catch((error) => console.error(error.message));
   }, []);
 
+  const [state, dispatch] = useContext(WaterSystemContext);
   const [components, setComponents] = useState([]);
+  const empty: Array<any> = [];
 
   return (
     <>
       <Grid item xs={12}>
         <Button variant="contained">Add Components</Button>
       </Grid>
+
       <Grid item xs={12}>
         <Typography style={{ fontWeight: 600 }}>Existing Components</Typography>
       </Grid>
@@ -50,22 +55,19 @@ const WaterSystemComponentsGrid = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {components &&
-                components.map((component: { title: string; price: number }) => {
-                  const randomInt = Math.floor(Math.random() * 10 + 1);
-                  return (
-                    <TableRow>
-                      <TableCell>{randomInt}</TableCell>
-                      <TableCell>{component?.title}</TableCell>
-                      <TableCell>{component?.price}</TableCell>
-                      <TableCell>{component?.price * 2}</TableCell>
-                      <TableCell>{randomInt}</TableCell>
-                      <TableCell>{1123.45}</TableCell>
-                      <TableCell>{227.16}</TableCell>
-                      <TableCell>{18.93}</TableCell>
-                    </TableRow>
-                  );
-                })}
+              {state.existingComponents &&
+                state.existingComponents.map((component: ComponentProperties) => (
+                  <TableRow>
+                    <TableCell>{component?.qty}</TableCell>
+                    <TableCell>{component?.component}</TableCell>
+                    <TableCell>{component?.unitCost}</TableCell>
+                    <TableCell>{component?.installedCost}</TableCell>
+                    <TableCell>{component?.avgLife}</TableCell>
+                    <TableCell>{component?.annualReserve}</TableCell>
+                    <TableCell>{component.monthlyReserve}</TableCell>
+                    <TableCell>{component.monthlyReservePerCustomer}</TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
@@ -73,6 +75,40 @@ const WaterSystemComponentsGrid = () => {
 
       <Grid item xs={12}>
         <Typography style={{ fontWeight: 600 }}>New Components</Typography>
+      </Grid>
+
+      <Grid item xs={12}>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Qty</TableCell>
+                <TableCell>Component</TableCell>
+                <TableCell>Unit Cost</TableCell>
+                <TableCell>Installed Cost</TableCell>
+                <TableCell>Avg Life (Years)</TableCell>
+                <TableCell>Annual Reserve</TableCell>
+                <TableCell>Monthly Reserve</TableCell>
+                <TableCell>Monthly Reserve per Customer</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {state.newComponents &&
+                state.newComponents.map((component: ComponentProperties) => (
+                  <TableRow>
+                  <TableCell>{component?.qty}</TableCell>
+                  <TableCell>{component?.component}</TableCell>
+                  <TableCell>{component?.unitCost}</TableCell>
+                  <TableCell>{component?.installedCost}</TableCell>
+                  <TableCell>{component?.avgLife}</TableCell>
+                  <TableCell>{component?.annualReserve}</TableCell>
+                  <TableCell>{component.monthlyReserve}</TableCell>
+                  <TableCell>{component.monthlyReservePerCustomer}</TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Grid>
     </>
   );
