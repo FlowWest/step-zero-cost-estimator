@@ -9,7 +9,6 @@ export const updateWaterSystem = (newWaterSystem: WaterSystem) => {
 };
 
 export const updateConsolidationCostParams = (updatedParam: Object) => {
-  // console.log(updatedParam)
   return {
     type: ACTIONS.UPDATE_CONSOLIDATION_COST_PARAMS,
     payload: updatedParam

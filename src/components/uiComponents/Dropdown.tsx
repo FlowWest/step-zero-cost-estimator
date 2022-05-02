@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Dropdown = ({ dropdownLabel, dropdownPlaceholder, dropdownOptions }: DropdownProps) => {
   const selectData = dropdownOptions;
   const styles = useStyles();
-  console.log(selectData);
   const [value, setValue] = useState('' as string);
 
   const handleChange = (event: any) => {

@@ -26,7 +26,6 @@ export const reducer = (state: WaterSystemState, action: WaterSystemAction): Wat
         currentWaterSystem: action.payload
       };
     case ACTIONS.UPDATE_CONSOLIDATION_COST_PARAMS:
-      console.log('from reducer: ', action.payload);
       return {
         ...state,
         consolidationCostParams: { ...state.consolidationCostParams, ...action.payload }

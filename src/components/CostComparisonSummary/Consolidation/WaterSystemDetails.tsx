@@ -7,7 +7,6 @@ const WaterSystemDetails = () => {
   const [state, dispatch] = useContext(WaterSystemContext);
 
   const updateWaterSystemDetails = (inputProperty: string, value: any) => {
-    console.log('updating global state from slider:', value);
     dispatch(
       updateConsolidationCostParams({
         [inputProperty]: value
