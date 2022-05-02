@@ -1,7 +1,8 @@
 import React from 'react';
-import { Typography, Grid, Theme, TextField, Button } from '@mui/material';
+import { Typography, Grid, Theme, TextField, Button, Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import WaterSystemDetailsCIP from './WaterSystemDetailsCIP';
+import WaterSystemComponentsGrid from './WaterSystemComponentsGrid';
 
 const useStyles = makeStyles((theme: Theme) => ({
   cipHeader: {
@@ -26,9 +27,10 @@ function CapitalImprovementCalculator(props: any) {
         </Typography>
       </Grid>
       <WaterSystemDetailsCIP />
-      <Grid item>
-        <Button variant="contained">Add Components</Button>
+      <Grid item xs={12}>
+        <Divider />
       </Grid>
+      <WaterSystemComponentsGrid />
     </Grid>
   );
 }
