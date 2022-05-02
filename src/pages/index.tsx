@@ -6,11 +6,7 @@ import Autocomplete from '../components/uiComponents/Autocomplete';
 import ContentWrapper from '../components/uiComponents/ContentWrapper';
 import CostComparisonSummary from '../components/CostComparisonSummary/CostComparisonSummary';
 import { WaterSystemContext } from '../contexts/WaterSystem';
-import {
-  updateWaterSystem,
-  updateConsolidationCostParams,
-  updateWaterSystemAndParams
-} from '../contexts/WaterSystem/actions';
+import { updateWaterSystemAndParams } from '../contexts/WaterSystem/actions';
 import { graphql } from 'gatsby';
 import { WaterSystem } from '../util/interfaces';
 import { startCase } from 'lodash';
@@ -38,7 +34,7 @@ const IndexPage: FC = (props: any) => {
 
   const allWaterSystems = props.data.allWaterSystemDetailsCsv.nodes;
   const dropdownOptions = props.data.allWaterSystemDetailsCsv.nodes.map(
-    (waterSystem: WaterSystem) => `${waterSystem.joinSystemPWSID} - ${waterSystem.joinSystemName}`
+    (waterSystem: WaterSystem) => ` ${waterSystem.joinSystemName} (${waterSystem.joinSystemPWSID})`
   );
 
   // Approach 1: handleWaterSystemChange handling objects
@@ -53,7 +49,9 @@ const IndexPage: FC = (props: any) => {
     // from autocomplete value will be object or string
 
     let newWaterSystem;
-    const query = allWaterSystems.filter((obj: WaterSystem) => obj.joinSystemName == value);
+    const query = allWaterSystems.filter(
+      (obj: WaterSystem) => `${obj.joinSystemName} (${obj.joinSystemPWSID})` === value
+    );
 
     if (query.length !== 0) {
       newWaterSystem = query[0];
@@ -64,14 +62,12 @@ const IndexPage: FC = (props: any) => {
       };
     }
 
-    // format data before dispatch?
-    const convertStrToNum = (string: string) =>
-      parseInt(string.toString().substr(1).split(',').join(''));
+    const { connections, distance } = state.consolidationCostParams;
 
     dispatch(
       updateWaterSystemAndParams(newWaterSystem, {
-        connections: Number(newWaterSystem.joinConnections),
-        distance: parseInt(newWaterSystem.distanceFt)
+        connections: Number(newWaterSystem.joinConnections) || connections,
+        distance: parseInt(newWaterSystem.distanceFt) || distance
       })
     );
   };
@@ -116,9 +112,7 @@ const IndexPage: FC = (props: any) => {
         <Grid item xs={12} className={styles.gridItemContainer}>
           <ContentWrapper
             title={`Cost Comparison Summary ${
-              state.currentWaterSystem?.joinSystemName
-                ? `for ${state.currentWaterSystem?.joinSystemName}`
-                : ''
+              state.currentWaterSystem?.name ? `for ${state.currentWaterSystem?.name}` : ''
             }`}
           >
             <CostComparisonSummary

@@ -26,16 +26,9 @@ const Autocomplete = ({
 
   useEffect(() => {
     if (Object.keys(selectedObject).length > 0) {
-      setValue(selectedObject?.joinSystemName);
+      setValue(`${selectedObject?.joinSystemName} (${selectedObject?.joinSystemPWSID})`);
     }
   }, []);
-
-  useEffect(() => {
-    if (!Object.keys(selectedObject).length) {
-      // setValue('');
-      setValue(selectedObject?.joinSystemName);
-    }
-  }, [selectedObject]);
 
   return (
     <Box component="form">

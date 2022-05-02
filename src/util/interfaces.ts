@@ -9,7 +9,7 @@ export interface AutocompleteProps {
   dropdownLabel: string;
   dropdownPlaceholder: string;
   dropdownOptions: Array<Object>;
-  selectedObject: { joinSystemName: string };
+  selectedObject: { joinSystemName: string; joinSystemPWSID: string };
   setSelectedObject: any;
 }
 
