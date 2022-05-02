@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Typography, Grid, Theme, TextField, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { WaterSystemContext } from '../../../contexts/WaterSystem';
 
 const useStyles = makeStyles((theme: Theme) => ({
   cipHeader: {
@@ -23,6 +24,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const WaterSystemDetailsCIP = () => {
   const classes = useStyles();
+  const [state, dispatch] = useContext(WaterSystemContext);
+
   return (
     <Grid item xs={12}>
       <Grid container spacing={2} className={classes.waterSystemDetailsWrapper}>
@@ -36,7 +39,7 @@ const WaterSystemDetailsCIP = () => {
             InputLabelProps={{
               shrink: true
             }}
-            defaultValue="Water System A"
+            defaultValue={`${state.currentWaterSystem.joinSystemName}`}
             disabled
           />
         </Grid>
@@ -47,7 +50,11 @@ const WaterSystemDetailsCIP = () => {
             InputLabelProps={{
               shrink: true
             }}
-            defaultValue="CA345643"
+            defaultValue={
+              state.currentWaterSystem.joinSystemPWSID
+                ? `${state.currentWaterSystem.joinSystemPWSID}`
+                : 'N/A'
+            }
             disabled
           />
         </Grid>
