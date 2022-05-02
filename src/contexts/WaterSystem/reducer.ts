@@ -35,7 +35,10 @@ export const reducer = (state: WaterSystemState, action: WaterSystemAction): Wat
       return {
         ...state,
         currentWaterSystem: action.payload.newWaterSystem,
-        consolidationCostParams: action.payload.updatedParam
+        consolidationCostParams: {
+          ...state.consolidationCostParams,
+          ...action.payload.updatedParams
+        }
       };
     default:
       return state;

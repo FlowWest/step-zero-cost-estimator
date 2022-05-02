@@ -16,9 +16,9 @@ export const updateConsolidationCostParams = (updatedParam: Object) => {
   };
 };
 
-export const updateWaterSystemAndParams = (newWaterSystem: WaterSystem, updatedParam: Object) => {
+export const updateWaterSystemAndParams = (newWaterSystem: WaterSystem, updatedParams: Object) => {
   return {
     type: ACTIONS.UPDATE_WATER_SYSTEM_AND_PARAMS,
-    payload: {newWaterSystem: newWaterSystem, updatedParam: updatedParam}
+    payload: { newWaterSystem, updatedParams }
   };
 };

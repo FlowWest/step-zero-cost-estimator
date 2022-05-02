@@ -38,7 +38,7 @@ const WaterSystemDetails = () => {
       />
       <InputSlider
         minValue={0}
-        maxValue={100000}
+        maxValue={25000}
         start={state.consolidationCostParams?.distance}
         inputProperty="distance"
         label="Distance to Receiving System"
@@ -69,7 +69,7 @@ const WaterSystemDetails = () => {
         label="Contingency"
         minValue={-100}
         maxValue={100}
-        start={20}
+        start={state.consolidationCostParams?.contingency}
         incrementBy={5}
         inputAdornment={{ end: '%' }}
         tooltipText="Contingency value may range from -100% to 100%. Negative values can be used to help account for financial assistance such as loans, grants, subsidies, etc"

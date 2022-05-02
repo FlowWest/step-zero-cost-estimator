@@ -38,7 +38,7 @@ const IndexPage: FC = (props: any) => {
 
   const allWaterSystems = props.data.allWaterSystemDetailsCsv.nodes;
   const dropdownOptions = props.data.allWaterSystemDetailsCsv.nodes.map(
-    (waterSystem: WaterSystem) => waterSystem.joinSystemName //startCase(waterSystem.joinSystemName)
+    (waterSystem: WaterSystem) => `${waterSystem.joinSystemPWSID} - ${waterSystem.joinSystemName}`
   );
 
   // Approach 1: handleWaterSystemChange handling objects
@@ -70,13 +70,8 @@ const IndexPage: FC = (props: any) => {
 
     dispatch(
       updateWaterSystemAndParams(newWaterSystem, {
-        connections: Number(newWaterSystem.joinConnection),
-        pipelineCosts:
-          convertStrToNum(newWaterSystem.joinPipelineCost) /
-          Number(newWaterSystem.totalDistanceFeet),
-        connectionCosts: convertStrToNum(newWaterSystem.connectionFee),
-        adminLegalCosts: convertStrToNum(newWaterSystem.adminFee),
-        distance: parseInt(newWaterSystem.totalDistanceFeet)
+        connections: Number(newWaterSystem.joinConnections),
+        distance: parseInt(newWaterSystem.distanceFt)
       })
     );
   };
@@ -188,34 +183,29 @@ const IndexPage: FC = (props: any) => {
 };
 export default IndexPage;
 
-//Original Water_Systems_Details moved to static/water_system_details.csv
-
 export const query = graphql`
   query MyQuery {
     allWaterSystemDetailsCsv {
       nodes {
-        connectionId: id
-        totalDistanceFeet: TtlDistance_ft
-        joinClassNew: J_Class_New
-        joinConnection: J_Conn
-        joinCounty: J_County
-        joinElevation: Elevation_J
-        joinPipelineCost: Pipeline_Cost
-        joinSystemName: J_Sys_Name
-        joinSystemPWSID: J_Sys_PWSID
-        mergeType: MergeType
-        receivingCounty: R_County
-        receivingElevation: Elevation_R
-        receivingSystemName: R_Sys_Name
-        receivingSystemPWSID: R_Sys_PWSID
-        receivingType: R_Type
-        routeElevationMax: Route_Elev_Max
-        routeElevationMean: Route_Elev_Mean
-        routeElevationMin: Route_Elev_Min
-        routeElevationRange: Route_Elev_Range
-        routeName: Route_Name
-        connectionFee: Conn_Fee
-        adminFee: Admin_Legal_CEQA
+        distanceFt: distance_feet
+        joinClassNew: j_class_new
+        joinConnections: j_conn
+        joinCounty: j_county
+        joinElevation: elevation_j
+        joinPopulation: j_pop
+        joinSystemName: j_sys_name
+        joinSystemPWSID: j_sys_pwsid
+        mergeType: merge_type
+        receivingCounty: r_county
+        receivingElevation: elevation_r
+        receivingSystemName: r_sys_name
+        receivingSystemPassword: r_sys_pwsid
+        receivingType: r_type
+        routeElevationMax: route_elev_max
+        routeElevationMean: route_elev_mean
+        routeElevationMin: route_elev_min
+        routeElevationRange: route_elev_range
+        routeName: route_name
       }
     }
   }
