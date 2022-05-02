@@ -13,6 +13,7 @@ import {
 } from '../contexts/WaterSystem/actions';
 import { graphql } from 'gatsby';
 import { WaterSystem } from '../util/interfaces';
+import { startCase } from 'lodash';
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
@@ -24,16 +25,33 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
+// const dropdownOptions = [
+//   { id: 1, name: 'Water System A', population: 110, connections: 100, distance: 3000 },
+//   { id: 2, name: 'Water System B', population: 200, connections: 200, distance: 1000 },
+//   { id: 3, name: 'Water System C', population: 0, connections: 0, distance: 2500 },
+//   { id: 4, name: 'Water System D', population: 45, connections: 50, distance: 0 }
+// ];
+
 const IndexPage: FC = (props: any) => {
   const styles = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
 
   const allWaterSystems = props.data.allWaterSystemDetailsCsv.nodes;
   const dropdownOptions = props.data.allWaterSystemDetailsCsv.nodes.map(
-    (waterSystem: WaterSystem) => waterSystem.joinSystemName
+    (waterSystem: WaterSystem) => waterSystem.joinSystemName //startCase(waterSystem.joinSystemName)
   );
 
+  // Approach 1: handleWaterSystemChange handling objects
+  // dispatch(updateWaterSystem(newWaterSystem))
+
+  // Approach 2: handlingSystemChange handling strings
+  // value -> 'Hotel 5'
+  // props.data.allWaterSystemDetailsCompleteCsv.nodes aka huge list of objects
+  // .filter(item => name == item.name)
+
   const handleWaterSystemChange = (value: string) => {
+    // from autocomplete value will be object or string
+
     let newWaterSystem;
     const query = allWaterSystems.filter((obj: WaterSystem) => obj.joinSystemName == value);
 
@@ -46,6 +64,7 @@ const IndexPage: FC = (props: any) => {
       };
     }
 
+    // format data before dispatch?
     const convertStrToNum = (string: string) =>
       parseInt(string.toString().substr(1).split(',').join(''));
 
@@ -102,7 +121,9 @@ const IndexPage: FC = (props: any) => {
         <Grid item xs={12} className={styles.gridItemContainer}>
           <ContentWrapper
             title={`Cost Comparison Summary ${
-              state.currentWaterSystem?.name ? `for ${state.currentWaterSystem?.name}` : ''
+              state.currentWaterSystem?.joinSystemName
+                ? `for ${state.currentWaterSystem?.joinSystemName}`
+                : ''
             }`}
           >
             <CostComparisonSummary
