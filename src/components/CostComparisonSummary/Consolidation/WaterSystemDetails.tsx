@@ -28,7 +28,7 @@ const WaterSystemDetails = () => {
         inputProperty="connectionCosts"
         label="Connection Costs"
         start={state.consolidationCostParams?.connectionCosts}
-        maxValue={35000000}
+        maxValue={10000}
         incrementBy={1000}
         inputAdornment={{
           start: '$',
