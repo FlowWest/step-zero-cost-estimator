@@ -24,15 +24,16 @@ const WaterSystemDetails = () => {
       />
       <InputSlider
         isCurrency={true}
-        inputProperty="connectionCosts"
-        label="Connection Costs"
-        start={state.consolidationCostParams?.connectionCosts}
+        inputProperty="connectionFees"
+        label="Connection Fees"
+        start={state.consolidationCostParams?.connectionFees}
         maxValue={10000}
         incrementBy={1000}
         inputAdornment={{
           start: '$',
           end: 'per connection'
         }}
+        tooltipText="Fees charged by the receiving water system for each new connection"
         updateState={updateWaterSystemDetails}
       />
       <InputSlider

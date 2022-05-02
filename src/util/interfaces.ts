@@ -14,8 +14,10 @@ export interface AutocompleteProps {
 }
 
 export interface ConsolidationCostParams {
+  connections: number;
+  connectionFees: number;
+  distance: number;
   pipelineCosts: number;
-  connectionCosts: number;
   adminLegalCosts: number;
   contingency: number;
 }
@@ -47,30 +49,27 @@ export interface ConsolidationCostDetails {
     totalContingency: number;
   };
   total: number;
-  costPerConnection: number;
+  totalCostPerConnection: number;
 }
 
 export interface WaterSystem {
-  totalDistanceFeet: string;
-  connectionId: string;
+  distanceFt: string;
   joinClassNew: string;
-  joinConnection: string;
+  joinConnections: string;
   joinCounty: string;
   joinElevation: string;
-  joinPipelineCost: string;
+  joinPopulation: string;
   joinSystemName: string;
   joinSystemPWSID: string;
   mergeType: string;
-  receivingElevation: string;
-  receivingType: string;
   receivingCounty: string;
+  receivingElevation: string;
   receivingSystemName: string;
-  receivingSystemPWSID: string;
+  receivingSystemPassword: string;
+  receivingType: string;
   routeElevationMax: string;
   routeElevationMean: string;
   routeElevationMin: string;
   routeElevationRange: string;
   routeName: string;
-  connectionFee: string;
-  adminFee: string;
 }
