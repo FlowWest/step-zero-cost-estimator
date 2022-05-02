@@ -74,3 +74,14 @@ export interface WaterSystem {
   connectionFee: string;
   adminFee: string;
 }
+
+export interface ComponentProperties {
+  qty: number,
+  component: string;
+  unitCost: number;
+  installedCost: number;
+  avgLife: number;
+  annualReserve: number;
+  monthlyReserve: number;
+  monthlyReservePerCustomer: number;
+}
