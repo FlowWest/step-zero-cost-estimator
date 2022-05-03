@@ -10,6 +10,7 @@ import {
   tooltipClasses
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { EventAvailableRounded } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -60,7 +61,12 @@ const InputSlider = ({
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value === '' ? '' : event.target.value);
+    const withoutCommas = event.target.value.replace(/,/g, '');
+    if (Number(withoutCommas)) {
+      setValue(Number(withoutCommas));
+    } else if (event.target.value === '') {
+      setValue(0);
+    }
   };
 
   const handleBlur = () => {
@@ -108,6 +114,7 @@ const InputSlider = ({
               max: maxValue,
               'aria-labelledby': 'input-slider',
               pattern: '[0-9,]*'
+              // type: 'number'
             }}
             InputProps={{
               startAdornment: (
