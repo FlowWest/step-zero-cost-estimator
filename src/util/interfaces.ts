@@ -9,20 +9,15 @@ export interface AutocompleteProps {
   dropdownLabel: string;
   dropdownPlaceholder: string;
   dropdownOptions: Array<Object>;
-  selectedObject: Object;
+  selectedObject: { joinSystemName: string; joinSystemPWSID: string };
   setSelectedObject: any;
 }
 
-export interface WaterSystem {
-  name?: string | null;
-  id?: number;
-  connections?: number;
-  distance?: number;
-}
-
 export interface ConsolidationCostParams {
+  connections: number;
+  connectionFees: number;
+  distance: number;
   pipelineCosts: number;
-  connectionCosts: number;
   adminLegalCosts: number;
   contingency: number;
 }
@@ -54,5 +49,27 @@ export interface ConsolidationCostDetails {
     totalContingency: number;
   };
   total: number;
-  costPerConnection: number;
+  totalCostPerConnection: number;
+}
+
+export interface WaterSystem {
+  distanceFt: string;
+  joinClassNew: string;
+  joinConnections: string;
+  joinCounty: string;
+  joinElevation: string;
+  joinPopulation: string;
+  joinSystemName: string;
+  joinSystemPWSID: string;
+  mergeType: string;
+  receivingCounty: string;
+  receivingElevation: string;
+  receivingSystemName: string;
+  receivingSystemPassword: string;
+  receivingType: string;
+  routeElevationMax: string;
+  routeElevationMean: string;
+  routeElevationMin: string;
+  routeElevationRange: string;
+  routeName: string;
 }

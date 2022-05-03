@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Button, Grid, Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { FC } from '../util';
@@ -6,7 +6,9 @@ import Autocomplete from '../components/uiComponents/Autocomplete';
 import ContentWrapper from '../components/uiComponents/ContentWrapper';
 import CostComparisonSummary from '../components/CostComparisonSummary/CostComparisonSummary';
 import { WaterSystemContext } from '../contexts/WaterSystem';
-import { updateWaterSystem } from '../contexts/WaterSystem/actions';
+import { updateWaterSystemAndParams } from '../contexts/WaterSystem/actions';
+import { graphql } from 'gatsby';
+import { WaterSystem } from '../util/interfaces';
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
@@ -18,29 +20,38 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const dropdownOptions = [
-  { id: 1, name: 'Water System A', population: 110, connections: 100, distance: 3000 },
-  { id: 2, name: 'Water System B', population: 200, connections: 200, distance: 1000 },
-  { id: 3, name: 'Water System C', population: 0, connections: 0, distance: 2500 },
-  { id: 4, name: 'Water System D', population: 45, connections: 50, distance: 0 }
-];
-
-const IndexPage: FC = () => {
+const IndexPage: FC = (props: any) => {
   const styles = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
 
-  const handleWaterSystemChange = (value: any) => {
-    // from autocomplete value will be object or string
+  const allWaterSystems = props.data.allWaterSystemDetailsCsv.nodes;
+  const dropdownOptions = props.data.allWaterSystemDetailsCsv.nodes.map(
+    (waterSystem: WaterSystem) => `${waterSystem.joinSystemName} (${waterSystem.joinSystemPWSID})`
+  );
+
+  const handleWaterSystemChange = (value: string) => {
     let newWaterSystem;
-    if (value?.constructor === Object) {
-      newWaterSystem = value;
-    } else if (typeof value === 'string') {
+    const query = allWaterSystems.filter(
+      (obj: WaterSystem) => `${obj.joinSystemName} (${obj.joinSystemPWSID})`.trim() === value.trim()
+    );
+
+    if (query.length !== 0) {
+      newWaterSystem = query[0];
+    } else if (query.length === 0) {
       newWaterSystem = {
         name: value,
         id: null
       };
     }
-    dispatch(updateWaterSystem(newWaterSystem));
+
+    const { connections, distance } = state.consolidationCostParams;
+
+    dispatch(
+      updateWaterSystemAndParams(newWaterSystem, {
+        connections: Number(newWaterSystem.joinConnections) || connections,
+        distance: parseInt(newWaterSystem.distanceFt) || distance
+      })
+    );
   };
 
   return (
@@ -86,7 +97,10 @@ const IndexPage: FC = () => {
               state.currentWaterSystem?.name ? `for ${state.currentWaterSystem?.name}` : ''
             }`}
           >
-            <CostComparisonSummary selectedWaterSystem={state.currentWaterSystem} />
+            <CostComparisonSummary
+              selectedWaterSystem={state.currentWaterSystem}
+              consolidationCostParams={state.consolidationCostParams}
+            />
           </ContentWrapper>
         </Grid>
         <Grid item xs={12} className={styles.gridItemContainer}>
@@ -143,5 +157,32 @@ const IndexPage: FC = () => {
     </Grid>
   );
 };
-
 export default IndexPage;
+
+export const query = graphql`
+  query MyQuery {
+    allWaterSystemDetailsCsv {
+      nodes {
+        distanceFt: distance_feet
+        joinClassNew: j_class_new
+        joinConnections: j_conn
+        joinCounty: j_county
+        joinElevation: elevation_j
+        joinPopulation: j_pop
+        joinSystemName: j_sys_name
+        joinSystemPWSID: j_sys_pwsid
+        mergeType: merge_type
+        receivingCounty: r_county
+        receivingElevation: elevation_r
+        receivingSystemName: r_sys_name
+        receivingSystemPassword: r_sys_pwsid
+        receivingType: r_type
+        routeElevationMax: route_elev_max
+        routeElevationMean: route_elev_mean
+        routeElevationMin: route_elev_min
+        routeElevationRange: route_elev_range
+        routeName: route_name
+      }
+    }
+  }
+`;

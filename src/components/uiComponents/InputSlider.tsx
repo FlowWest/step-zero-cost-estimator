@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  InputAdornment,
-  Box,
-  Grid,
-  Slider,
-  TextField,
-  Tooltip,
-  Theme,
-  tooltipClasses
-} from '@mui/material';
+import { InputAdornment, Box, Grid, Slider, TextField, Tooltip, Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -60,7 +51,12 @@ const InputSlider = ({
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value === '' ? '' : Number(event.target.value));
+    const withoutCommas = event.target.value.replace(/,/g, '');
+    if (Number(withoutCommas)) {
+      setValue(Number(withoutCommas));
+    } else if (event.target.value === '') {
+      setValue(0);
+    }
   };
 
   const handleBlur = () => {
@@ -117,7 +113,7 @@ const InputSlider = ({
             }}
           />
           <Slider
-            value={typeof value === 'number' ? value : 0}
+            value={typeof value === 'number' ? value : Number(value)}
             onChange={handleSliderChange}
             aria-labelledby="input-slider"
             min={minValue}

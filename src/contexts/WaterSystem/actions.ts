@@ -14,3 +14,10 @@ export const updateConsolidationCostParams = (updatedParam: Object) => {
     payload: updatedParam
   };
 };
+
+export const updateWaterSystemAndParams = (newWaterSystem: WaterSystem, updatedParams: Object) => {
+  return {
+    type: ACTIONS.UPDATE_WATER_SYSTEM_AND_PARAMS,
+    payload: { newWaterSystem, updatedParams }
+  };
+};

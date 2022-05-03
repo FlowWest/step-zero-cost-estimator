@@ -1,10 +1,10 @@
 import React from 'react';
-import { FC } from '../../util';
 import { Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import CostComparisonWrapper from './CostComparisonWrapper';
 import { WaterSystem } from '../../util/interfaces';
 import { formatToUSD } from '../../util/util';
+import { getConsolidationCostDetails } from '../../util/consolidationUtil';
 
 const useStyles = makeStyles((theme: Theme) => ({
   totalCostLabel: {
@@ -12,12 +12,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const CostComparisonSummary = ({ selectedWaterSystem }: { selectedWaterSystem: WaterSystem }) => {
+const CostComparisonSummary = ({
+  selectedWaterSystem,
+  consolidationCostParams
+}: {
+  selectedWaterSystem: WaterSystem;
+  consolidationCostParams: any;
+}) => {
   const styles = useStyles();
-  const dummyCosts = {
-    cc: 564545289,
-    cip: 4453454335
-  };
+
+  // Variable that holds calculated total cost of consolidation
+  const consolidationCostDetails = getConsolidationCostDetails({
+    waterSystemDetails: selectedWaterSystem,
+    consolidationCostParams: consolidationCostParams
+  });
 
   return (
     <>
@@ -26,11 +34,11 @@ const CostComparisonSummary = ({ selectedWaterSystem }: { selectedWaterSystem: W
           <Typography paragraph>Complete both calculators for cost comparison</Typography>
           <Typography paragraph>
             <span className={styles.totalCostLabel}>Consolidation Costs: </span>
-            {formatToUSD(dummyCosts.cc)}
+            {formatToUSD(consolidationCostDetails.total)}
           </Typography>
           <Typography paragraph>
             <span className={styles.totalCostLabel}>Capital Improvement Costs: </span>
-            {formatToUSD(dummyCosts.cip)}
+            {formatToUSD(4000000)}
           </Typography>
           <CostComparisonWrapper />
         </div>

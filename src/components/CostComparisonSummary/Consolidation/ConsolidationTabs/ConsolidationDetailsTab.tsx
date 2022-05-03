@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const ConsolidationDetailsTab = ({ chartData }: { chartData: ConsolidationCostDetails }) => {
   const { materialCosts, adminFees, financialAssistance, adjustments, total } = chartData;
-  console.log(chartData);
 
   const [detailOpen1, setDetailOpen1] = useState(false);
   const [detailOpen2, setDetailOpen2] = useState(false);
