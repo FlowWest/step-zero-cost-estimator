@@ -9,12 +9,12 @@ export const ACTIONS = {
 export const initialState = {
   currentWaterSystem: {},
   consolidationCostParams: {
-    connections: '100',
-    pipelineCosts: '155',
-    connectionCosts: '6600',
-    adminLegalCosts: '285000',
-    contingency: '20',
-    distance: '1000'
+    connections: 100,
+    pipelineCosts: 155,
+    connectionFees: 6600,
+    adminLegalCosts: 285000,
+    contingency: 20,
+    distance: 1000
   },
   existingComponents: [
     {
