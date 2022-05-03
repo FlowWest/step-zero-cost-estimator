@@ -1,16 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-  InputAdornment,
-  Box,
-  Grid,
-  Slider,
-  TextField,
-  Tooltip,
-  Theme,
-  tooltipClasses
-} from '@mui/material';
+import { InputAdornment, Box, Grid, Slider, TextField, Tooltip, Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { EventAvailableRounded } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
