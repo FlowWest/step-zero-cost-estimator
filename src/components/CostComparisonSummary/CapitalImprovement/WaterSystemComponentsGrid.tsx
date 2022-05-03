@@ -2,17 +2,20 @@ import React, { useState, useEffect, useContext } from 'react';
 import {
   Button,
   Grid,
+  Box,
   Typography,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  Modal
 } from '@mui/material';
 import { updateConsolidationCostParams } from '../../../contexts/WaterSystem/actions';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import { ComponentProperties } from '../../../util/interfaces';
+
 const WaterSystemComponentsGrid = () => {
   //DUMMY DATA
   useEffect(() => {
@@ -31,10 +34,6 @@ const WaterSystemComponentsGrid = () => {
 
   return (
     <>
-      <Grid item xs={12}>
-        <Button variant="contained">Add Components</Button>
-      </Grid>
-
       <Grid item xs={12}>
         <Typography style={{ fontWeight: 600 }}>Existing Components</Typography>
       </Grid>
@@ -96,14 +95,14 @@ const WaterSystemComponentsGrid = () => {
               {state.newComponents &&
                 state.newComponents.map((component: ComponentProperties) => (
                   <TableRow>
-                  <TableCell>{component?.qty}</TableCell>
-                  <TableCell>{component?.component}</TableCell>
-                  <TableCell>{component?.unitCost}</TableCell>
-                  <TableCell>{component?.installedCost}</TableCell>
-                  <TableCell>{component?.avgLife}</TableCell>
-                  <TableCell>{component?.annualReserve}</TableCell>
-                  <TableCell>{component.monthlyReserve}</TableCell>
-                  <TableCell>{component.monthlyReservePerCustomer}</TableCell>
+                    <TableCell>{component?.qty}</TableCell>
+                    <TableCell>{component?.component}</TableCell>
+                    <TableCell>{component?.unitCost}</TableCell>
+                    <TableCell>{component?.installedCost}</TableCell>
+                    <TableCell>{component?.avgLife}</TableCell>
+                    <TableCell>{component?.annualReserve}</TableCell>
+                    <TableCell>{component.monthlyReserve}</TableCell>
+                    <TableCell>{component.monthlyReservePerCustomer}</TableCell>
                   </TableRow>
                 ))}
             </TableBody>

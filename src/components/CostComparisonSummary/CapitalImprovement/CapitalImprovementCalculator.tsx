@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Typography, Grid, Theme, TextField, Button, Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import WaterSystemDetailsCIP from './WaterSystemDetailsCIP';
 import WaterSystemComponentsGrid from './WaterSystemComponentsGrid';
+import AddComponentsModal from './AddComponentsModal';
 
 const useStyles = makeStyles((theme: Theme) => ({
   cipHeader: {
@@ -12,6 +13,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 function CapitalImprovementCalculator(props: any) {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <Grid
       container
@@ -29,8 +34,16 @@ function CapitalImprovementCalculator(props: any) {
       <WaterSystemDetailsCIP />
       <Grid item xs={12}>
         <Divider />
+        <br />
+      <AddComponentsModal open={open} handleOpen={handleOpen} handleClose={handleClose} />
+        <Grid item xs={12}>
+          <Button variant="contained" onClick={handleOpen}>
+            Add Components
+          </Button>
+        </Grid>
+        <br />
+        <WaterSystemComponentsGrid />
       </Grid>
-      <WaterSystemComponentsGrid />
     </Grid>
   );
 }
