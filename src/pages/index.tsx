@@ -9,7 +9,6 @@ import { WaterSystemContext } from '../contexts/WaterSystem';
 import { updateWaterSystemAndParams } from '../contexts/WaterSystem/actions';
 import { graphql } from 'gatsby';
 import { WaterSystem } from '../util/interfaces';
-import { startCase } from 'lodash';
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
