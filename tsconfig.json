@@ -4,7 +4,7 @@
     "module": "commonjs",
     "lib": ["dom", "esnext"],
     "noImplicitAny": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "sourceMap": true,
     "removeComments": true,
     "noEmit": true,

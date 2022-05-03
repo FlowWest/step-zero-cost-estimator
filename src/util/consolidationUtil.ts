@@ -4,22 +4,8 @@ export const getConsolidationCostDetails = ({
   waterSystemDetails,
   consolidationCostParams
 }: any) => {
-  // const { connections, connectionCosts, distance, pipelineCosts, adminLegalCosts, contingency } =
-  //   consolidationCostParams;
-  // connections = Number(connections)
-
-  const convertStrToNum = (string: string) =>
-    parseFloat(string.toString().substr(1).split(',').join(''));
-
-  console.log('test ', consolidationCostParams.connectionCosts);
-  // console.log(parseFloat('$148,326.00'.replace(/\$|,/g, '')))
-  // console.log(typeof parseFloat('$148,326.00'.replace(/\$|,/g, '')))
-  const connections = Number(consolidationCostParams.connections);
-  const connectionCosts = convertStrToNum(consolidationCostParams.connectionCosts as string);
-  const distance = Number(consolidationCostParams.distance);
-  const pipelineCosts = Number(consolidationCostParams.pipelineCosts);
-  const adminLegalCosts = convertStrToNum(consolidationCostParams.adminLegalCosts as string);
-  const contingency = Number(consolidationCostParams.connections);
+  const { connections, connectionFees, distance, pipelineCosts, adminLegalCosts, contingency } =
+    consolidationCostParams;
 
   // if connections > 0, use connections, else use 8
   const calcConnections = connections || 8;
@@ -31,7 +17,7 @@ export const getConsolidationCostDetails = ({
   // total distance always += 1000 because of buffer
   // so if total distance = 1000 (distance = 0), indicates intersecting system
   const totalServiceFee = distance === 0 ? 5000 : 0;
-  const totalConnectionCosts = connectionCosts * calcConnections;
+  const totalConnectionCosts = connectionFees * calcConnections;
   const totalMaterialCosts = totalPipelineCosts + totalServiceFee + totalConnectionCosts;
 
   const totalAdminFees = adminLegalCosts;
@@ -42,7 +28,7 @@ export const getConsolidationCostDetails = ({
   const totalAdjustments = totalContingency;
 
   const total = subtotal + totalAdjustments;
-  const costPerConnection = total / calcConnections / 12;
+  const totalCostPerConnection = total / calcConnections;
 
   const costBreakdown = {
     materialCosts: {
@@ -61,7 +47,7 @@ export const getConsolidationCostDetails = ({
       totalContingency
     },
     total,
-    costPerConnection
+    totalCostPerConnection
   } as ConsolidationCostDetails;
 
   return costBreakdown;

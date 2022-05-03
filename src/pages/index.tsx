@@ -6,7 +6,7 @@ import Autocomplete from '../components/uiComponents/Autocomplete';
 import ContentWrapper from '../components/uiComponents/ContentWrapper';
 import CostComparisonSummary from '../components/CostComparisonSummary/CostComparisonSummary';
 import { WaterSystemContext } from '../contexts/WaterSystem';
-import { updateWaterSystem, updateConsolidationCostParams, updateWaterSystemAndParams } from '../contexts/WaterSystem/actions';
+import { updateWaterSystemAndParams } from '../contexts/WaterSystem/actions';
 import { graphql } from 'gatsby';
 import { WaterSystem } from '../util/interfaces';
 
@@ -20,37 +20,21 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-// const dropdownOptions = [
-//   { id: 1, name: 'Water System A', population: 110, connections: 100, distance: 3000 },
-//   { id: 2, name: 'Water System B', population: 200, connections: 200, distance: 1000 },
-//   { id: 3, name: 'Water System C', population: 0, connections: 0, distance: 2500 },
-//   { id: 4, name: 'Water System D', population: 45, connections: 50, distance: 0 }
-// ];
-
 const IndexPage: FC = (props: any) => {
   const styles = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
 
-  const allWaterSystems = props.data.allWaterSystemDetailsCsv.nodes
+  const allWaterSystems = props.data.allWaterSystemDetailsCsv.nodes;
   const dropdownOptions = props.data.allWaterSystemDetailsCsv.nodes.map(
-    (waterSystem: WaterSystem) => waterSystem.joinSystemName
+    (waterSystem: WaterSystem) => `${waterSystem.joinSystemName} (${waterSystem.joinSystemPWSID})`
   );
 
-    // Approach 1: handleWaterSystemChange handling objects
-    // dispatch(updateWaterSystem(newWaterSystem))
-
-    // Approach 2: handlingSystemChange handling strings
-    // value -> 'Hotel 5'
-    // props.data.allWaterSystemDetailsCompleteCsv.nodes aka huge list of objects
-    // .filter(item => name == item.name)
-
-
   const handleWaterSystemChange = (value: string) => {
-    // from autocomplete value will be object or string
-    
     let newWaterSystem;
-    const query = allWaterSystems.filter((obj: WaterSystem) => obj.joinSystemName == value)
-    
+    const query = allWaterSystems.filter(
+      (obj: WaterSystem) => `${obj.joinSystemName} (${obj.joinSystemPWSID})`.trim() === value.trim()
+    );
+
     if (query.length !== 0) {
       newWaterSystem = query[0];
     } else if (query.length === 0) {
@@ -60,24 +44,15 @@ const IndexPage: FC = (props: any) => {
       };
     }
 
-    dispatch(updateWaterSystemAndParams(newWaterSystem, {
-      connections: newWaterSystem.joinConnection,
-      pipelineCosts: newWaterSystem.joinPipelineCost,
-      connectionCosts: newWaterSystem.connectionFee,
-      adminLegalCosts: newWaterSystem.adminFee,
-      distance: newWaterSystem.totalDistanceFeet,
-    }))
-    
-    // dispatch(updateWaterSystem(newWaterSystem));
-    // dispatch(updateConsolidationCostParams({
-    //   connections: newWaterSystem.joinConnection,
-    //   pipelineCosts: newWaterSystem.joinPipelineCost,
-    //   connectionCosts: newWaterSystem.connectionFee,
-    //   adminLegalCosts: newWaterSystem.adminFee,
-    //   distance: newWaterSystem.totalDistanceFeet,
-    // }));
+    const { connections, distance } = state.consolidationCostParams;
+
+    dispatch(
+      updateWaterSystemAndParams(newWaterSystem, {
+        connections: Number(newWaterSystem.joinConnections) || connections,
+        distance: parseInt(newWaterSystem.distanceFt) || distance
+      })
+    );
   };
-  
 
   return (
     <Grid container spacing={2} justifyContent="center">
@@ -122,7 +97,10 @@ const IndexPage: FC = (props: any) => {
               state.currentWaterSystem?.name ? `for ${state.currentWaterSystem?.name}` : ''
             }`}
           >
-            <CostComparisonSummary selectedWaterSystem={state.currentWaterSystem} consolidationCostParams={state.consolidationCostParams}/>
+            <CostComparisonSummary
+              selectedWaterSystem={state.currentWaterSystem}
+              consolidationCostParams={state.consolidationCostParams}
+            />
           </ContentWrapper>
         </Grid>
         <Grid item xs={12} className={styles.gridItemContainer}>
@@ -181,34 +159,29 @@ const IndexPage: FC = (props: any) => {
 };
 export default IndexPage;
 
-//Original Water_Systems_Details moved to static/water_system_details.csv
-
 export const query = graphql`
   query MyQuery {
     allWaterSystemDetailsCsv {
       nodes {
-        connectionId: id
-        totalDistanceFeet: TtlDistance_ft
-        joinClassNew: J_Class_New
-        joinConnection: J_Conn
-        joinCounty: J_County
-        joinElevation: Elevation_J
-        joinPipelineCost: J_Pop
-        joinSystemName: J_Sys_Name
-        joinSystemPWSID: J_Sys_PWSID
-        mergeType: MergeType
-        receivingCounty: R_County
-        receivingElevation: Elevation_R
-        receivingSystemName: R_Sys_Name
-        receivingSystemPWSID: R_Sys_PWSID
-        receivingType: R_Type
-        routeElevationMax: Route_Elev_Max
-        routeElevationMean: Route_Elev_Mean
-        routeElevationMin: Route_Elev_Min
-        routeElevationRange: Route_Elev_Range
-        routeName: Route_Name
-        connectionFee: Conn_Fee
-        adminFee: Admin_Legal_CEQA
+        distanceFt: distance_feet
+        joinClassNew: j_class_new
+        joinConnections: j_conn
+        joinCounty: j_county
+        joinElevation: elevation_j
+        joinPopulation: j_pop
+        joinSystemName: j_sys_name
+        joinSystemPWSID: j_sys_pwsid
+        mergeType: merge_type
+        receivingCounty: r_county
+        receivingElevation: elevation_r
+        receivingSystemName: r_sys_name
+        receivingSystemPassword: r_sys_pwsid
+        receivingType: r_type
+        routeElevationMax: route_elev_max
+        routeElevationMean: route_elev_mean
+        routeElevationMin: route_elev_min
+        routeElevationRange: route_elev_range
+        routeName: route_name
       }
     }
   }

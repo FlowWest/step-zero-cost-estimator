@@ -46,7 +46,7 @@ const TotalConsolidationCost = () => {
           Total Consolidation Cost: {formatToUSD(consolidationCostDetails.total)}
         </Typography>
         <Typography variant="h6" paragraph>
-          Cost per Connection: {formatToUSD(consolidationCostDetails.costPerConnection)}
+          Total Cost per Connection: {formatToUSD(consolidationCostDetails.totalCostPerConnection)}
         </Typography>
         <ConsolidationTabs chartData={consolidationCostDetails} />
       </Grid>

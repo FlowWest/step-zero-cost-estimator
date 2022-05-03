@@ -7,7 +7,6 @@ const WaterSystemDetails = () => {
   const [state, dispatch] = useContext(WaterSystemContext);
 
   const updateWaterSystemDetails = (inputProperty: string, value: any) => {
-    console.log('hit details dispatch')
     dispatch(
       updateConsolidationCostParams({
         [inputProperty]: value
@@ -25,20 +24,21 @@ const WaterSystemDetails = () => {
       />
       <InputSlider
         isCurrency={true}
-        inputProperty="connectionCosts"
-        label="Connection Costs"
-        start={state.consolidationCostParams?.connectionCosts}
-        maxValue={100000}
+        inputProperty="connectionFees"
+        label="Connection Fees"
+        start={state.consolidationCostParams?.connectionFees}
+        maxValue={10000}
         incrementBy={1000}
         inputAdornment={{
           start: '$',
           end: 'per connection'
         }}
+        tooltipText="Fees charged by the receiving water system for each new connection"
         updateState={updateWaterSystemDetails}
       />
       <InputSlider
         minValue={0}
-        maxValue={10000}
+        maxValue={25000}
         start={state.consolidationCostParams?.distance}
         inputProperty="distance"
         label="Distance to Receiving System"
@@ -69,7 +69,7 @@ const WaterSystemDetails = () => {
         label="Contingency"
         minValue={-100}
         maxValue={100}
-        start={20}
+        start={state.consolidationCostParams?.contingency}
         incrementBy={5}
         inputAdornment={{ end: '%' }}
         tooltipText="Contingency value may range from -100% to 100%. Negative values can be used to help account for financial assistance such as loans, grants, subsidies, etc"

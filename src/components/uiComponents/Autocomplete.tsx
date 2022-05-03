@@ -23,7 +23,12 @@ const Autocomplete = ({
   const selectData = dropdownOptions;
   const styles = useStyles();
   const [value, setValue] = useState('' as any);
- 
+
+  useEffect(() => {
+    if (Object.keys(selectedObject).length > 0) {
+      setValue(`${selectedObject?.joinSystemName} (${selectedObject?.joinSystemPWSID})`);
+    }
+  }, []);
 
   useEffect(() => {
     if (!Object.keys(selectedObject).length) {
@@ -44,19 +49,9 @@ const Autocomplete = ({
         id={`${dropdownLabel}-autocomplete`}
         classes={{ paper: styles.selectItem }}
         options={selectData}
-        // getOptionLabel={(option: any) => {
-        //   // console.log('option:', option);
-        //   // Value selected with enter, right from the input
-        //   if (typeof option === 'string') {
-        //     return option;
-        //   }
-        //   // Regular option
-        //   return option.name;
-        // }}
         value={value}
         onChange={(event: React.SyntheticEvent, newValue: string | null) => {
           event.preventDefault();
-          console.log(newValue)
           setValue(newValue);
           setSelectedObject(newValue);
         }}
@@ -71,11 +66,7 @@ const Autocomplete = ({
           />
         )}
         renderOption={(props, option) => {
-          return (
-            <li {...props}>
-              {option}
-            </li>
-          );
+          return <li {...props}>{option}</li>;
         }}
         renderGroup={(params) => params}
       />
