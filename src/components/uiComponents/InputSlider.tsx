@@ -114,7 +114,6 @@ const InputSlider = ({
               max: maxValue,
               'aria-labelledby': 'input-slider',
               pattern: '[0-9,]*'
-              // type: 'number'
             }}
             InputProps={{
               startAdornment: (
