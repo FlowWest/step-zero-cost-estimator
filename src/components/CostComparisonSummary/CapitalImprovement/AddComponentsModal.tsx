@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Box, Button, Modal, Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import TransferList from './TransferList';
 import ModalAutocomplete from './ModalAutocomplete';
+import { WaterSystemContext } from '../../../contexts/WaterSystem';
+import { updateComponents } from '../../../contexts/WaterSystem/actions';
 
 const useStyles = makeStyles((theme: Theme) => ({
   modal: {
@@ -29,6 +31,15 @@ const AddComponentsModal = ({
   handleClose: Function;
 }) => {
   const styles = useStyles();
+  const [state, dispatch] = useContext(WaterSystemContext);
+  const [existingCpnts, setExistingCpnts] = useState(state.existingComponents);
+  const [newCpnts, setNewCpnts] = useState(state.newComponents);
+
+  const handleSubmit = () => {
+    dispatch(
+      updateComponents(existingCpnts, newCpnts)
+    );
+  };
 
   return (
     <Modal
@@ -38,11 +49,16 @@ const AddComponentsModal = ({
       aria-describedby="modal-modal-description"
     >
       <Box className={styles.modal}>
-        <ModalAutocomplete />
+        <ModalAutocomplete  existingComponents={existingCpnts} setExistingCpnts={setExistingCpnts} />
         <br />
-        <TransferList existingComponents={[]} newComponents={[]}/>
+        <TransferList
+          existingComponents={existingCpnts} 
+          newComponents={newCpnts} 
+          setExistingCpnts={setExistingCpnts} 
+          setNewCpnts={setNewCpnts}
+        />
         <br />
-        <Button variant='contained'>UPDATE COMPONENTS</Button>
+        <Button variant='contained' onClick={() => handleSubmit()}>UPDATE COMPONENTS</Button>
       </Box>
     </Modal>
   );
