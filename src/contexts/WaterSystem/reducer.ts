@@ -15,7 +15,41 @@ export const initialState = {
     adminLegalCosts: 285000,
     contingency: 20,
     distance: 1000
-  }
+  },
+  existingComponents: [
+    {
+      qty: 5,
+      component: "big hammer",
+      unitCost: 3242,
+      installedCost: 3500,
+      avgLife: 7,
+      annualReserve: 237.9,
+      monthlyReserve: 2323,
+      monthlyReservePerCustomer: 23.23
+    },
+  ],
+  newComponents: [
+    {
+      qty: 5,
+      component: "bigger hammer",
+      unitCost: 3242,
+      installedCost: 3500,
+      avgLife: 7,
+      annualReserve: 237.9,
+      monthlyReserve: 2323,
+      monthlyReservePerCustomer: 23.23
+    },
+    {
+      qty: 5,
+      component: "biggest hammer",
+      unitCost: 3242,
+      installedCost: 3500,
+      avgLife: 7,
+      annualReserve: 237.9,
+      monthlyReserve: 2323,
+      monthlyReservePerCustomer: 23.23
+    },
+  ],
 };
 
 export const reducer = (state: WaterSystemState, action: WaterSystemAction): WaterSystemState => {

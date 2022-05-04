@@ -1,12 +1,10 @@
-import React, { useContext, useState } from 'react';
-import { FC } from '../../util';
+import React from 'react';
 import { Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import CostComparisonWrapper from './CostComparisonWrapper';
 import { WaterSystem } from '../../util/interfaces';
 import { formatToUSD } from '../../util/util';
 import { getConsolidationCostDetails } from '../../util/consolidationUtil';
-import { WaterSystemContext } from '../../contexts/WaterSystem';
 
 const useStyles = makeStyles((theme: Theme) => ({
   totalCostLabel: {
@@ -29,11 +27,6 @@ const CostComparisonSummary = ({
     consolidationCostParams: consolidationCostParams
   });
 
-  const dummyCosts = {
-    cc: 564545289,
-    cip: 4453454335
-  };
-
   return (
     <>
       {Object.keys(selectedWaterSystem).length ? (
@@ -45,7 +38,7 @@ const CostComparisonSummary = ({
           </Typography>
           <Typography paragraph>
             <span className={styles.totalCostLabel}>Capital Improvement Costs: </span>
-            {formatToUSD(dummyCosts.cip)}
+            {formatToUSD(4000000)}
           </Typography>
           <CostComparisonWrapper />
         </div>

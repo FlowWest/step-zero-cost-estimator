@@ -30,6 +30,12 @@ const Autocomplete = ({
     }
   }, []);
 
+  useEffect(() => {
+    if (!Object.keys(selectedObject).length) {
+      setValue('');
+    }
+  }, [selectedObject]);
+
   return (
     <Box component="form">
       <MUIAutocomplete
