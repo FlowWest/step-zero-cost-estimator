@@ -30,6 +30,8 @@ export interface WaterSystemAction {
 export interface WaterSystemState {
   currentWaterSystem: WaterSystem;
   consolidationCostParams: ConsolidationCostParams;
+  existingComponents: ComponentProperties[];
+  newComponents: ComponentProperties[];
 }
 
 export interface ConsolidationCostDetails {
