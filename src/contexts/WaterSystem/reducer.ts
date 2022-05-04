@@ -3,7 +3,8 @@ import { WaterSystem, WaterSystemState, WaterSystemAction } from '../../util/int
 export const ACTIONS = {
   UPDATE_WATER_SYSTEM: 'update_water_system',
   UPDATE_CONSOLIDATION_COST_PARAMS: 'update_consolidation_cost_params',
-  UPDATE_WATER_SYSTEM_AND_PARAMS: 'update_water_system_and_params'
+  UPDATE_WATER_SYSTEM_AND_PARAMS: 'update_water_system_and_params',
+  UPDATE_COMPONENTS: 'update_components'
 };
 
 export const initialState = {
@@ -72,6 +73,12 @@ export const reducer = (state: WaterSystemState, action: WaterSystemAction): Wat
           ...state.consolidationCostParams,
           ...action.payload.updatedParams
         }
+      };
+    case ACTIONS.UPDATE_COMPONENTS:
+      return {
+        ...state,
+        existingComponents: [...action.payload.existingComponents],
+        newComponents: [...action.payload.newComponents],
       };
     default:
       return state;
