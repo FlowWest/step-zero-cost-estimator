@@ -10,23 +10,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-
     width: '800px',
-    padding: '3rem 0',
+    padding: '2rem 0',
     background: theme.palette.background.default,
-    border: `.2rem solid ${theme.palette.primary.main}`,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
-    // boxShadow: 24,
-    // p: 4
   },
-  autocomplete: {
-    background: theme.palette.background.default
-  },
-  transferList: {
-    background: theme.palette.background.default
-  }
 }));
 
 const AddComponentsModal = ({
@@ -50,7 +40,7 @@ const AddComponentsModal = ({
       <Box className={styles.modal}>
         <ModalAutocomplete />
         <br />
-        <TransferList existingComponents={[]} newComponents={[]} styles={styles}/>
+        <TransferList existingComponents={[]} newComponents={[]}/>
       </Box>
     </Modal>
   );

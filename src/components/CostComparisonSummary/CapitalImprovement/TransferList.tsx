@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Box,
   Button,
   Checkbox,
   Grid,
@@ -7,8 +8,9 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Paper
+  Theme
 } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 
 function not(a: readonly number[], b: readonly number[]) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -18,22 +20,34 @@ function intersection(a: readonly number[], b: readonly number[]) {
   return a.filter((value) => b.indexOf(value) !== -1);
 }
 
+const useStyles = makeStyles((theme: Theme) => ({
+  customList: {
+    width: 250,
+    height: 230,
+    overflow: 'auto'
+  },
+  buttonGridContainer: {
+    margin: '0 5rem'
+  }
+}));
+
 const TransferList = ({
   existingComponents,
-  newComponents,
-  styles
+  newComponents
 }: {
   existingComponents: Array<any>;
   newComponents: Array<any>;
-  styles: Object
 }) => {
+  const styles = useStyles();
+
   const [checked, setChecked] = React.useState<readonly number[]>([]);
-  const [left, setLeft] = React.useState<readonly number[]>([0, 1, 2, 3]);
-  const [right, setRight] = React.useState<readonly number[]>([4, 5, 6, 7]);
+  const [existingCpnts, setExisting] = React.useState<readonly number[]>([0, 1, 2, 3]);
+  const [newCpnts, setNew] = React.useState<readonly number[]>([4, 5, 6, 7]);
 
-  const leftChecked = intersection(checked, left);
-  const rightChecked = intersection(checked, right);
+  const leftChecked = intersection(checked, existingCpnts);
+  const rightChecked = intersection(checked, newCpnts);
 
+  // Checkbox Functionality
   const handleToggle = (value: number) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -47,66 +61,70 @@ const TransferList = ({
     setChecked(newChecked);
   };
 
+  // Handle Selected Items functionality
   const handleAllRight = () => {
-    setRight(right.concat(left));
-    setLeft([]);
+    setNew(newCpnts.concat(existingCpnts));
+    setExisting([]);
   };
 
   const handleCheckedRight = () => {
-    setRight(right.concat(leftChecked));
-    setLeft(not(left, leftChecked));
+    setNew(newCpnts.concat(leftChecked));
+    setExisting(not(existingCpnts, leftChecked));
     setChecked(not(checked, leftChecked));
   };
 
   const handleCheckedLeft = () => {
-    setLeft(left.concat(rightChecked));
-    setRight(not(right, rightChecked));
+    setExisting(existingCpnts.concat(rightChecked));
+    setNew(not(newCpnts, rightChecked));
     setChecked(not(checked, rightChecked));
   };
 
   const handleAllLeft = () => {
-    setLeft(left.concat(right));
-    setRight([]);
+    setExisting(existingCpnts.concat(newCpnts));
+    setNew([]);
   };
 
-  const customList = (items: readonly number[]) => (
-    <Paper sx={{ width: 200, height: 230, overflow: 'auto' }}>
-      <List dense component="div" role="list">
-        {items.map((value: number) => {
-          const labelId = `transfer-list-item-${value}-label`;
+  const customList = (title: string, items: readonly number[]) => (
+    <>
+      <Box>{title}</Box>
+      <Box className={styles.customList}>
+        <List dense component="div" role="list">
+          {items.map((value: number) => {
+            const labelId = `transfer-list-item-${value}-label`;
 
-          return (
-            <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
-              <ListItemIcon>
-                <Checkbox
-                  checked={checked.indexOf(value) !== -1}
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{
-                    'aria-labelledby': labelId
-                  }}
-                />
-              </ListItemIcon>
-              <ListItemText id={labelId} primary={`List item ${value + 1}`} />
-            </ListItem>
-          );
-        })}
-        <ListItem />
-      </List>
-    </Paper>
+            return (
+              <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
+                <ListItemIcon>
+                  <Checkbox
+                    checked={checked.indexOf(value) !== -1}
+                    tabIndex={-1}
+                    disableRipple
+                    inputProps={{
+                      'aria-labelledby': labelId
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText id={labelId} primary={`List item ${value + 1}`} secondary={`55''`} />
+              </ListItem>
+            );
+          })}
+          <ListItem />
+        </List>
+      </Box>
+    </>
   );
 
   return (
-    <Grid container spacing={2} justifyContent="center" alignItems="center">
-      <Grid item>{customList(left)}</Grid>
-      <Grid item>
+    <Grid container justifyContent="center" alignItems="center">
+      <Grid item>{customList('Existing', existingCpnts)}</Grid>
+      <Grid item className={styles.buttonGridContainer}>
         <Grid container direction="column" alignItems="center">
           <Button
             sx={{ my: 0.5 }}
             variant="outlined"
             size="small"
             onClick={handleAllRight}
-            disabled={left.length === 0}
+            disabled={existingCpnts.length === 0}
             aria-label="move all right"
           >
             ≫
@@ -136,14 +154,14 @@ const TransferList = ({
             variant="outlined"
             size="small"
             onClick={handleAllLeft}
-            disabled={right.length === 0}
+            disabled={newCpnts.length === 0}
             aria-label="move all left"
           >
             ≪
           </Button>
         </Grid>
       </Grid>
-      <Grid item>{customList(right)}</Grid>
+      <Grid item>{customList('New', newCpnts)}</Grid>
     </Grid>
   );
 };
