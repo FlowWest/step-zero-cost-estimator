@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Modal, Theme } from '@mui/material';
+import { Box, Button, Modal, Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import TransferList from './TransferList';
 import ModalAutocomplete from './ModalAutocomplete';
@@ -41,6 +41,8 @@ const AddComponentsModal = ({
         <ModalAutocomplete />
         <br />
         <TransferList existingComponents={[]} newComponents={[]}/>
+        <br />
+        <Button variant='contained'>UPDATE COMPONENTS</Button>
       </Box>
     </Modal>
   );
