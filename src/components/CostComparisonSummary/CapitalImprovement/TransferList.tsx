@@ -21,9 +21,15 @@ function intersection(a: readonly number[], b: readonly number[]) {
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
+  transferListContainer: {
+    border: '0.1rem solid grey',
+    borderRadius: '0.25rem',
+    padding: '0.5rem',
+    margin: '0.5rem'
+  },
   customList: {
     width: 250,
-    height: 230,
+    height: 250,
     overflow: 'auto'
   },
   buttonGridContainer: {
@@ -115,7 +121,7 @@ const TransferList = ({
   );
 
   return (
-    <Grid container justifyContent="center" alignItems="center">
+    <Grid container justifyContent="center" alignItems="center" className={styles.transferListContainer}>
       <Grid item>{customList('Existing', existingCpnts)}</Grid>
       <Grid item className={styles.buttonGridContainer}>
         <Grid container direction="column" alignItems="center">
