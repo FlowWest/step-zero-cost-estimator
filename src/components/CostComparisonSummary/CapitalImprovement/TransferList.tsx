@@ -11,14 +11,7 @@ import {
   Theme
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-
-function not(a: readonly number[], b: readonly number[]) {
-  return a.filter((value) => b.indexOf(value) === -1);
-}
-
-function intersection(a: readonly number[], b: readonly number[]) {
-  return a.filter((value) => b.indexOf(value) !== -1);
-}
+import { ComponentProperties } from "../../../util/interfaces";
 
 const useStyles = makeStyles((theme: Theme) => ({
   transferListContainer: {
@@ -29,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   customList: {
     width: 250,
-    height: 250,
+    height: 300,
     overflow: 'auto'
   },
   buttonGridContainer: {
@@ -37,24 +30,36 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
+function not(a: readonly ComponentProperties[], b: readonly ComponentProperties[]) {
+  return a.filter((value) => b.indexOf(value) === -1);
+}
+
+function intersection(a: readonly ComponentProperties[], b: readonly ComponentProperties[]) {
+  return a.filter((value) => b.indexOf(value) !== -1);
+}
+
 const TransferList = ({
   existingComponents,
-  newComponents
-}: {
-  existingComponents: Array<any>;
-  newComponents: Array<any>;
+  newComponents,
+  setExistingCpnts,
+  setNewCpnts
+} : {
+  existingComponents: ComponentProperties[],
+  newComponents: ComponentProperties[],
+  setExistingCpnts: React.Dispatch<any>,
+  setNewCpnts:  React.Dispatch<any>
 }) => {
   const styles = useStyles();
 
-  const [checked, setChecked] = React.useState<readonly number[]>([]);
-  const [existingCpnts, setExisting] = React.useState<readonly number[]>([0, 1, 2, 3]);
-  const [newCpnts, setNew] = React.useState<readonly number[]>([4, 5, 6, 7]);
+  const [checked, setChecked] = React.useState<readonly ComponentProperties[]>([]);
+  // const [existingCpnts, setExisting] = React.useState<readonly ComponentProperties[]>(existingComponents);
+  // const [newCpnts, setNew] = React.useState<readonly ComponentProperties[]>(newComponents);
 
-  const leftChecked = intersection(checked, existingCpnts);
-  const rightChecked = intersection(checked, newCpnts);
+  const leftChecked = intersection(checked, existingComponents);
+  const rightChecked = intersection(checked, newComponents);
 
   // Checkbox Functionality
-  const handleToggle = (value: number) => () => {
+  const handleToggle = (value: ComponentProperties) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
 
@@ -69,40 +74,40 @@ const TransferList = ({
 
   // Handle Selected Items functionality
   const handleAllRight = () => {
-    setNew(newCpnts.concat(existingCpnts));
-    setExisting([]);
+    setNewCpnts(newComponents.concat(existingComponents));
+    setExistingCpnts([]);
   };
 
   const handleCheckedRight = () => {
-    setNew(newCpnts.concat(leftChecked));
-    setExisting(not(existingCpnts, leftChecked));
+    setNewCpnts(newComponents.concat(leftChecked));
+    setExistingCpnts(not(existingComponents, leftChecked));
     setChecked(not(checked, leftChecked));
   };
 
   const handleCheckedLeft = () => {
-    setExisting(existingCpnts.concat(rightChecked));
-    setNew(not(newCpnts, rightChecked));
+    setExistingCpnts(existingComponents.concat(rightChecked));
+    setNewCpnts(not(newComponents, rightChecked));
     setChecked(not(checked, rightChecked));
   };
 
   const handleAllLeft = () => {
-    setExisting(existingCpnts.concat(newCpnts));
-    setNew([]);
+    setExistingCpnts(existingComponents.concat(newComponents));
+    setNewCpnts([]);
   };
 
-  const customList = (title: string, items: readonly number[]) => (
+  const customList = (title: string, components: readonly ComponentProperties[]) => (
     <>
       <Box>{title}</Box>
       <Box className={styles.customList}>
         <List dense component="div" role="list">
-          {items.map((value: number) => {
-            const labelId = `transfer-list-item-${value}-label`;
+          {components.map((cpnt: ComponentProperties, idx) => {
+            const labelId = `transfer-list-item-${cpnt.component}-label`;
 
             return (
-              <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
+              <ListItem key={`${cpnt.component}-${idx}`} role="listitem" button onClick={handleToggle(cpnt)}>
                 <ListItemIcon>
                   <Checkbox
-                    checked={checked.indexOf(value) !== -1}
+                    checked={checked.indexOf(cpnt) !== -1}
                     tabIndex={-1}
                     disableRipple
                     inputProps={{
@@ -110,7 +115,7 @@ const TransferList = ({
                     }}
                   />
                 </ListItemIcon>
-                <ListItemText id={labelId} primary={`List item ${value + 1}`} secondary={`55''`} />
+                <ListItemText id={labelId} primary={`${cpnt.component}`} secondary={`55''`} />
               </ListItem>
             );
           })}
@@ -122,7 +127,7 @@ const TransferList = ({
 
   return (
     <Grid container justifyContent="center" alignItems="center" className={styles.transferListContainer}>
-      <Grid item>{customList('Existing', existingCpnts)}</Grid>
+      <Grid item>{customList('Existing', existingComponents)}</Grid>
       <Grid item className={styles.buttonGridContainer}>
         <Grid container direction="column" alignItems="center">
           <Button
@@ -130,7 +135,7 @@ const TransferList = ({
             variant="outlined"
             size="small"
             onClick={handleAllRight}
-            disabled={existingCpnts.length === 0}
+            disabled={existingComponents.length === 0}
             aria-label="move all right"
           >
             ≫
@@ -160,14 +165,14 @@ const TransferList = ({
             variant="outlined"
             size="small"
             onClick={handleAllLeft}
-            disabled={newCpnts.length === 0}
+            disabled={newComponents.length === 0}
             aria-label="move all left"
           >
             ≪
           </Button>
         </Grid>
       </Grid>
-      <Grid item>{customList('New', newCpnts)}</Grid>
+      <Grid item>{customList('New', newComponents)}</Grid>
     </Grid>
   );
 };
