@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Checkbox, TextField, Autocomplete, Theme, Popper } from '@mui/material';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import { makeStyles } from '@mui/styles';
+import { ComponentProperties } from "../../../util/interfaces";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -21,16 +22,32 @@ const CustomPopper = function (props: any) {
   return <Popper {...props} className={styles.popper} style={{zIndex: 10000, ...props.style}} placement="bottom"/>;
 };
 
-export default function ModalAutocomplete() {
-  const [state, dispatch] = useContext(WaterSystemContext);
-  const allComponents = [...state.existingComponents, ...state.newComponents];
+const ModalAutocomplete = ({
+    existingComponents,
+    setExistingCpnts
+  } : {
+    existingComponents: ComponentProperties[],
+    setExistingCpnts: React.Dispatch<any>
+    }) => {
 
+    const handleChange = (event: React.SyntheticEvent, selectedComponents: any) => {
+      for (const item of selectedComponents){
+        const filtered = existingComponents.filter(element => element.component === item.component)
+        if (filtered.length === 0 ) {
+          setExistingCpnts([...existingComponents, item])
+        }
+      }
+    }
+  
   return (
     <Autocomplete
+      id="components-checkbox"
       multiple
-      id="checkboxes-tags-demo"
-      options={allComponents}
+      forcePopupIcon
+      handleHomeEndKeys
+      options={sampleComponents}
       disableCloseOnSelect
+      onChange={handleChange}
       getOptionLabel={(option: any) => option.component}
       renderOption={(props: any, option: any, { selected }: { selected: any }) => (
         <li {...props}>
@@ -45,42 +62,63 @@ export default function ModalAutocomplete() {
       )}
       style={{ width: 500 }}
       renderInput={(params: any) => (
-        <TextField {...params} label="Checkboxes" placeholder="Favorites" />
+        <TextField {...params} label="Components" placeholder="Search" />
       )}
         PopperComponent={CustomPopper}
     />
   );
 }
+export default ModalAutocomplete;
 
-// const sampleComponents = [
-//     {
-//         name: 'Water Pump 1',
-//         price: 1000,
-//         lifespan: 20,
-//         installationCost: 3999
-//     },
-//     {
-//         name: 'Water Pump 2',
-//         price: 1000,
-//         lifespan: 20,
-//         installationCost: 3999
-//     },
-//     {
-//         name: 'Water Pump 3',
-//         price: 1000,
-//         lifespan: 20,
-//         installationCost: 3999
-//     },
-//     {
-//         name: 'Water Pump 4',
-//         price: 1000,
-//         lifespan: 20,
-//         installationCost: 3999
-//     },
-//     {
-//         name: 'Water Pump 5',
-//         price: 1000,
-//         lifespan: 20,
-//         installationCost: 3999
-//     },
-// ]
+const sampleComponents = [
+  {
+    qty: 20,
+    component: 'Water Pump 1',
+    unitCost: 1000,
+    installedCost: 3999,
+    avgLife: 20,
+    annualReserve: 120,
+    monthlyReserve: 10,
+    monthlyReservePerCustomer: 5
+  },
+  {
+    qty: 20,
+    component: 'Water Pump 2',
+    unitCost: 1000,
+    installedCost: 3999,
+    avgLife: 20,
+    annualReserve: 120,
+    monthlyReserve: 10,
+    monthlyReservePerCustomer: 5
+  },
+  {
+    qty: 20,
+    component: 'Water Pump 3',
+    unitCost: 1000,
+    installedCost: 3999,
+    avgLife: 20,
+    annualReserve: 120,
+    monthlyReserve: 10,
+    monthlyReservePerCustomer: 5
+  },
+  {
+    qty: 20,
+    component: 'Water Pump 4',
+    unitCost: 1000,
+    installedCost: 3999,
+    avgLife: 20,
+    annualReserve: 120,
+    monthlyReserve: 10,
+    monthlyReservePerCustomer: 5
+  },
+  {
+    qty: 20,
+    component: 'Water Pump 5',
+    unitCost: 1000,
+    installedCost: 3999,
+    avgLife: 20,
+    annualReserve: 120,
+    monthlyReserve: 10,
+    monthlyReservePerCustomer: 5
+  }
+]
