@@ -77,12 +77,12 @@ export interface WaterSystem {
 }
 
 export interface ComponentProperties {
-  qty: number,
+  qty: number;
   component: string;
   unitCost: number;
-  installedCost: number;
+  installedCost: number | null;
   avgLife: number;
-  annualReserve: number;
-  monthlyReserve: number;
-  monthlyReservePerCustomer: number;
+  annualReserve: number | null;
+  monthlyReserve: number | null;
+  monthlyReservePerCustomer: number | null;
 }
