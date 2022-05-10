@@ -11,7 +11,7 @@ import {
   Theme
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { ComponentProperties } from "../../../util/interfaces";
+import { ComponentProperties } from '../../../util/interfaces';
 
 const useStyles = makeStyles((theme: Theme) => ({
   transferListContainer: {
@@ -43,11 +43,11 @@ const TransferList = ({
   newComponents,
   setExistingCpnts,
   setNewCpnts
-} : {
-  existingComponents: ComponentProperties[],
-  newComponents: ComponentProperties[],
-  setExistingCpnts: React.Dispatch<any>,
-  setNewCpnts:  React.Dispatch<any>
+}: {
+  existingComponents: ComponentProperties[];
+  newComponents: ComponentProperties[];
+  setExistingCpnts: React.Dispatch<any>;
+  setNewCpnts: React.Dispatch<any>;
 }) => {
   const styles = useStyles();
 
@@ -104,7 +104,12 @@ const TransferList = ({
             const labelId = `transfer-list-item-${cpnt.component}-label`;
 
             return (
-              <ListItem key={`${cpnt.component}-${idx}`} role="listitem" button onClick={handleToggle(cpnt)}>
+              <ListItem
+                key={`${cpnt.component}-${idx}`}
+                role="listitem"
+                button
+                onClick={handleToggle(cpnt)}
+              >
                 <ListItemIcon>
                   <Checkbox
                     checked={checked.indexOf(cpnt) !== -1}
@@ -126,7 +131,12 @@ const TransferList = ({
   );
 
   return (
-    <Grid container justifyContent="center" alignItems="center" className={styles.transferListContainer}>
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      className={styles.transferListContainer}
+    >
       <Grid item>{customList('Existing', existingComponents)}</Grid>
       <Grid item className={styles.buttonGridContainer}>
         <Grid container direction="column" alignItems="center">

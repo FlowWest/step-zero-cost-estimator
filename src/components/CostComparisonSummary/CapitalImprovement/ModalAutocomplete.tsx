@@ -13,6 +13,7 @@ import {
   Button,
   createFilterOptions
 } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
@@ -44,10 +45,14 @@ const CustomPopper = function (props: any) {
 
 const ModalAutocomplete = ({
   existingComponents,
-  setExistingCpnts
+  newComponents,
+  setExistingCpnts,
+  setNewCpnts
 }: {
   existingComponents: ComponentProperties[];
+  newComponents: ComponentProperties[];
   setExistingCpnts: React.Dispatch<any>;
+  setNewCpnts: React.Dispatch<any>;
 }) => {
   const [value, setValue] = React.useState(null);
   const [openDialog, toggleOpen] = React.useState(false);
@@ -66,32 +71,46 @@ const ModalAutocomplete = ({
     reason: string,
     detail: any
   ) => {
-    for (const item of selectedComponents) {
-      // If item was pre-populated
-      if (!Object.keys(item).includes('newOption') || item.newOption === false) {
-        // console.log('thinks its a existing item');
-        // const filtered = existingComponents.filter(
-        //   (element) => element.component === item.component
-        // );
-        // console.log('filtered array: ', filtered);
-        // if (filtered.length === 0) {
-        //   setExistingCpnts([...existingComponents, item]);
-        // } else {
-        //   console.log('remaining components: ', selectedComponents);
-        //   setExistingCpnts([...selectedComponents]);
-        // }
-        // If new item
-      } else if (item.newOption === true) {
-        console.log('thinks its a new item');
-        toggleOpen(true);
-        setDialogValue({
-          component: item.inputValue,
-          unitCost: '',
-          avgLife: ''
-        });
-        // error catching
-      } else {
-        console.log('hit else statement, item: ', item);
+    if (reason === 'removeOption') {
+      const removedComponent = detail?.option?.component;
+
+      // filter out removed component if in existing
+      const updatedExisting = existingComponents.filter(
+        (existingCpt) => existingCpt.component !== removedComponent
+      );
+      // set existing components to updated array
+      setExistingCpnts(updatedExisting);
+
+      // filter out removed component if in new
+      const updatedNew = newComponents.filter((newCpt) => newCpt.component !== removedComponent);
+      // set new components to updated array
+      setNewCpnts(updatedNew);
+    } else {
+      for (const item of selectedComponents) {
+        // If item was pre-populated
+        if (!Object.keys(item).includes('newOption') || item.newOption === false) {
+          const filtered = existingComponents.filter(
+            (element) => element.component === item.component
+          );
+
+          if (filtered.length === 0) {
+            setExistingCpnts([...existingComponents, item]);
+          } else {
+            setExistingCpnts([...selectedComponents]);
+          }
+          // If new item
+        } else if (item.newOption === true) {
+          toggleOpen(true);
+          setDialogValue({
+            component: item.inputValue,
+            unitCost: '',
+            avgLife: ''
+          });
+          console.log(item.inputValue);
+          // error catching
+        } else {
+          console.log('hit else statement, item: ', item);
+        }
       }
     }
   };
@@ -117,6 +136,7 @@ const ModalAutocomplete = ({
   };
 
   const ModalDialog = () => {
+    console.log(dialogValue);
     return (
       <Dialog
         PaperProps={{
@@ -162,7 +182,7 @@ const ModalAutocomplete = ({
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => console.log('clicked cancel')}>Cancel</Button>
+            <Button onClick={handleCloseDialog}>Cancel</Button>
             <Button type="submit">Add</Button>
           </DialogActions>
         </form>
@@ -172,7 +192,7 @@ const ModalAutocomplete = ({
 
   return (
     <>
-      {ModalDialog()}
+      <ModalDialog />
       <Autocomplete
         id="components-checkbox"
         multiple
@@ -190,10 +210,9 @@ const ModalAutocomplete = ({
               style={{ marginRight: 8 }}
               checked={selected}
             />
-            {option?.newOption === true ? `Add... ${option.component}` : option.component}
+            {option?.newOption === true ? `+ Add ${option.component}` : option.component}
           </li>
         )}
-        style={{ width: 500 }}
         renderInput={(params: any) => (
           <TextField {...params} label="Components" placeholder="Search" />
         )}
@@ -209,6 +228,7 @@ const ModalAutocomplete = ({
           return filtered;
         }}
         PopperComponent={CustomPopper}
+        fullWidth
       />
     </>
   );
@@ -218,53 +238,28 @@ export default ModalAutocomplete;
 
 const sampleComponents: ComponentProperties[] | any = [
   {
-    qty: 20,
     component: 'Water Pump 1',
     unitCost: 1000,
-    installedCost: 3999,
-    avgLife: 20,
-    annualReserve: 120,
-    monthlyReserve: 10,
-    monthlyReservePerCustomer: 5
+    avgLife: 20
   },
   {
-    qty: 20,
     component: 'Water Pump 2',
     unitCost: 1000,
-    installedCost: 3999,
-    avgLife: 20,
-    annualReserve: 120,
-    monthlyReserve: 10,
-    monthlyReservePerCustomer: 5
+    avgLife: 20
   },
   {
-    qty: 20,
     component: 'Water Pump 3',
     unitCost: 1000,
-    installedCost: 3999,
-    avgLife: 20,
-    annualReserve: 120,
-    monthlyReserve: 10,
-    monthlyReservePerCustomer: 5
+    avgLife: 20
   },
   {
-    qty: 20,
     component: 'Water Pump 4',
     unitCost: 1000,
-    installedCost: 3999,
-    avgLife: 20,
-    annualReserve: 120,
-    monthlyReserve: 10,
-    monthlyReservePerCustomer: 5
+    avgLife: 20
   },
   {
-    qty: 20,
     component: 'Water Pump 5',
     unitCost: 1000,
-    installedCost: 3999,
-    avgLife: 20,
-    annualReserve: 120,
-    monthlyReserve: 10,
-    monthlyReservePerCustomer: 5
+    avgLife: 20
   }
 ];

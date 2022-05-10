@@ -6,6 +6,12 @@ declare module '@mui/material/styles' {
     content: string;
     divider: string;
   }
+  interface Palette {
+    cancel: any;
+  }
+  interface PaletteOptions {
+    cancel: any;
+  }
 }
 
 const makeTheme = (variant: ThemeOptions): Theme => {
@@ -62,6 +68,10 @@ const light: ThemeOptions = {
       paper: '#0c7cba',
       content: '#ffffff',
       divider: 'rgba(0, 0, 0, 0.12)'
+    },
+    cancel: {
+      main: '#bdc3c7',
+      dark: '#84888B'
     }
   }
 };
@@ -92,6 +102,10 @@ const dark: ThemeOptions = {
       paper: '#214a6b',
       content: '#424242',
       divider: 'rgba(255, 255, 255, 0.12)'
+    },
+    cancel: {
+      main: '#bdc3c7',
+      dark: '#84888B'
     }
   }
 };

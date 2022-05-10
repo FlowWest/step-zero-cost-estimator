@@ -18,39 +18,24 @@ export const initialState = {
     distance: 1000
   },
   existingComponents: [
-    {
-      qty: 5,
-      component: "big hammer",
-      unitCost: 3242,
-      installedCost: 3500,
-      avgLife: 7,
-      annualReserve: 237.9,
-      monthlyReserve: 2323,
-      monthlyReservePerCustomer: 23.23
-    },
+    // {
+    //   component: "big hammer",
+    //   unitCost: 3242,
+    //   avgLife: 7,
+    // },
   ],
   newComponents: [
-    {
-      qty: 5,
-      component: "bigger hammer",
-      unitCost: 3242,
-      installedCost: 3500,
-      avgLife: 7,
-      annualReserve: 237.9,
-      monthlyReserve: 2323,
-      monthlyReservePerCustomer: 23.23
-    },
-    {
-      qty: 5,
-      component: "biggest hammer",
-      unitCost: 3242,
-      installedCost: 3500,
-      avgLife: 7,
-      annualReserve: 237.9,
-      monthlyReserve: 2323,
-      monthlyReservePerCustomer: 23.23
-    },
-  ],
+    // {
+    //   component: "bigger hammer",
+    //   unitCost: 3242,
+    //   avgLife: 7,
+    // },
+    // {
+    //   component: "biggest hammer",
+    //   unitCost: 3242,
+    //   avgLife: 7,
+    // },
+  ]
 };
 
 export const reducer = (state: WaterSystemState, action: WaterSystemAction): WaterSystemState => {
@@ -78,7 +63,7 @@ export const reducer = (state: WaterSystemState, action: WaterSystemAction): Wat
       return {
         ...state,
         existingComponents: [...action.payload.existingComponents],
-        newComponents: [...action.payload.newComponents],
+        newComponents: [...action.payload.newComponents]
       };
     default:
       return state;
