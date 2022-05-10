@@ -10,6 +10,11 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  Grid,
+  FormControl,
+  FormHelperText,
+  Input,
+  InputLabel,
   Button,
   createFilterOptions
 } from '@mui/material';
@@ -100,9 +105,10 @@ const ModalAutocomplete = ({
           }
           // If new item
         } else if (item.newOption === true) {
+          console.log('adding item: ', item);
           toggleOpen(true);
           setDialogValue({
-            component: item.inputValue,
+            component: item.component,
             unitCost: '',
             avgLife: ''
           });
@@ -126,16 +132,38 @@ const ModalAutocomplete = ({
 
   const handleSubmitDialog = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    // setDialogValue({
-    //   title: dialogValue.title,
-    //   year: parseInt(dialogValue.year, 10),
-    // });
-    console.log('submitted dialog');
+    if (dialogValue.component && dialogValue.unitCost && dialogValue.avgLife) {
+      setExistingCpnts([...existingComponents, dialogValue]);
+    }
     handleCloseDialog();
   };
 
   const ModalDialog = () => {
+    const [unitCostError, setUnitCostError] = useState(false);
+    const [avgLifeError, setAvgLifeError] = useState(false);
+
+    const handleUnitCostChange = (event: any) => {
+      if (+event.target.value <= 0) {
+        event.preventDefault();
+        console.log('error', event.target.value);
+        setDialogValue({
+          ...dialogValue,
+          unitCost: event.target.value
+        });
+        setUnitCostError(true);
+      }
+      if (+event.target.value > 0) {
+        event.preventDefault();
+        console.log('nah');
+        setUnitCostError(false);
+        console.log(unitCostError);
+        setDialogValue({
+          ...dialogValue,
+          unitCost: event.target.value
+        });
+      }
+    };
+
     console.log(dialogValue);
     return (
       <Dialog
@@ -148,35 +176,84 @@ const ModalAutocomplete = ({
         onClose={handleCloseDialog}
       >
         <form onSubmit={handleSubmitDialog}>
-          <DialogTitle>Add a new component</DialogTitle>
+          <DialogTitle>{`Add a '${dialogValue.component}' component`}</DialogTitle>
           <DialogContent>
             {/* <DialogContentText>Add a custom component...</DialogContentText> */}
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <FormControl error={unitCostError} variant="standard">
+                  <InputLabel htmlFor="component-error">Unit Cost</InputLabel>
+                  <Input
+                    type="number"
+                    id="component-error"
+                    value={dialogValue.unitCost}
+                    onChange={handleUnitCostChange}
+                    aria-describedby="component-error-text"
+                  />
+                  {unitCostError && (
+                    <FormHelperText id="component-error-text">
+                      Value must be grater than 0
+                    </FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+              <Grid item xs={6}>
+                <FormControl error={avgLifeError} variant="standard">
+                  <InputLabel htmlFor="component-error">Average Life</InputLabel>
+                  <Input
+                    type="number"
+                    id="component-error"
+                    value={dialogValue.avgLife}
+                    onChange={(event) =>
+                      setDialogValue((prevState) => ({
+                        ...prevState,
+                        avgLife: event.target.value
+                      }))
+                    }
+                    aria-describedby="component-error-text"
+                  />
+                  {avgLifeError && (
+                    <FormHelperText id="component-error-text">
+                      Value must be grater than 0
+                    </FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+            </Grid>
             <TextField
               autoFocus
               margin="dense"
               id="name"
-              value={dialogValue.component}
-              onChange={(event) =>
-                setDialogValue({
-                  ...dialogValue,
-                  component: event.target.value
-                })
-              }
-              label="component"
-              type="text"
+              value={dialogValue.unitCost}
+              error={+dialogValue.unitCost <= 0}
+              // onChange={(event) => {
+              //   if (+event.target.value <= 0) {
+              //     setUnitCostError(true);
+              //   } else if (+event.target.value > 0) {
+              //     setUnitCostError(false);
+              //   }
+              //   setDialogValue({
+              //     ...dialogValue,
+              //     unitCost: event.target.value
+              //   });
+              // }}
+              label="Unit Cost"
+              type="number"
               variant="standard"
             />
             <TextField
               margin="dense"
               id="name"
               value={dialogValue.avgLife}
-              onChange={(event) =>
+              error={+dialogValue.avgLife <= 0}
+              onChange={(event) => {
+                event.preventDefault();
                 setDialogValue({
                   ...dialogValue,
                   avgLife: event.target.value
-                })
-              }
-              label="avgLife"
+                });
+              }}
+              label="Average Life"
               type="number"
               variant="standard"
             />

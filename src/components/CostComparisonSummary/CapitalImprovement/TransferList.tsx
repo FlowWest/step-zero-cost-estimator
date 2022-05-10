@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { ComponentProperties } from '../../../util/interfaces';
+import { uid } from 'react-uid';
 
 const useStyles = makeStyles((theme: Theme) => ({
   transferListContainer: {
@@ -52,9 +53,6 @@ const TransferList = ({
   const styles = useStyles();
 
   const [checked, setChecked] = React.useState<readonly ComponentProperties[]>([]);
-  // const [existingCpnts, setExisting] = React.useState<readonly ComponentProperties[]>(existingComponents);
-  // const [newCpnts, setNew] = React.useState<readonly ComponentProperties[]>(newComponents);
-
   const leftChecked = intersection(checked, existingComponents);
   const rightChecked = intersection(checked, newComponents);
 
@@ -95,6 +93,22 @@ const TransferList = ({
     setNewCpnts([]);
   };
 
+  const handleCopy = () => {
+    const leftCheckedCopy = leftChecked;
+    const rightCheckedCopy = rightChecked;
+
+    leftCheckedCopy.map((cpnt) => {
+      cpnt.uid = uid(cpnt);
+    });
+    rightCheckedCopy.map((cpnt) => {
+      cpnt.uid = uid(cpnt);
+    });
+
+    setNewCpnts(newComponents.concat(leftCheckedCopy));
+    setExistingCpnts(existingComponents.concat(rightCheckedCopy));
+    setChecked([]);
+  };
+
   const customList = (title: string, components: readonly ComponentProperties[]) => (
     <>
       <Box>{title}</Box>
@@ -120,7 +134,11 @@ const TransferList = ({
                     }}
                   />
                 </ListItemIcon>
-                <ListItemText id={labelId} primary={`${cpnt.component}`} secondary={`55''`} />
+                <ListItemText
+                  id={labelId}
+                  primary={`${cpnt.component}`}
+                  secondary={`Unit Cost: ${cpnt.avgLife}`}
+                />
               </ListItem>
             );
           })}
@@ -179,6 +197,16 @@ const TransferList = ({
             aria-label="move all left"
           >
             ≪
+          </Button>
+          <Button
+            sx={{ my: 0.5 }}
+            variant="outlined"
+            size="small"
+            onClick={handleCopy}
+            disabled={checked.length === 0}
+            aria-label="copy to other side"
+          >
+            &#9851;
           </Button>
         </Grid>
       </Grid>

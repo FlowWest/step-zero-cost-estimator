@@ -77,6 +77,7 @@ export interface WaterSystem {
 }
 
 export interface ComponentProperties {
+  uid: string | null;
   qty: number;
   component: string;
   unitCost: number;
