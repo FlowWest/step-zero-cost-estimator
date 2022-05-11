@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Checkbox,
   TextField,
@@ -24,6 +24,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import { makeStyles } from '@mui/styles';
 import { ComponentProperties } from '../../../util/interfaces';
+import AddCustomComponentDialog from './AddCustomComponentDialog';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -105,18 +106,16 @@ const ModalAutocomplete = ({
           }
           // If new item
         } else if (item.newOption === true) {
-          console.log('adding item: ', item);
           toggleOpen(true);
           setDialogValue({
             component: item.component,
             unitCost: '',
             avgLife: ''
           });
-          console.log(item.inputValue);
           // error catching
         } else {
-          console.log('hit else statement, item: ', item);
         }
+        sampleComponents.push({ ...dialogValue });
       }
     }
   };
@@ -138,138 +137,15 @@ const ModalAutocomplete = ({
     handleCloseDialog();
   };
 
-  const ModalDialog = () => {
-    const [unitCostError, setUnitCostError] = useState(false);
-    const [avgLifeError, setAvgLifeError] = useState(false);
-
-    const handleUnitCostChange = (event: any) => {
-      if (+event.target.value <= 0) {
-        event.preventDefault();
-        console.log('error', event.target.value);
-        setDialogValue({
-          ...dialogValue,
-          unitCost: event.target.value
-        });
-        setUnitCostError(true);
-      }
-      if (+event.target.value > 0) {
-        event.preventDefault();
-        console.log('nah');
-        setUnitCostError(false);
-        console.log(unitCostError);
-        setDialogValue({
-          ...dialogValue,
-          unitCost: event.target.value
-        });
-      }
-    };
-
-    console.log(dialogValue);
-    return (
-      <Dialog
-        PaperProps={{
-          style: {
-            backgroundColor: '#fff'
-          }
-        }}
-        open={openDialog}
-        onClose={handleCloseDialog}
-      >
-        <form onSubmit={handleSubmitDialog}>
-          <DialogTitle>{`Add a '${dialogValue.component}' component`}</DialogTitle>
-          <DialogContent>
-            {/* <DialogContentText>Add a custom component...</DialogContentText> */}
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <FormControl error={unitCostError} variant="standard">
-                  <InputLabel htmlFor="component-error">Unit Cost</InputLabel>
-                  <Input
-                    type="number"
-                    id="component-error"
-                    value={dialogValue.unitCost}
-                    onChange={handleUnitCostChange}
-                    aria-describedby="component-error-text"
-                  />
-                  {unitCostError && (
-                    <FormHelperText id="component-error-text">
-                      Value must be grater than 0
-                    </FormHelperText>
-                  )}
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl error={avgLifeError} variant="standard">
-                  <InputLabel htmlFor="component-error">Average Life</InputLabel>
-                  <Input
-                    type="number"
-                    id="component-error"
-                    value={dialogValue.avgLife}
-                    onChange={(event) =>
-                      setDialogValue((prevState) => ({
-                        ...prevState,
-                        avgLife: event.target.value
-                      }))
-                    }
-                    aria-describedby="component-error-text"
-                  />
-                  {avgLifeError && (
-                    <FormHelperText id="component-error-text">
-                      Value must be grater than 0
-                    </FormHelperText>
-                  )}
-                </FormControl>
-              </Grid>
-            </Grid>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              value={dialogValue.unitCost}
-              error={+dialogValue.unitCost <= 0}
-              // onChange={(event) => {
-              //   if (+event.target.value <= 0) {
-              //     setUnitCostError(true);
-              //   } else if (+event.target.value > 0) {
-              //     setUnitCostError(false);
-              //   }
-              //   setDialogValue({
-              //     ...dialogValue,
-              //     unitCost: event.target.value
-              //   });
-              // }}
-              label="Unit Cost"
-              type="number"
-              variant="standard"
-            />
-            <TextField
-              margin="dense"
-              id="name"
-              value={dialogValue.avgLife}
-              error={+dialogValue.avgLife <= 0}
-              onChange={(event) => {
-                event.preventDefault();
-                setDialogValue({
-                  ...dialogValue,
-                  avgLife: event.target.value
-                });
-              }}
-              label="Average Life"
-              type="number"
-              variant="standard"
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDialog}>Cancel</Button>
-            <Button type="submit">Add</Button>
-          </DialogActions>
-        </form>
-      </Dialog>
-    );
-  };
-
   return (
     <>
-      <ModalDialog />
+      <AddCustomComponentDialog
+        openDialog={openDialog}
+        handleCloseDialog={handleCloseDialog}
+        handleSubmitDialog={handleSubmitDialog}
+        dialogValue={dialogValue}
+        setDialogValue={setDialogValue}
+      />
       <Autocomplete
         id="components-checkbox"
         multiple
@@ -295,7 +171,6 @@ const ModalAutocomplete = ({
         )}
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
-          console.log(filtered);
           if (params.inputValue !== '') {
             filtered.push({
               newOption: true,
