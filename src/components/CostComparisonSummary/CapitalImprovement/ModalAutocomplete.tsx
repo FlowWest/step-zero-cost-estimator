@@ -115,7 +115,6 @@ const ModalAutocomplete = ({
           // error catching
         } else {
         }
-        sampleComponents.push({ ...dialogValue });
       }
     }
   };
