@@ -56,9 +56,9 @@ const WaterSystemComponentsGrid = () => {
               {state.existingComponents &&
                 state.existingComponents.map((component: ComponentProperties) => (
                   <TableRow>
-                    <TableCell>{component?.qty}</TableCell>
+                    <TableCell>{1}</TableCell>
                     <TableCell>{component?.component}</TableCell>
-                    <TableCell>{component?.unitCost}</TableCell>
+                    <TableCell>{`$${component?.unitCost}`}</TableCell>
                     <TableCell>{component?.installedCost}</TableCell>
                     <TableCell>{component?.avgLife}</TableCell>
                     <TableCell>{component?.annualReserve}</TableCell>
