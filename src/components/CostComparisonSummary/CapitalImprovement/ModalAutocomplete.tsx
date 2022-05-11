@@ -64,6 +64,7 @@ const ModalAutocomplete = ({
   const [openDialog, toggleOpen] = React.useState(false);
   const [dialogValue, setDialogValue] = React.useState({
     component: '',
+    uid: 0,
     unitCost: '',
     avgLife: ''
   });
@@ -100,7 +101,7 @@ const ModalAutocomplete = ({
           );
 
           if (filtered.length === 0) {
-            setExistingCpnts([...existingComponents, item]);
+            setExistingCpnts([...existingComponents, { ...item, uid: Math.random() }]); // {...}
           } else {
             setExistingCpnts([...selectedComponents]);
           }
@@ -109,6 +110,7 @@ const ModalAutocomplete = ({
           toggleOpen(true);
           setDialogValue({
             component: item.component,
+            uid: Math.random(),
             unitCost: '',
             avgLife: ''
           });
@@ -122,6 +124,7 @@ const ModalAutocomplete = ({
   const handleCloseDialog = () => {
     setDialogValue({
       component: '',
+      uid: 0,
       unitCost: '',
       avgLife: ''
     });
