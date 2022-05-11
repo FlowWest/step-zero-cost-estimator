@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { ComponentProperties } from '../../../util/interfaces';
-import { uid } from 'uid';
 
 const useStyles = makeStyles((theme: Theme) => ({
   transferListContainer: {
@@ -55,50 +54,6 @@ const TransferList = ({
   const [checked, setChecked] = React.useState<readonly ComponentProperties[]>([]);
   const leftChecked = intersection(checked, existingComponents);
   const rightChecked = intersection(checked, newComponents);
-
-  useEffect(() => {
-    let existingUids: any[] = [];
-    let newUids: any[] = [];
-    let canUpdateState: boolean = false;
-
-    // populate uid arrays
-    existingComponents.forEach((obj) => {
-      existingUids.push(obj.uid);
-    });
-    newComponents.forEach((obj) => {
-      newUids.push(obj.uid);
-    });
-
-    // check if arrays have matching uid
-    newUids.forEach((uid) => {
-      if (existingUids.includes(uid)) {
-        canUpdateState = true;
-      }
-    });
-    existingUids.forEach((uid) => {
-      if (newUids.includes(uid)) {
-        canUpdateState = true;
-      }
-    });
-
-    // update state
-    if (canUpdateState) {
-      console.log(`Now updating all uid's`);
-      let newCopy = [...newComponents];
-      newCopy.forEach((obj) => {
-        obj['uid'] = uid();
-      });
-      console.log('prev. new: ', newComponents, 'updated new: ', newCopy);
-      // setNewCpnts([...newComponents, ...newCopy]);
-
-      let existingCopy = [...existingComponents];
-      existingCopy.forEach((obj) => {
-        obj['uid'] = uid();
-      });
-      console.log('prev. existing: ', existingComponents, 'updated existing: ', existingCopy);
-      // setExistingCpnts([...existingComponents, ...existingCopy]);
-    }
-  }, [existingComponents, newComponents]);
 
   // Checkbox Functionality
   const handleToggle = (value: ComponentProperties) => () => {
@@ -144,8 +99,8 @@ const TransferList = ({
   };
 
   const handleCopy = () => {
-    let leftCheckedCopy = [...leftChecked];
-    let rightCheckedCopy = [...rightChecked];
+    let leftCheckedCopy = [...leftChecked].map((obj) => ({ ...obj, uid: Math.random() }));
+    let rightCheckedCopy = [...rightChecked].map((obj) => ({ ...obj, uid: Math.random() }));
     setNewCpnts([...newComponents, ...leftCheckedCopy]);
     setExistingCpnts([...existingComponents, ...rightCheckedCopy]);
     setChecked([]);
