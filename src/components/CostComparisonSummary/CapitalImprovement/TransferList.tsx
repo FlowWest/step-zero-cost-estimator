@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Box,
   Button,
@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { ComponentProperties } from '../../../util/interfaces';
-import { uid } from 'react-uid';
+import { uid } from 'uid';
 
 const useStyles = makeStyles((theme: Theme) => ({
   transferListContainer: {
@@ -56,17 +56,67 @@ const TransferList = ({
   const leftChecked = intersection(checked, existingComponents);
   const rightChecked = intersection(checked, newComponents);
 
+  useEffect(() => {
+    let existingUids: any[] = [];
+    let newUids: any[] = [];
+    let canUpdateState: boolean = false;
+
+    // populate uid arrays
+    existingComponents.forEach((obj) => {
+      existingUids.push(obj.uid);
+    });
+    newComponents.forEach((obj) => {
+      newUids.push(obj.uid);
+    });
+
+    // check if arrays have matching uid
+    newUids.forEach((uid) => {
+      if (existingUids.includes(uid)) {
+        canUpdateState = true;
+      }
+    });
+    existingUids.forEach((uid) => {
+      if (newUids.includes(uid)) {
+        canUpdateState = true;
+      }
+    });
+
+    // update state
+    if (canUpdateState) {
+      console.log(`Now updating all uid's`);
+      let newCopy = [...newComponents];
+      newCopy.forEach((obj) => {
+        obj['uid'] = uid();
+      });
+      console.log('prev. new: ', newComponents, 'updated new: ', newCopy);
+      // setNewCpnts([...newComponents, ...newCopy]);
+
+      let existingCopy = [...existingComponents];
+      existingCopy.forEach((obj) => {
+        obj['uid'] = uid();
+      });
+      console.log('prev. existing: ', existingComponents, 'updated existing: ', existingCopy);
+      // setExistingCpnts([...existingComponents, ...existingCopy]);
+    }
+  }, [existingComponents, newComponents]);
+
   // Checkbox Functionality
   const handleToggle = (value: ComponentProperties) => () => {
-    const currentIndex = checked.indexOf(value);
+    const currentIndex = checked.indexOf(value); // 0 through length of array
+    // if value not in checked, indexOf returns -1
     const newChecked = [...checked];
 
+    // if index is -1, that means checked value not currently in array
+    // pushing to new checked
     if (currentIndex === -1) {
       newChecked.push(value);
     } else {
+      // if is in array, checked item needs to be removed from array
+      // splice out item at currentIndex, remove 1 element
       newChecked.splice(currentIndex, 1);
     }
 
+    // set newchecked array
     setChecked(newChecked);
   };
 
@@ -94,18 +144,10 @@ const TransferList = ({
   };
 
   const handleCopy = () => {
-    const leftCheckedCopy = leftChecked;
-    const rightCheckedCopy = rightChecked;
-
-    leftCheckedCopy.map((cpnt) => {
-      cpnt.uid = uid(cpnt);
-    });
-    rightCheckedCopy.map((cpnt) => {
-      cpnt.uid = uid(cpnt);
-    });
-
-    setNewCpnts(newComponents.concat(leftCheckedCopy));
-    setExistingCpnts(existingComponents.concat(rightCheckedCopy));
+    let leftCheckedCopy = [...leftChecked];
+    let rightCheckedCopy = [...rightChecked];
+    setNewCpnts([...newComponents, ...leftCheckedCopy]);
+    setExistingCpnts([...existingComponents, ...rightCheckedCopy]);
     setChecked([]);
   };
 
@@ -115,8 +157,7 @@ const TransferList = ({
       <Box className={styles.customList}>
         <List dense component="div" role="list">
           {components.map((cpnt: ComponentProperties, idx) => {
-            const labelId = `transfer-list-item-${cpnt.component}-label`;
-
+            const labelId = `transfer-list-item-${cpnt?.component}-label`;
             return (
               <ListItem
                 key={`${cpnt.component}-${idx}`}
