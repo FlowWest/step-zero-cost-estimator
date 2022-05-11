@@ -10,6 +10,7 @@ import {
   ListItemText,
   Theme
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { makeStyles } from '@mui/styles';
 import { ComponentProperties } from '../../../util/interfaces';
 
@@ -103,6 +104,22 @@ const TransferList = ({
     let rightCheckedCopy = [...rightChecked].map((obj) => ({ ...obj, uid: Math.random() }));
     setNewCpnts([...newComponents, ...leftCheckedCopy]);
     setExistingCpnts([...existingComponents, ...rightCheckedCopy]);
+    setChecked([]);
+  };
+
+  const handleDelete = () => {
+    let updatedExisting = [...existingComponents];
+    let updatedNew = [...newComponents];
+
+    leftChecked.forEach((obj) => {
+      updatedExisting.splice(updatedExisting.indexOf(obj), 1);
+    });
+    rightChecked.forEach((obj) => {
+      updatedNew.splice(updatedNew.indexOf(obj), 1);
+    });
+
+    setExistingCpnts([...updatedExisting]);
+    setNewCpnts([...updatedNew]);
     setChecked([]);
   };
 
@@ -203,6 +220,16 @@ const TransferList = ({
             aria-label="copy to other side"
           >
             &#9851;
+          </Button>
+          <Button
+            sx={{ my: 0.5 }}
+            variant="outlined"
+            size="small"
+            onClick={handleDelete}
+            disabled={checked.length === 0}
+            aria-label="delete"
+          >
+            <DeleteIcon />
           </Button>
         </Grid>
       </Grid>
