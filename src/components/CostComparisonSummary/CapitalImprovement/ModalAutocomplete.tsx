@@ -16,7 +16,8 @@ import {
   Input,
   InputLabel,
   Button,
-  createFilterOptions
+  createFilterOptions,
+  Chip
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
@@ -25,7 +26,7 @@ import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import { makeStyles } from '@mui/styles';
 import { ComponentProperties } from '../../../util/interfaces';
 import AddCustomComponentDialog from './AddCustomComponentDialog';
-import { unionBy, remove, startCase } from 'lodash';
+import { unionBy, remove, startCase, sample } from 'lodash';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const CustomPopper = function (props: any) {
   const styles = useStyles();
+  console.log('props: ', props);
   return (
     <Popper
       {...props}
@@ -174,6 +176,10 @@ const ModalAutocomplete = ({
             });
           }
           return filtered;
+        }}
+        renderTags={(tagValue, getTagProps) => {
+          // Customize chip here to remove close button
+          return tagValue.map((option, idx) => <Chip {...getTagProps} label={option.title} />);
         }}
         PopperComponent={CustomPopper}
         fullWidth

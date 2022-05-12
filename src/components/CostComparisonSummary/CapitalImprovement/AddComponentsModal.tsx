@@ -84,7 +84,14 @@ const AddComponentsModal = ({
     >
       <Box className={styles.modal}>
         <DialogTitle sx={{ m: 0, p: 2 }}>
-          <Typography variant="h6">System Components</Typography>
+          <Typography variant="h6" align="center">
+            System Components
+          </Typography>
+          <br />
+          <Typography variant="subtitle2" align="center">
+            Please select or create water system components from the dropdown and then arrange them
+            in the list to indicate new and existing components in your water system
+          </Typography>
           <IconButton
             aria-label="close"
             onClick={() => handleClose()}

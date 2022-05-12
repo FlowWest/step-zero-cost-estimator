@@ -88,11 +88,6 @@ const TransferList = ({
   };
 
   // Handle Selected Items functionality
-  const handleAllRight = () => {
-    setNewCpnts(newComponents.concat(existingComponents));
-    setExistingCpnts([]);
-  };
-
   const handleCheckedRight = () => {
     setNewCpnts(newComponents.concat(leftChecked));
     setExistingCpnts(not(existingComponents, leftChecked));
@@ -103,11 +98,6 @@ const TransferList = ({
     setExistingCpnts(existingComponents.concat(rightChecked));
     setNewCpnts(not(newComponents, rightChecked));
     setChecked(not(checked, rightChecked));
-  };
-
-  const handleAllLeft = () => {
-    setExistingCpnts(existingComponents.concat(newComponents));
-    setNewCpnts([]);
   };
 
   const handleCopy = () => {
@@ -186,16 +176,6 @@ const TransferList = ({
             sx={{ my: 0.5 }}
             variant="outlined"
             size="small"
-            onClick={handleAllRight}
-            disabled={existingComponents.length === 0}
-            aria-label="move all right"
-          >
-            <DoubleArrowRightIcon className={styles.transferListIcons} />
-          </Button>
-          <Button
-            sx={{ my: 0.5 }}
-            variant="outlined"
-            size="small"
             onClick={handleCheckedRight}
             disabled={leftChecked.length === 0}
             aria-label="move selected right"
@@ -211,16 +191,6 @@ const TransferList = ({
             aria-label="move selected left"
           >
             <ArrowLeftIcon className={styles.transferListIcons} />
-          </Button>
-          <Button
-            sx={{ my: 0.5 }}
-            variant="outlined"
-            size="small"
-            onClick={handleAllLeft}
-            disabled={newComponents.length === 0}
-            aria-label="move all left"
-          >
-            <DoubleArrowLeftIcon className={styles.transferListIcons} />
           </Button>
           <Button
             sx={{ my: 0.5 }}
