@@ -17,19 +17,7 @@ import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import { ComponentProperties } from '../../../util/interfaces';
 
 const WaterSystemComponentsGrid = () => {
-  //DUMMY DATA
-  useEffect(() => {
-    fetch('https://fakestoreapi.com/products?limit=5')
-      .then((res) => res.json())
-      .then((data) => {
-        setComponents(data);
-      })
-      .catch((error) => console.error(error.message));
-  }, []);
-
   const [state, dispatch] = useContext(WaterSystemContext);
-  const [components, setComponents] = useState([]);
-  const empty: Array<any> = [];
 
   return (
     <>
