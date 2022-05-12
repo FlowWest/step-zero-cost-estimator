@@ -25,6 +25,7 @@ import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import { makeStyles } from '@mui/styles';
 import { ComponentProperties } from '../../../util/interfaces';
 import AddCustomComponentDialog from './AddCustomComponentDialog';
+import { unionBy, remove, startCase } from 'lodash';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -60,7 +61,7 @@ const ModalAutocomplete = ({
   setExistingCpnts: React.Dispatch<any>;
   setNewCpnts: React.Dispatch<any>;
 }) => {
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = React.useState([] as Array<any>);
   const [openDialog, toggleOpen] = React.useState(false);
   const [dialogValue, setDialogValue] = React.useState({
     component: '',
@@ -78,8 +79,10 @@ const ModalAutocomplete = ({
     reason: string,
     detail: any
   ) => {
+    const currentOption = detail?.option;
+
     if (reason === 'removeOption') {
-      const removedComponent = detail?.option?.component;
+      const removedComponent = currentOption?.component;
 
       // filter out removed component if in existing
       const updatedExisting = existingComponents.filter(
@@ -92,32 +95,17 @@ const ModalAutocomplete = ({
       const updatedNew = newComponents.filter((newCpt) => newCpt.component !== removedComponent);
       // set new components to updated array
       setNewCpnts(updatedNew);
+    } else if (currentOption?.newOption) {
+      toggleOpen(true);
+      setDialogValue({
+        component: currentOption.component,
+        uid: Math.random(),
+        unitCost: '',
+        avgLife: ''
+      });
+      return;
     } else {
-      for (const item of selectedComponents) {
-        // If item was pre-populated
-        if (!Object.keys(item).includes('newOption') || item.newOption === false) {
-          const filtered = existingComponents.filter(
-            (element) => element.component === item.component
-          );
-
-          if (filtered.length === 0) {
-            setExistingCpnts([...existingComponents, { ...item, uid: Math.random() }]); // {...}
-          } else {
-            setExistingCpnts([...selectedComponents]);
-          }
-          // If new item
-        } else if (item.newOption === true) {
-          toggleOpen(true);
-          setDialogValue({
-            component: item.component,
-            uid: Math.random(),
-            unitCost: '',
-            avgLife: ''
-          });
-          // error catching
-        } else {
-        }
-      }
+      setExistingCpnts([...existingComponents, { ...currentOption, uid: Math.random() }]);
     }
   };
 
@@ -139,6 +127,10 @@ const ModalAutocomplete = ({
     handleCloseDialog();
   };
 
+  useEffect(() => {
+    setValue([...unionBy(existingComponents, newComponents, 'component')]);
+  }, [existingComponents, newComponents]);
+
   return (
     <>
       <AddCustomComponentDialog
@@ -156,6 +148,8 @@ const ModalAutocomplete = ({
         options={sampleComponents}
         disableCloseOnSelect
         onChange={handleChange}
+        isOptionEqualToValue={(option, value) => option.component === value.component}
+        value={value}
         getOptionLabel={(option: any) => option.component}
         renderOption={(props: any, option: any, { selected }: { selected: any }) => (
           <li {...props}>
@@ -194,26 +188,31 @@ const sampleComponents: ComponentProperties[] | any = [
   {
     component: 'Water Pump 1',
     unitCost: 1000,
-    avgLife: 20
+    avgLife: 20,
+    uid: Math.random()
   },
   {
     component: 'Water Pump 2',
     unitCost: 1000,
-    avgLife: 20
+    avgLife: 20,
+    uid: Math.random()
   },
   {
     component: 'Water Pump 3',
     unitCost: 1000,
-    avgLife: 20
+    avgLife: 20,
+    uid: Math.random()
   },
   {
     component: 'Water Pump 4',
     unitCost: 1000,
-    avgLife: 20
+    avgLife: 20,
+    uid: Math.random()
   },
   {
     component: 'Water Pump 5',
     unitCost: 1000,
-    avgLife: 20
+    avgLife: 20,
+    uid: Math.random()
   }
 ];
