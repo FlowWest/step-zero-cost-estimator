@@ -179,7 +179,9 @@ const ModalAutocomplete = ({
         }}
         renderTags={(tagValue, getTagProps) => {
           // Customize chip here to remove close button
-          return tagValue.map((option, idx) => <Chip {...getTagProps} label={option.title} />);
+          return tagValue.map((option, idx) => (
+            <Chip {...getTagProps} label={option.component} sx={{ mx: 0.5 }} />
+          ));
         }}
         PopperComponent={CustomPopper}
         fullWidth
