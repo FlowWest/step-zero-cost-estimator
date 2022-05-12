@@ -64,6 +64,7 @@ const ModalAutocomplete = ({
   setNewCpnts: React.Dispatch<any>;
 }) => {
   const [value, setValue] = React.useState([] as Array<any>);
+  const [waterSystemCpnts, setWaterSystemCpnts] = React.useState(sampleComponents);
   const [openDialog, toggleOpen] = React.useState(false);
   const [dialogValue, setDialogValue] = React.useState({
     component: '',
@@ -125,6 +126,7 @@ const ModalAutocomplete = ({
     event.preventDefault();
     if (dialogValue.component && dialogValue.unitCost && dialogValue.avgLife) {
       setExistingCpnts([...existingComponents, dialogValue]);
+      setWaterSystemCpnts([...waterSystemCpnts, dialogValue]);
     }
     handleCloseDialog();
   };
@@ -145,9 +147,10 @@ const ModalAutocomplete = ({
       <Autocomplete
         id="components-checkbox"
         multiple
+        disableClearable
         forcePopupIcon
         handleHomeEndKeys
-        options={sampleComponents}
+        options={waterSystemCpnts}
         disableCloseOnSelect
         onChange={handleChange}
         isOptionEqualToValue={(option, value) => option.component === value.component}
