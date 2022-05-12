@@ -10,9 +10,17 @@ import {
   ListItemText,
   Theme
 } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import {
+  Delete as DeleteIcon,
+  ContentCopy as ContentCopyIcon,
+  KeyboardDoubleArrowLeft as DoubleArrowLeftIcon,
+  KeyboardDoubleArrowRight as DoubleArrowRightIcon,
+  KeyboardArrowLeft as ArrowLeftIcon,
+  KeyboardArrowRight as ArrowRightIcon
+} from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import { ComponentProperties } from '../../../util/interfaces';
+import { height, width } from '@mui/system';
 
 const useStyles = makeStyles((theme: Theme) => ({
   transferListContainer: {
@@ -28,6 +36,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   buttonGridContainer: {
     margin: '0 5rem'
+  },
+  transferListIcons: {
+    width: '1.25rem'
   }
 }));
 
@@ -150,7 +161,7 @@ const TransferList = ({
                 <ListItemText
                   id={labelId}
                   primary={`${cpnt.component}`}
-                  secondary={`Unit Cost: ${cpnt.avgLife}`}
+                  secondary={`Unit Cost: ${cpnt.unitCost || 'N/A'}`}
                 />
               </ListItem>
             );
@@ -179,7 +190,7 @@ const TransferList = ({
             disabled={existingComponents.length === 0}
             aria-label="move all right"
           >
-            ≫
+            <DoubleArrowRightIcon className={styles.transferListIcons} />
           </Button>
           <Button
             sx={{ my: 0.5 }}
@@ -189,7 +200,7 @@ const TransferList = ({
             disabled={leftChecked.length === 0}
             aria-label="move selected right"
           >
-            &gt;
+            <ArrowRightIcon className={styles.transferListIcons} />
           </Button>
           <Button
             sx={{ my: 0.5 }}
@@ -199,7 +210,7 @@ const TransferList = ({
             disabled={rightChecked.length === 0}
             aria-label="move selected left"
           >
-            &lt;
+            <ArrowLeftIcon className={styles.transferListIcons} />
           </Button>
           <Button
             sx={{ my: 0.5 }}
@@ -209,7 +220,7 @@ const TransferList = ({
             disabled={newComponents.length === 0}
             aria-label="move all left"
           >
-            ≪
+            <DoubleArrowLeftIcon className={styles.transferListIcons} />
           </Button>
           <Button
             sx={{ my: 0.5 }}
@@ -219,7 +230,7 @@ const TransferList = ({
             disabled={checked.length === 0}
             aria-label="copy to other side"
           >
-            &#9851;
+            <ContentCopyIcon className={styles.transferListIcons} />
           </Button>
           <Button
             sx={{ my: 0.5 }}
@@ -229,7 +240,7 @@ const TransferList = ({
             disabled={checked.length === 0}
             aria-label="delete"
           >
-            <DeleteIcon />
+            <DeleteIcon className={styles.transferListIcons} />
           </Button>
         </Grid>
       </Grid>
