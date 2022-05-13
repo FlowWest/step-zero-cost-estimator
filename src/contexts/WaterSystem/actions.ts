@@ -34,3 +34,12 @@ export const updateComponents = (
     }
   };
 };
+
+export const updateAutocompleteOptions = (autocompleteOptions: ComponentProperties[]) => {
+  return {
+    type: ACTIONS.UPDATE_AUTOCOMPLETE_OPTIONS,
+    payload: {
+      autocompleteOptions
+    }
+  };
+};
