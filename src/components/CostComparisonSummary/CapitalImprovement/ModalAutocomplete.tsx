@@ -27,6 +27,7 @@ import { makeStyles } from '@mui/styles';
 import { ComponentProperties } from '../../../util/interfaces';
 import AddCustomComponentDialog from './AddCustomComponentDialog';
 import { unionBy, remove, startCase, sample } from 'lodash';
+import { updateAutocompleteOptions } from '../../../contexts/WaterSystem/actions';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -41,7 +42,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const CustomPopper = function (props: any) {
   const styles = useStyles();
-  console.log('props: ', props);
   return (
     <Popper
       {...props}
@@ -63,8 +63,11 @@ const ModalAutocomplete = ({
   setExistingCpnts: React.Dispatch<any>;
   setNewCpnts: React.Dispatch<any>;
 }) => {
+  const [state, dispatch] = useContext(WaterSystemContext);
   const [value, setValue] = React.useState([] as Array<any>);
-  const [waterSystemCpnts, setWaterSystemCpnts] = React.useState(sampleComponents);
+  const [waterSystemCpnts, setWaterSystemCpnts] = React.useState(
+    state.autocompleteOptions.length === 0 ? sampleComponents : state.autocompleteOptions
+  );
   const [openDialog, toggleOpen] = React.useState(false);
   const [dialogValue, setDialogValue] = React.useState({
     component: '',
@@ -133,6 +136,7 @@ const ModalAutocomplete = ({
 
   useEffect(() => {
     setValue([...unionBy(existingComponents, newComponents, 'component')]);
+    dispatch(updateAutocompleteOptions(waterSystemCpnts));
   }, [existingComponents, newComponents]);
 
   return (
@@ -181,7 +185,6 @@ const ModalAutocomplete = ({
           return filtered;
         }}
         renderTags={(tagValue, getTagProps) => {
-          // Customize chip here to remove close button
           return tagValue.map((option, idx) => (
             <Chip {...getTagProps} label={option.component} sx={{ mx: 0.5 }} />
           ));
