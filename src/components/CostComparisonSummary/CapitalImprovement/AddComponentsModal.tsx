@@ -66,18 +66,21 @@ const AddComponentsModal = ({
     handleClose();
   };
 
-  const handleCloseClick = (event: React.SyntheticEvent, reason: string) => {
-    if (reason === 'backdropClick' || reason === 'backdropClick') {
-      event.preventDefault();
-    } else {
-      handleClose();
+  const handleCloseClick = (event: React.SyntheticEvent | null, reason: string | null = null) => {
+    if (reason && reason === 'backdropClick') {
+      return;
     }
+
+    if (existingCpnts !== state.existingComponents || newCpnts !== state.newComponents) {
+      setExistingCpnts([...state.existingComponents]);
+      setNewCpnts([...state.newComponents]);
+    }
+    handleClose();
   };
 
   return (
     <Modal
       open={open}
-      onClose={handleCloseClick}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
       disableEscapeKeyDown
@@ -94,7 +97,7 @@ const AddComponentsModal = ({
           </Typography>
           <IconButton
             aria-label="close"
-            onClick={() => handleClose()}
+            onClick={() => handleCloseClick(null)}
             className={styles.closeIconButton}
           >
             <Close />
@@ -120,8 +123,7 @@ const AddComponentsModal = ({
           <Button
             className={`${styles.actionButton} ${styles.cancelButton}`}
             variant="contained"
-            // color="secondary"
-            onClick={() => handleClose()}
+            onClick={() => handleCloseClick(null)}
           >
             CANCEL
           </Button>
