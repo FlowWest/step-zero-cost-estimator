@@ -148,11 +148,7 @@ const TransferList = ({
                     }}
                   />
                 </ListItemIcon>
-                <ListItemText
-                  id={labelId}
-                  primary={`${cpnt.component}`}
-                  secondary={`Unit Cost: ${cpnt.unitCost || 'N/A'}`}
-                />
+                <ListItemText id={labelId} primary={`${cpnt.component}`} />
               </ListItem>
             );
           })}
