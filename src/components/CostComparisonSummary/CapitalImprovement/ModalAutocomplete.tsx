@@ -1,32 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   Checkbox,
   TextField,
   Autocomplete,
   Theme,
   Popper,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Grid,
-  FormControl,
-  FormHelperText,
-  Input,
-  InputLabel,
-  Button,
   createFilterOptions,
   Chip
 } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import { makeStyles } from '@mui/styles';
 import { ComponentProperties } from '../../../util/interfaces';
 import AddCustomComponentDialog from './AddCustomComponentDialog';
-import { unionBy, remove, startCase, sample } from 'lodash';
+import { unionBy } from 'lodash';
 import { updateAutocompleteOptions } from '../../../contexts/WaterSystem/actions';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
