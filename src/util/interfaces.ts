@@ -28,8 +28,11 @@ export interface WaterSystemAction {
 }
 
 export interface WaterSystemState {
-  currentWaterSystem: WaterSystem;
+  currentWaterSystem: WaterSystem | {};
   consolidationCostParams: ConsolidationCostParams;
+  existingComponents: ComponentProperties[];
+  newComponents: ComponentProperties[];
+  autocompleteOptions: ComponentProperties[];
 }
 
 export interface ConsolidationCostDetails {
@@ -72,4 +75,16 @@ export interface WaterSystem {
   routeElevationMin: string;
   routeElevationRange: string;
   routeName: string;
+}
+
+export interface ComponentProperties {
+  uid: string | null;
+  qty: number;
+  component: string;
+  unitCost: number;
+  installedCost: number | null;
+  avgLife: number;
+  annualReserve: number | null;
+  monthlyReserve: number | null;
+  monthlyReservePerCustomer: number | null;
 }

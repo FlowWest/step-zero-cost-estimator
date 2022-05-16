@@ -1,5 +1,5 @@
 import { ACTIONS } from './reducer';
-import { WaterSystem } from '../../util/interfaces';
+import { WaterSystem, ComponentProperties } from '../../util/interfaces';
 
 export const updateWaterSystem = (newWaterSystem: WaterSystem) => {
   return {
@@ -19,5 +19,27 @@ export const updateWaterSystemAndParams = (newWaterSystem: WaterSystem, updatedP
   return {
     type: ACTIONS.UPDATE_WATER_SYSTEM_AND_PARAMS,
     payload: { newWaterSystem, updatedParams }
+  };
+};
+
+export const updateComponents = (
+  existingComponents: ComponentProperties[],
+  newComponents: ComponentProperties[]
+) => {
+  return {
+    type: ACTIONS.UPDATE_COMPONENTS,
+    payload: {
+      existingComponents,
+      newComponents
+    }
+  };
+};
+
+export const updateAutocompleteOptions = (autocompleteOptions: ComponentProperties[]) => {
+  return {
+    type: ACTIONS.UPDATE_AUTOCOMPLETE_OPTIONS,
+    payload: {
+      autocompleteOptions
+    }
   };
 };
