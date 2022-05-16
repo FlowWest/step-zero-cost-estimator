@@ -1,18 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import {
-  Button,
   Grid,
-  Box,
   Typography,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
-  Modal
+  TableRow
 } from '@mui/material';
-import { updateConsolidationCostParams } from '../../../contexts/WaterSystem/actions';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import { ComponentProperties } from '../../../util/interfaces';
 
