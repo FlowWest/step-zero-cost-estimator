@@ -47,15 +47,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const AddComponentsModal = ({
-  open,
-  handleOpen,
-  handleClose
-}: {
-  open: boolean;
-  handleOpen: Function;
-  handleClose: Function;
-}) => {
+const AddComponentsModal = ({ open, handleClose }: { open: boolean; handleClose: Function }) => {
   const styles = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
   const [existingCpnts, setExistingCpnts] = useState(state.existingComponents);
