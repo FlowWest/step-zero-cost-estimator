@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Box,
   Button,
@@ -13,14 +13,11 @@ import {
 import {
   Delete as DeleteIcon,
   ContentCopy as ContentCopyIcon,
-  KeyboardDoubleArrowLeft as DoubleArrowLeftIcon,
-  KeyboardDoubleArrowRight as DoubleArrowRightIcon,
   KeyboardArrowLeft as ArrowLeftIcon,
   KeyboardArrowRight as ArrowRightIcon
 } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import { ComponentProperties } from '../../../util/interfaces';
-import { height, width } from '@mui/system';
 
 const useStyles = makeStyles((theme: Theme) => ({
   transferListContainer: {
