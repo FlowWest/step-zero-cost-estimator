@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
+import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import { DataGrid, GridColDef, GridOverlay } from '@mui/x-data-grid';
-import { Theme, Button } from '@mui/material';
+import { Theme, Typography, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -27,23 +28,13 @@ const formatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2
 });
 
-const ComponentDataGrid = ({
-  rows,
-  openAddComponents,
-  connections,
-  getNewGridState
-}: {
-  rows: Array<any>;
-  openAddComponents: Function;
-  connections: number;
-  getNewGridState: Function;
-}) => {
+const TotalCIPDataGrid = () => {
+  const [state, dispatch] = useContext(WaterSystemContext);
   const styles = useStyles();
-  const [test, setTest] = useState({} as any);
   const columns: GridColDef[] = [
     {
       field: 'quantity',
-      headerName: 'Quantity',
+      headerName: '',
       editable: true,
       flex: 1,
       type: 'number',
@@ -52,10 +43,10 @@ const ComponentDataGrid = ({
       },
       cellClassName: styles.editableCell
     },
-    { field: 'component', headerName: 'Component', flex: 3 },
+    { field: 'component', headerName: '', flex: 3 },
     {
       field: 'unitCost',
-      headerName: 'Unit Cost',
+      headerName: '',
       editable: true,
       flex: 1.5,
       type: 'number',
@@ -79,7 +70,7 @@ const ComponentDataGrid = ({
     },
     {
       field: 'avgLife',
-      headerName: 'Avg Life (Years)',
+      headerName: '',
       editable: true,
       flex: 1.5,
       type: 'number',
@@ -118,8 +109,8 @@ const ComponentDataGrid = ({
       type: 'number',
       valueGetter: (params) => {
         const monthlyReserve = params.getValue(params.id, 'monthlyReserve');
-        // getTest(params);
-        return monthlyReserve / connections;
+        const numConnections = parseInt(state.consolidationCostParams.connections);
+        return monthlyReserve / numConnections;
       },
       valueFormatter: (params) => {
         return `$${formatter.format(params.value)}`;
@@ -127,64 +118,26 @@ const ComponentDataGrid = ({
     }
   ];
 
-  //   const getTest = (params: any) => {
-  //     setTest((prevState: any) => {return  {
-  //       ...prevState,
-  //       [params.id]: {
-
-  //         installedCost: params.getValue(params.id, 'installedCost'),
-  //         annualReserve: params.getValue(params.id, 'annualReserve')
-  //       }
-  //     }})
-  //   );
-  // };
-
-  useEffect(() => {
-    console.log('test');
-  }, [test]);
-
   const renderNoRowsOverlay = () => {
     return (
       <GridOverlay>
-        <div className={styles.addItemButtonWrapper}>
-          <Button
-            onClick={() => {
-              openAddComponents();
-            }}
-          >
-            Add Components
-          </Button>
-        </div>
+        <Typography>
+          New and/or Existing components required to perform Total CIP Cost calculations
+        </Typography>
       </GridOverlay>
     );
   };
-
+  console.log('STATE', state);
   return (
     <div style={{ display: 'flex', height: '100%' }}>
       <div style={{ flexGrow: 1 }}>
         <DataGrid
           autoHeight
-          rows={rows}
+          rows={[]}
           columns={columns}
           getRowId={(row) => row.uid}
-          // onCellEditCommit={(cell: any) => {
-          //   setGridState((prevState: any) => {
-          //     const test = {
-          //       ...prevState,
-          //       [cell.id]: {
-          //         installedCost: cell.getValue(cell.id, 'installedCost'),
-          //         annualReserve: cell.getValue(cell.id, 'annualReserve')
-          //       }
-          //     };
-          //     return test;
-          //   });
-          // }}
           components={{
             NoRowsOverlay: renderNoRowsOverlay
-          }}
-          classes={{
-            'cell--editing': styles.cellEditing,
-            editInputCell: styles.cellInput
           }}
           hideFooterPagination
         />
@@ -193,4 +146,4 @@ const ComponentDataGrid = ({
   );
 };
 
-export default ComponentDataGrid;
+export default TotalCIPDataGrid;

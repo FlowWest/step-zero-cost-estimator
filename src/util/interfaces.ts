@@ -33,6 +33,10 @@ export interface WaterSystemState {
   existingComponents: ComponentProperties[];
   newComponents: ComponentProperties[];
   autocompleteOptions: ComponentProperties[];
+  cipCostData: {
+    new: Object;
+    existing: Object;
+  };
 }
 
 export interface ConsolidationCostDetails {

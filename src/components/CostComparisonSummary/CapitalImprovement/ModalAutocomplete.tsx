@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     '& .MuiAutocomplete-listbox': {
       background: theme.palette.background.default
     }
+  },
+  label: {
+    align: 'left'
   }
 }));
 
@@ -51,6 +54,7 @@ const ModalAutocomplete = ({
   setExistingCpnts: React.Dispatch<any>;
   setNewCpnts: React.Dispatch<any>;
 }) => {
+  const styles = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
   const [value, setValue] = React.useState([] as Array<any>);
   const [waterSystemCpnts, setWaterSystemCpnts] = React.useState(
@@ -189,31 +193,31 @@ export default ModalAutocomplete;
 const sampleComponents: ComponentProperties[] | any = [
   {
     component: 'Water Pump 1',
-    unitCost: 1000,
+    unitCost: 100000,
     avgLife: 20,
     uid: Math.random()
   },
   {
     component: 'Water Pump 2',
-    unitCost: 1000,
+    unitCost: 100000,
     avgLife: 20,
     uid: Math.random()
   },
   {
     component: 'Water Pump 3',
-    unitCost: 1000,
+    unitCost: 100000,
     avgLife: 20,
     uid: Math.random()
   },
   {
     component: 'Water Pump 4',
-    unitCost: 1000,
+    unitCost: 100000,
     avgLife: 20,
     uid: Math.random()
   },
   {
     component: 'Water Pump 5',
-    unitCost: 1000,
+    unitCost: 100000,
     avgLife: 20,
     uid: Math.random()
   }

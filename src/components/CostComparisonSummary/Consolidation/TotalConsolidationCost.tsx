@@ -5,6 +5,7 @@ import { getConsolidationCostDetails } from '../../../util/consolidationUtil';
 import { formatToUSD } from '../../../util/util';
 import { makeStyles } from '@mui/styles';
 import ConsolidationTabs from './ConsolidationTabs/ConsolidationTabs';
+import WarningMessage from '../../uiComponents/WarningMessage';
 
 const useStyles = makeStyles((theme: Theme) => ({
   componentsContainer: {
@@ -51,11 +52,7 @@ const TotalConsolidationCost = () => {
         <ConsolidationTabs chartData={consolidationCostDetails} />
       </Grid>
       <Grid item className={styles.gridItem}>
-        <Typography paragraph sx={{ fontStyle: 'italic' }}>
-          The information provided on this page is for a step zero analysis and is intended for
-          exploratory purposes only. The calculations are not a replacement for a full feasibility
-          analysis.{' '}
-        </Typography>
+        <WarningMessage />
       </Grid>
     </Grid>
     // </div>

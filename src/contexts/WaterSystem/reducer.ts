@@ -5,7 +5,8 @@ export const ACTIONS = {
   UPDATE_CONSOLIDATION_COST_PARAMS: 'update_consolidation_cost_params',
   UPDATE_WATER_SYSTEM_AND_PARAMS: 'update_water_system_and_params',
   UPDATE_COMPONENTS: 'update_components',
-  UPDATE_AUTOCOMPLETE_OPTIONS: 'update_autocomplete_options'
+  UPDATE_AUTOCOMPLETE_OPTIONS: 'update_autocomplete_options',
+  UPDATE_CIP_COST_DATA: 'update_cip_cost_data'
 };
 
 export const initialState = {
@@ -20,7 +21,11 @@ export const initialState = {
   },
   existingComponents: [],
   newComponents: [],
-  autocompleteOptions: []
+  autocompleteOptions: [],
+  cipCostData: {
+    existing: {},
+    new: {}
+  }
 };
 
 export const reducer = (state: WaterSystemState, action: WaterSystemAction): WaterSystemState => {
@@ -60,6 +65,11 @@ export const reducer = (state: WaterSystemState, action: WaterSystemAction): Wat
       return {
         ...state,
         autocompleteOptions: [...action.payload.autocompleteOptions]
+      };
+    case ACTIONS.UPDATE_CIP_COST_DATA:
+      return {
+        ...state,
+        cipCostData: { ...state.cipCostData, [action.payload.rowId]: action.payload.cipCostData }
       };
     default:
       return state;
