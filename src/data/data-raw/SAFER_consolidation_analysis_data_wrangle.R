@@ -3,6 +3,9 @@
 # Return all columns
 # basic QC
 
+library(readxl)
+library(tidyverse)
+
 consolidations <- read_excel('2_Consolidation Analysis_FINAL.xlsx', sheet = 'RESULTS_Consolidations') %>% 
   janitor::remove_empty() %>%
   janitor::clean_names() %>%
@@ -15,10 +18,23 @@ user_inputs <- names(user_inputs)
 
 all_vars <- c(user_inputs)
 
-consolidations_final <- consolidations %>%
-  select(all_vars)
+consolidations <- consolidations %>%
+  select(all_vars) %>%
+  rename(j_sys_pwsid_old = j_sys_pwsid,
+         j_pop_old = j_pop, 
+         j_conn_old = j_conn)
 
-write.csv(consolidations_final, '../water_system_details.csv')
+new <- read_excel('WS.Detail.xlsx', skip = 3) %>% janitor::clean_names() %>% 
+  select('number', 'population', 'svc_connect_total')
+
+consolidations_final <- merge(new, consolidations, by.x = 'number', by.y = "j_sys_pwsid_old") %>%
+  rename(j_sys_pwsid = number,
+         j_pop = population,
+         j_conn = svc_connect_total) %>%
+  select(-j_pop_old, -j_conn_old)
+
+#write.csv(consolidations_final, '../water_system_details.csv')
+
 
 # TODO: will need to update to fill in NAs for PWSIDs when data becomes available 
 
