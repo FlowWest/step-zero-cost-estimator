@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
-import { DataGrid, GridColDef, GridCellParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
