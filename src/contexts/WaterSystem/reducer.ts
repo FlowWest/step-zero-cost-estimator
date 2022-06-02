@@ -36,14 +36,14 @@ export const reducer = (state: WaterSystemState, action: WaterSystemAction): Wat
     case ACTIONS.UPDATE_CONSOLIDATION_COST_PARAMS:
       return {
         ...state,
-        consolidationCostParams: { ...state.consolidationCostParams, ...action.payload }
+        consolidationCostParams: { ...state?.consolidationCostParams, ...action.payload }
       };
     case ACTIONS.UPDATE_WATER_SYSTEM_AND_PARAMS:
       return {
         ...state,
         currentWaterSystem: action.payload.newWaterSystem,
         consolidationCostParams: {
-          ...state.consolidationCostParams,
+          ...state?.consolidationCostParams,
           ...action.payload.updatedParams
         },
         existingComponents: [],

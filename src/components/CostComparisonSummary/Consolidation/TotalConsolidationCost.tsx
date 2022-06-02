@@ -31,7 +31,7 @@ const TotalConsolidationCost = () => {
         consolidationCostParams
       })
     );
-  }, [state.consolidationCostParams]);
+  }, [state?.consolidationCostParams]);
 
   return (
     <Grid
