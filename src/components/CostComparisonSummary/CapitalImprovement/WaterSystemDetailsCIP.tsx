@@ -30,7 +30,7 @@ const WaterSystemDetailsCIP = () => {
   const handleConnectionsChange = (event: any) => {
     dispatch(
       updateConsolidationCostParams({
-        ...state.consolidationCostParams,
+        ...state?.consolidationCostParams,
         connections: event.target?.value
       })
     );
@@ -49,7 +49,7 @@ const WaterSystemDetailsCIP = () => {
             InputLabelProps={{
               shrink: true
             }}
-            defaultValue={`${state.currentWaterSystem.joinSystemName}`}
+            defaultValue={`${state?.currentWaterSystem.joinSystemName}`}
             disabled
           />
         </Grid>
@@ -61,8 +61,8 @@ const WaterSystemDetailsCIP = () => {
               shrink: true
             }}
             defaultValue={
-              state.currentWaterSystem.joinSystemPWSID
-                ? `${state.currentWaterSystem.joinSystemPWSID}`
+              state?.currentWaterSystem.joinSystemPWSID
+                ? `${state?.currentWaterSystem.joinSystemPWSID}`
                 : 'N/A'
             }
             disabled
@@ -76,7 +76,7 @@ const WaterSystemDetailsCIP = () => {
               shrink: true
             }}
             type="number"
-            defaultValue={state.consolidationCostParams.connections}
+            defaultValue={state?.consolidationCostParams.connections}
             onChange={handleConnectionsChange}
           />
         </Grid>

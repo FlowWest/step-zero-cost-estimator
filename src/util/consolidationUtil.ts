@@ -5,7 +5,7 @@ export const getConsolidationCostDetails = ({
   consolidationCostParams
 }: any) => {
   const { connections, connectionFees, distance, pipelineCosts, adminLegalCosts, contingency } =
-    consolidationCostParams;
+    consolidationCostParams || {};
 
   // if connections > 0, use connections, else use 8
   const calcConnections = connections || 8;

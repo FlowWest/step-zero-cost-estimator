@@ -37,8 +37,8 @@ const WaterSystemComponentsGrid = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {state.existingComponents &&
-                state.existingComponents.map((component: ComponentProperties) => (
+              {state?.existingComponents &&
+                state?.existingComponents.map((component: ComponentProperties) => (
                   <TableRow>
                     <TableCell>{1}</TableCell>
                     <TableCell>{component?.component}</TableCell>
@@ -75,8 +75,8 @@ const WaterSystemComponentsGrid = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {state.newComponents &&
-                state.newComponents.map((component: ComponentProperties) => (
+              {state?.newComponents &&
+                state?.newComponents.map((component: ComponentProperties) => (
                   <TableRow>
                     <TableCell>{component?.qty}</TableCell>
                     <TableCell>{component?.component}</TableCell>

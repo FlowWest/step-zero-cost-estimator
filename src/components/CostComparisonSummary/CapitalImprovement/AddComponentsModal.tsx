@@ -50,8 +50,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 const AddComponentsModal = ({ open, handleClose }: { open: boolean; handleClose: Function }) => {
   const styles = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
-  const [existingCpnts, setExistingCpnts] = useState(state.existingComponents);
-  const [newCpnts, setNewCpnts] = useState(state.newComponents);
+  const [existingCpnts, setExistingCpnts] = useState(state?.existingComponents);
+  const [newCpnts, setNewCpnts] = useState(state?.newComponents);
 
   const handleSubmit = () => {
     dispatch(updateComponents(existingCpnts, newCpnts));
@@ -63,9 +63,9 @@ const AddComponentsModal = ({ open, handleClose }: { open: boolean; handleClose:
       return;
     }
 
-    if (existingCpnts !== state.existingComponents || newCpnts !== state.newComponents) {
-      setExistingCpnts([...state.existingComponents]);
-      setNewCpnts([...state.newComponents]);
+    if (existingCpnts !== state?.existingComponents || newCpnts !== state?.newComponents) {
+      setExistingCpnts([...state?.existingComponents]);
+      setNewCpnts([...state?.newComponents]);
     }
     handleClose();
   };

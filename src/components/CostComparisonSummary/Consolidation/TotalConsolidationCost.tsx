@@ -21,7 +21,7 @@ const TotalConsolidationCost = () => {
   const styles = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
 
-  const { currentWaterSystem, consolidationCostParams } = state;
+  const { currentWaterSystem, consolidationCostParams } = state || {};
   const [consolidationCostDetails, setConsolidationCostDetailset] = useState({} as any);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const TotalConsolidationCost = () => {
         consolidationCostParams
       })
     );
-  }, [state.consolidationCostParams]);
+  }, [state?.consolidationCostParams]);
 
   return (
     <Grid

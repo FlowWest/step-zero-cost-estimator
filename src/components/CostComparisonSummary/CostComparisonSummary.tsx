@@ -29,7 +29,7 @@ const CostComparisonSummary = ({
 
   return (
     <>
-      {Object.keys(selectedWaterSystem).length ? (
+      {selectedWaterSystem && Object.keys(selectedWaterSystem).length ? (
         <div>
           <Typography paragraph>Complete both calculators for cost comparison</Typography>
           <Typography paragraph>

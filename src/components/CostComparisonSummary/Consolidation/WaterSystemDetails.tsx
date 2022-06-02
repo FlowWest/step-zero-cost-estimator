@@ -17,7 +17,7 @@ const WaterSystemDetails = () => {
     <>
       <InputSlider
         minValue={0}
-        start={state.consolidationCostParams?.connections}
+        start={state?.consolidationCostParams?.connections}
         inputProperty="connections"
         label="Number of Connections"
         updateState={updateWaterSystemDetails}
@@ -26,7 +26,7 @@ const WaterSystemDetails = () => {
         isCurrency={true}
         inputProperty="connectionFees"
         label="Connection Fees"
-        start={state.consolidationCostParams?.connectionFees}
+        start={state?.consolidationCostParams?.connectionFees}
         maxValue={10000}
         incrementBy={1000}
         inputAdornment={{
@@ -39,7 +39,7 @@ const WaterSystemDetails = () => {
       <InputSlider
         minValue={0}
         maxValue={25000}
-        start={state.consolidationCostParams?.distance}
+        start={state?.consolidationCostParams?.distance}
         inputProperty="distance"
         label="Distance to Receiving System"
         inputAdornment={{ end: 'feet' }}
@@ -49,7 +49,7 @@ const WaterSystemDetails = () => {
         isCurrency={true}
         inputProperty="pipelineCosts"
         label="Pipeline Costs"
-        start={state.consolidationCostParams?.pipelineCosts}
+        start={state?.consolidationCostParams?.pipelineCosts}
         incrementBy={5}
         inputAdornment={{ start: '$', end: 'per feet' }}
         updateState={updateWaterSystemDetails}
@@ -58,7 +58,7 @@ const WaterSystemDetails = () => {
         isCurrency={true}
         inputProperty="adminLegalCosts"
         label={`Admin & Legal Costs`}
-        start={state.consolidationCostParams?.adminLegalCosts}
+        start={state?.consolidationCostParams?.adminLegalCosts}
         maxValue={1000000}
         incrementBy={100}
         inputAdornment={{ start: '$' }}
@@ -69,7 +69,7 @@ const WaterSystemDetails = () => {
         label="Contingency"
         minValue={-100}
         maxValue={100}
-        start={state.consolidationCostParams?.contingency}
+        start={state?.consolidationCostParams?.contingency}
         incrementBy={5}
         inputAdornment={{ end: '%' }}
         tooltipText="Contingency value may range from -100% to 100%. Negative values can be used to help account for financial assistance such as loans, grants, subsidies, etc"

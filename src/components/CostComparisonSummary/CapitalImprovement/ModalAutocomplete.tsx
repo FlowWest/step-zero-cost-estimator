@@ -54,7 +54,7 @@ const ModalAutocomplete = ({
   const [state, dispatch] = useContext(WaterSystemContext);
   const [value, setValue] = React.useState([] as Array<any>);
   const [waterSystemCpnts, setWaterSystemCpnts] = React.useState(
-    state.autocompleteOptions.length === 0 ? sampleComponents : state.autocompleteOptions
+    state?.autocompleteOptions.length === 0 ? sampleComponents : state?.autocompleteOptions
   );
   const [openDialog, toggleOpen] = React.useState(false);
   const [dialogValue, setDialogValue] = React.useState({
