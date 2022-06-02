@@ -25,13 +25,13 @@ const Autocomplete = ({
   const [value, setValue] = useState('' as any);
 
   useEffect(() => {
-    if (Object.keys(selectedObject).length > 0) {
+    if (selectedObject && Object.keys(selectedObject).length > 0) {
       setValue(`${selectedObject?.joinSystemName} (${selectedObject?.joinSystemPWSID})`);
     }
   }, []);
 
   useEffect(() => {
-    if (!Object.keys(selectedObject).length) {
+    if (selectedObject && !Object.keys(selectedObject).length) {
       setValue('');
     }
   }, [selectedObject]);
@@ -45,7 +45,7 @@ const Autocomplete = ({
         disableClearable
         blurOnSelect
         autoSelect
-        disabled={Object.keys(selectedObject).length > 0}
+        disabled={selectedObject && Object.keys(selectedObject).length > 0}
         id={`${dropdownLabel}-autocomplete`}
         classes={{ paper: styles.selectItem }}
         options={selectData}

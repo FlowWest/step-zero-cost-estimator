@@ -44,7 +44,7 @@ const IndexPage: FC = (props: any) => {
       };
     }
 
-    const { connections, distance } = state?.consolidationCostParams;
+    const { connections, distance } = state?.consolidationCostParams || {};
 
     dispatch(
       updateWaterSystemAndParams(newWaterSystem, {
@@ -78,7 +78,7 @@ const IndexPage: FC = (props: any) => {
             setSelectedObject={handleWaterSystemChange}
           />
         </Grid>
-        {Object.keys(state?.currentWaterSystem).length > 0 && (
+        {state && Object.keys(state?.currentWaterSystem).length > 0 && (
           <Grid item xs={12} md={4} className={styles.buttonContainer}>
             <Button
               onClick={() => {
