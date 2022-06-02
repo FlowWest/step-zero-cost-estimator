@@ -74,7 +74,7 @@ const IndexPage: FC = (props: any) => {
             dropdownLabel={'Water System'}
             dropdownPlaceholder={'Select or type in your water system'}
             dropdownOptions={dropdownOptions}
-            selectedObject={state.currentWaterSystem}
+            selectedObject={state?.currentWaterSystem}
             setSelectedObject={handleWaterSystemChange}
           />
         </Grid>
