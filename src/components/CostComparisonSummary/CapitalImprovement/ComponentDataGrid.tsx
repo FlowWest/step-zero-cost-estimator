@@ -4,12 +4,12 @@ import { Theme, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
-  editableCell: {
-    background: '#fed330',
+  nonEditableCell: {
+    background: `${theme.palette.background.default} !important`,
     color: 'black'
   },
   cellEditing: {
-    backgroundColor: '#fed330 !important'
+    backgroundColor: '#fff !important'
   },
   cellInput: {
     color: 'black'
@@ -19,6 +19,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: 'center',
     marginBlock: '5px',
     zIndex: 1000
+  },
+  root: {
+    '& .MuiDataGrid-columnHeaderTitle': {
+      textOverflow: 'clip',
+      whiteSpace: 'break-spaces',
+      lineHeight: 1,
+      textAlign: 'right'
+    }
   }
 }));
 
@@ -47,10 +55,10 @@ const ComponentDataGrid = ({
       editable: true,
       flex: 1,
       type: 'number',
+      headerAlign: 'right',
       valueGetter: (params) => {
         return params.value || 1;
-      },
-      cellClassName: styles.editableCell
+      }
     },
     { field: 'component', headerName: 'Component', flex: 3 },
     {
@@ -59,16 +67,18 @@ const ComponentDataGrid = ({
       editable: true,
       flex: 1.5,
       type: 'number',
+      headerAlign: 'right',
       valueFormatter: (params) => {
         return `$${formatter.format(params.value)}`;
-      },
-      cellClassName: styles.editableCell
+      }
     },
     {
       field: 'installedCost',
       headerName: 'Installed Cost',
       flex: 1.5,
       type: 'number',
+      headerAlign: 'right',
+      cellClassName: styles.nonEditableCell,
       valueGetter: (params) => {
         const quantity = params.getValue(params.id, 'quantity');
         return quantity * params.row.unitCost;
@@ -79,17 +89,19 @@ const ComponentDataGrid = ({
     },
     {
       field: 'avgLife',
-      headerName: 'Avg Life (Years)',
+      headerName: 'Average Life (Years)',
       editable: true,
       flex: 1.5,
       type: 'number',
-      cellClassName: styles.editableCell
+      headerAlign: 'right'
     },
     {
       field: 'annualReserve',
       headerName: 'Annual Reserve',
       flex: 1.5,
       type: 'number',
+      headerAlign: 'right',
+      cellClassName: styles.nonEditableCell,
       valueGetter: (params) => {
         const installedCost = params.getValue(params.id, 'installedCost');
         return installedCost / params.row.avgLife;
@@ -103,6 +115,8 @@ const ComponentDataGrid = ({
       headerName: 'Monthly Reserve',
       flex: 1.5,
       type: 'number',
+      headerAlign: 'right',
+      cellClassName: styles.nonEditableCell,
       valueGetter: (params) => {
         const annualReserve = params.getValue(params.id, 'annualReserve');
         return annualReserve / 12;
@@ -114,8 +128,11 @@ const ComponentDataGrid = ({
     {
       field: 'monthlyReservePerCustomer',
       headerName: 'Monthly Reserve Per Customer',
-      width: 225,
+      // width: 225,
+      flex: 1.5,
       type: 'number',
+      headerAlign: 'right',
+      cellClassName: styles.nonEditableCell,
       valueGetter: (params) => {
         const monthlyReserve = params.getValue(params.id, 'monthlyReserve');
         // getTest(params);
@@ -167,6 +184,11 @@ const ComponentDataGrid = ({
           rows={rows}
           columns={columns}
           getRowId={(row) => row.uid}
+          classes={{
+            root: styles.root,
+            'cell--editing': styles.cellEditing,
+            editInputCell: styles.cellInput
+          }}
           // onCellEditCommit={(cell: any) => {
           //   setGridState((prevState: any) => {
           //     const test = {
@@ -181,10 +203,6 @@ const ComponentDataGrid = ({
           // }}
           components={{
             NoRowsOverlay: renderNoRowsOverlay
-          }}
-          classes={{
-            'cell--editing': styles.cellEditing,
-            editInputCell: styles.cellInput
           }}
           hideFooterPagination
         />
