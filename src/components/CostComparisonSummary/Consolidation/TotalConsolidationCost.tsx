@@ -28,11 +28,11 @@ const TotalConsolidationCost = () => {
   useEffect(() => {
     setConsolidationCostDetailset(
       getConsolidationCostDetails({
-        currentWaterSystem,
+        waterSystemDetails: currentWaterSystem,
         consolidationCostParams
       })
     );
-  }, [state.consolidationCostParams]);
+  }, [state.consolidationCostParams, currentWaterSystem]);
 
   return (
     <Grid
@@ -55,7 +55,6 @@ const TotalConsolidationCost = () => {
         <WarningMessage />
       </Grid>
     </Grid>
-    // </div>
   );
 };
 

@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Typography, List, ListItemButton, ListItemText, Collapse, Theme } from '@mui/material';
+import {
+  Typography,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Collapse,
+  Theme
+} from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import { ConsolidationCostDetails } from '../../../../util/interfaces';
@@ -13,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const ConsolidationDetailsTab = ({ chartData }: { chartData: ConsolidationCostDetails }) => {
-  const { materialCosts, adminFees, financialAssistance, adjustments, total } = chartData;
+  const { materialCosts, adminFees, adjustments, total } = chartData;
 
   const [detailOpen1, setDetailOpen1] = useState(true);
   const [detailOpen2, setDetailOpen2] = useState(true);
@@ -35,27 +43,27 @@ const ConsolidationDetailsTab = ({ chartData }: { chartData: ConsolidationCostDe
         </ListItemButton>
         <Collapse in={detailOpen1} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 5 }}>
+            <ListItem sx={{ pl: 5 }}>
               <ListItemText
                 className={classes.listSubItem}
                 primary={`Pipeline Costs`}
                 secondary={formatToUSD(materialCosts.totalPipelineCosts)}
               />
-            </ListItemButton>
-            <ListItemButton sx={{ pl: 5 }}>
+            </ListItem>
+            <ListItem sx={{ pl: 5 }}>
               <ListItemText
                 className={classes.listSubItem}
                 primary={`Connection Costs`}
                 secondary={formatToUSD(materialCosts.totalConnectionCosts)}
               />
-            </ListItemButton>
-            <ListItemButton sx={{ pl: 5 }}>
+            </ListItem>
+            <ListItem sx={{ pl: 5 }}>
               <ListItemText
                 className={classes.listSubItem}
                 primary={`Service Fees`}
                 secondary={formatToUSD(materialCosts.totalServiceFee)}
               />
-            </ListItemButton>
+            </ListItem>
           </List>
         </Collapse>
 
@@ -66,13 +74,13 @@ const ConsolidationDetailsTab = ({ chartData }: { chartData: ConsolidationCostDe
         </ListItemButton>
         <Collapse in={detailOpen2} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 5 }}>
+            <ListItem sx={{ pl: 5 }}>
               <ListItemText
                 className={classes.listSubItem}
-                primary={`Admin & Legal`}
-                secondary={formatToUSD(adminFees.adminLegalCosts)}
+                primary={`Admin, Legal, & CEQA`}
+                secondary={formatToUSD(adminFees.adminLegalCEQACosts)}
               />
-            </ListItemButton>
+            </ListItem>
           </List>
         </Collapse>
 
@@ -83,13 +91,41 @@ const ConsolidationDetailsTab = ({ chartData }: { chartData: ConsolidationCostDe
         </ListItemButton>
         <Collapse in={detailOpen3} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 5 }}>
+            <ListItem sx={{ pl: 5 }}>
               <ListItemText
                 className={classes.listSubItem}
                 primary={`Contingency Costs`}
-                secondary={formatToUSD(adjustments.totalContingency)}
+                secondary={formatToUSD(adjustments.totalContingencyCost)}
               />
-            </ListItemButton>
+            </ListItem>
+            <ListItem sx={{ pl: 5 }}>
+              <ListItemText
+                className={classes.listSubItem}
+                primary={`Planning and Construction Costs`}
+                secondary={formatToUSD(adjustments.planningAndConstructionAdjustmentCost)}
+              />
+            </ListItem>
+            <ListItem sx={{ pl: 5 }}>
+              <ListItemText
+                className={classes.listSubItem}
+                primary={`Elevation Adjustment Costs`}
+                secondary={formatToUSD(adjustments.elevationAdjustmentCost)}
+              />
+            </ListItem>
+            <ListItem sx={{ pl: 5 }}>
+              <ListItemText
+                className={classes.listSubItem}
+                primary={`Regional Adjustment Costs`}
+                secondary={formatToUSD(adjustments.regionalAdjustmentCost)}
+              />
+            </ListItem>
+            <ListItem sx={{ pl: 5 }}>
+              <ListItemText
+                className={classes.listSubItem}
+                primary={`Inflation Adjustment Costs`}
+                secondary={formatToUSD(adjustments.inflationAdjustmentCost)}
+              />
+            </ListItem>
           </List>
         </Collapse>
       </List>

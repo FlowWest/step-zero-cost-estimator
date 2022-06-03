@@ -37,6 +37,7 @@
         "@mui/styles": "^5.5.3",
         "@mui/x-data-grid": "^5.11.1",
         "chart.js": "^3.7.1",
+        "chartjs-plugin-datalabels": "^2.0.0",
         "deepmerge": "^4.2.2",
         "gatsby": "^3.4.2",
         "gatsby-image": "^3.11.0",

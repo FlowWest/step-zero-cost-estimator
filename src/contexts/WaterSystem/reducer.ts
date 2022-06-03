@@ -14,8 +14,8 @@ export const initialState = {
   consolidationCostParams: {
     connections: 100,
     pipelineCosts: 155,
-    connectionFees: 6600,
-    adminLegalCosts: 285000,
+    feeCostPerConnection: 6600,
+    adminLegalCEQACosts: 285000,
     contingency: 20,
     distance: 1000
   },
