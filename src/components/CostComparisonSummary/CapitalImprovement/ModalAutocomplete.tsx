@@ -14,7 +14,7 @@ import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import { makeStyles } from '@mui/styles';
 import { ComponentProperties } from '../../../util/interfaces';
 import AddCustomComponentDialog from './AddCustomComponentDialog';
-import { unionBy } from 'lodash';
+import { unionBy, sortBy } from 'lodash';
 import { updateAutocompleteOptions } from '../../../contexts/WaterSystem/actions';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -58,7 +58,7 @@ const ModalAutocomplete = ({
   const [state, dispatch] = useContext(WaterSystemContext);
   const [value, setValue] = React.useState([] as Array<any>);
   const [waterSystemCpnts, setWaterSystemCpnts] = React.useState(
-    state.autocompleteOptions.length === 0 ? sampleComponents : state.autocompleteOptions
+    !state.autocompleteOptions.length ? state.systemComponents : state.autocompleteOptions
   );
   const [openDialog, toggleOpen] = React.useState(false);
   const [dialogValue, setDialogValue] = React.useState({
@@ -146,7 +146,7 @@ const ModalAutocomplete = ({
         disableClearable
         forcePopupIcon
         handleHomeEndKeys
-        options={waterSystemCpnts}
+        options={sortBy(waterSystemCpnts, ['component'])}
         disableCloseOnSelect
         onChange={handleChange}
         isOptionEqualToValue={(option, value) => option.component === value.component}
@@ -189,36 +189,3 @@ const ModalAutocomplete = ({
 };
 
 export default ModalAutocomplete;
-
-const sampleComponents: ComponentProperties[] | any = [
-  {
-    component: 'Water Pump 1',
-    unitCost: 100000,
-    avgLife: 20,
-    uid: Math.random()
-  },
-  {
-    component: 'Water Pump 2',
-    unitCost: 100000,
-    avgLife: 20,
-    uid: Math.random()
-  },
-  {
-    component: 'Water Pump 3',
-    unitCost: 100000,
-    avgLife: 20,
-    uid: Math.random()
-  },
-  {
-    component: 'Water Pump 4',
-    unitCost: 100000,
-    avgLife: 20,
-    uid: Math.random()
-  },
-  {
-    component: 'Water Pump 5',
-    unitCost: 100000,
-    avgLife: 20,
-    uid: Math.random()
-  }
-];

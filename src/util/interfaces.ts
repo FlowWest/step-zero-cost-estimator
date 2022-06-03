@@ -37,6 +37,7 @@ export interface WaterSystemState {
     new: Object;
     existing: Object;
   };
+  systemComponents: Array<any>;
 }
 
 export interface ConsolidationCostDetails {

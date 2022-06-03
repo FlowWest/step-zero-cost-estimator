@@ -4,7 +4,7 @@ import { makeStyles } from '@mui/styles';
 import CostComparisonWrapper from './CostComparisonWrapper';
 import { WaterSystem } from '../../util/interfaces';
 import { formatToUSD } from '../../util/util';
-import { getConsolidationCostDetails } from '../../util/consolidationUtil';
+import { getConsolidationCostDetails } from '../../util/costUtil';
 
 const useStyles = makeStyles((theme: Theme) => ({
   totalCostLabel: {

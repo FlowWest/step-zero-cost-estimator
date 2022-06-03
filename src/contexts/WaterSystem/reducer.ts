@@ -1,4 +1,5 @@
 import { WaterSystem, WaterSystemState, WaterSystemAction } from '../../util/interfaces';
+import { getSystemComponentValues } from '../../util/costUtil';
 
 export const ACTIONS = {
   UPDATE_WATER_SYSTEM: 'update_water_system',
@@ -25,7 +26,8 @@ export const initialState = {
   cipCostData: {
     existing: {},
     new: {}
-  }
+  },
+  systemComponents: []
 };
 
 export const reducer = (state: WaterSystemState, action: WaterSystemAction): WaterSystemState => {
@@ -39,21 +41,38 @@ export const reducer = (state: WaterSystemState, action: WaterSystemAction): Wat
         autocompleteOptions: []
       };
     case ACTIONS.UPDATE_CONSOLIDATION_COST_PARAMS:
+      const updatedParams = { ...state.consolidationCostParams, ...action.payload };
+
       return {
         ...state,
-        consolidationCostParams: { ...state.consolidationCostParams, ...action.payload }
+        consolidationCostParams: updatedParams,
+        systemComponents: getSystemComponentValues({
+          waterSystemDetails: state.currentWaterSystem,
+          consolidationCostParams: updatedParams
+        })
       };
     case ACTIONS.UPDATE_WATER_SYSTEM_AND_PARAMS:
+      const updatedCostParams = {
+        ...state.consolidationCostParams,
+        ...action.payload.updatedParams
+      };
+      const test2 = state?.currentWaterSystem
+        ? getSystemComponentValues({
+            waterSystemDetails: state.currentWaterSystem,
+            consolidationCostParams: updatedCostParams
+          })
+        : '';
       return {
         ...state,
         currentWaterSystem: action.payload.newWaterSystem,
-        consolidationCostParams: {
-          ...state.consolidationCostParams,
-          ...action.payload.updatedParams
-        },
+        consolidationCostParams: updatedCostParams,
         existingComponents: [],
         newComponents: [],
-        autocompleteOptions: []
+        autocompleteOptions: [],
+        systemComponents: getSystemComponentValues({
+          waterSystemDetails: state.currentWaterSystem,
+          consolidationCostParams: updatedCostParams
+        })
       };
     case ACTIONS.UPDATE_COMPONENTS:
       return {

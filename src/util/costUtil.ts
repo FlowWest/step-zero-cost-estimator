@@ -10,7 +10,15 @@ const setCostVariables = {
   suburbanAdjustment: 0.3,
   ruralAdjustment: 0.0,
   inflationAdjustment: 0.047,
-  planningAndConstructionAdjustment: 0.25
+  planningAndConstructionAdjustment: 0.25,
+  sounderBaseCost: 1700,
+  generatorBaseCost: 30134,
+  airPollutionPermittingFees: 0.05,
+  CEQA: 85000,
+  SCADA: 100000,
+  wellDrillingCost: 1200000,
+  meterBaseCost: 1200,
+  meterSoftware: 29000
 };
 
 const ruralCounties = [
@@ -119,8 +127,6 @@ export const getConsolidationCostDetails = ({
 
   const { distanceBuffer, boosterStation, inflationAdjustment, planningAndConstructionAdjustment } =
     setCostVariables;
-  console.log('wsd', waterSystemDetails);
-
   // if connections > 0, use connections, else use 8
   const calcConnections = connections || 8;
   const totalConnectionCosts = calcConnections * feeCostPerConnection;
@@ -186,6 +192,128 @@ export const getConsolidationCostDetails = ({
     totalCostPerConnection
   } as ConsolidationCostDetails;
 
-  console.log('costBreakdown', costBreakdown);
   return costBreakdown;
+};
+
+export const getComponentAdjustedCost = (basePrice: number, multipliers: Array<number>) => {
+  // iterate over all multipliers
+  // start at base price and add adjustment cost for each multiplier
+  // all adjustments based on base price
+  const totalCost = multipliers.reduce((previousValue, currentValue) => {
+    return previousValue + basePrice * currentValue;
+  }, basePrice);
+
+  return Math.round(totalCost);
+};
+
+export const getSystemComponentValues = ({
+  waterSystemDetails,
+  consolidationCostParams
+}: {
+  waterSystemDetails: any;
+  consolidationCostParams: any;
+}) => {
+  if (!waterSystemDetails) {
+    return [];
+  }
+  const systemComponents = [
+    {
+      component: 'Water Pump 1',
+      unitCost: 100000,
+      avgLife: 20,
+      uid: Math.random()
+    },
+    {
+      component: 'Water Pump 2',
+      unitCost: 100000,
+      avgLife: 20,
+      uid: Math.random()
+    },
+    {
+      component: 'Water Pump 3',
+      unitCost: 100000,
+      avgLife: 20,
+      uid: Math.random()
+    },
+    {
+      component: 'Water Pump 4',
+      unitCost: 100000,
+      avgLife: 20,
+      uid: Math.random()
+    },
+    {
+      component: 'Water Pump 5',
+      unitCost: 100000,
+      avgLife: 20,
+      uid: Math.random()
+    }
+  ] as Array<any>;
+  const { joinCounty, joinPopulation } = waterSystemDetails;
+  const { connections } = consolidationCostParams;
+
+  // (population * 150gpd * 2.25peaking factor) / 1440 minutes
+  // gpm
+  const maximumDailyDemand = (parseInt(joinPopulation) * 150 * 2.25) / 1440;
+  const {
+    sounderBaseCost,
+    generatorBaseCost,
+    airPollutionPermittingFees,
+    inflationAdjustment,
+    wellDrillingCost,
+    planningAndConstructionAdjustment,
+    meterBaseCost,
+    meterSoftware
+  } = setCostVariables;
+  const regionalAdjustment = getRegionalAdjustment(joinCounty);
+
+  // Sounder
+  // Total Cost = Sounder Cost + Regional Multiplier + Total Cost Inflation
+  systemComponents.push({
+    component: 'Sounder',
+    unitCost: getComponentAdjustedCost(sounderBaseCost, [regionalAdjustment, inflationAdjustment]),
+    avgLife: 20,
+    uid: Math.random()
+  });
+
+  // Generator
+  // Total Cost = $30,134 + ($341 x MDD) + Regional Multiplier + Total Cost Air Pollution Permitting + Total Cost Inflation
+  const generatorMDDCost = generatorBaseCost + 341 * maximumDailyDemand;
+  systemComponents.push({
+    component: 'Generator',
+    unitCost: getComponentAdjustedCost(generatorMDDCost, [
+      regionalAdjustment,
+      airPollutionPermittingFees,
+      inflationAdjustment
+    ]),
+    avgLife: 20,
+    uid: Math.random()
+  });
+
+  // New Well
+  // Total Cost ($) = Well drilling + CEQA+SCADA + Well Development+ Well Pump and Motor + 25% Total Cost Planning and Construction + Regional Multiplier + 4.7% Total Cost Inflation
+  const wellDevelopmentCost = 145.01 * maximumDailyDemand + 32268;
+  const wellPumpAndMotorCost = 136.73 * maximumDailyDemand + 116448;
+  const newWellMDDCost = wellDrillingCost + wellDevelopmentCost + wellPumpAndMotorCost;
+  systemComponents.push({
+    component: 'New Well',
+    unitCost: getComponentAdjustedCost(newWellMDDCost, [
+      planningAndConstructionAdjustment,
+      regionalAdjustment,
+      inflationAdjustment
+    ]),
+    avgLife: 20,
+    uid: Math.random()
+  });
+
+  // Meters
+  // Total Cost = Meter Cost + Software + Regional Multiplier + 4.7% Total Cost Inflation
+  const calcConnections = connections || 8;
+  const metersCost = meterBaseCost * calcConnections + meterSoftware;
+  systemComponents.push({
+    component: 'Meters (all connections)',
+    unitCost: getComponentAdjustedCost(metersCost, [regionalAdjustment, inflationAdjustment]),
+    avgLife: 20,
+    uid: Math.random()
+  });
+  return systemComponents;
 };

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Typography, Theme, Grid } from '@mui/material';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
-import { getConsolidationCostDetails } from '../../../util/consolidationUtil';
+import { getConsolidationCostDetails } from '../../../util/costUtil';
 import { formatToUSD } from '../../../util/util';
 import { makeStyles } from '@mui/styles';
 import ConsolidationTabs from './ConsolidationTabs/ConsolidationTabs';

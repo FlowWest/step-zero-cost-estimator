@@ -30,6 +30,12 @@ const WaterSystemComponentsGrid = ({ openAddComponents }: { openAddComponents: F
   return (
     <>
       <Grid item xs={12} className={styles.tableContainer}>
+        <Typography style={{ fontWeight: 600 }}>
+          Total Existing and New Project Capital Improvement Costs
+        </Typography>
+        <TotalCIPDataGrid />
+      </Grid>
+      <Grid item xs={12} className={styles.tableContainer}>
         <Typography style={{ fontWeight: 600 }}>Existing Components</Typography>
         <ComponentDataGrid
           rows={state.existingComponents}
@@ -46,10 +52,6 @@ const WaterSystemComponentsGrid = ({ openAddComponents }: { openAddComponents: F
           connections={state.consolidationCostParams.connections}
           getNewGridState={getNewGridState}
         />
-      </Grid>
-      <Grid item xs={12} className={styles.tableContainer}>
-        <Typography style={{ fontWeight: 600 }}>Total Existing and New Project CIP</Typography>
-        <TotalCIPDataGrid />
       </Grid>
       <Grid item>
         <WarningMessage />

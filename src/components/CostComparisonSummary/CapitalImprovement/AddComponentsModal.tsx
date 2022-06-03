@@ -16,6 +16,7 @@ import TransferList from './TransferList';
 import ModalAutocomplete from './ModalAutocomplete';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import { updateComponents } from '../../../contexts/WaterSystem/actions';
+import { getSystemComponentValues } from '../../../util/costUtil';
 
 const useStyles = makeStyles((theme: Theme) => ({
   modal: {

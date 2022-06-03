@@ -6,7 +6,8 @@ import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles((theme: Theme) => ({
   nonEditableCell: {
     background: `${theme.palette.background.default} !important`,
-    color: 'black'
+    color: 'black',
+    pointerEvents: 'none'
   },
   cellEditing: {
     backgroundColor: '#fff !important'
@@ -26,6 +27,10 @@ const useStyles = makeStyles((theme: Theme) => ({
       whiteSpace: 'break-spaces',
       lineHeight: 1,
       textAlign: 'right'
+    },
+    '& .MuiDataGrid-row.Mui-even:not(:hover)': {
+      backgroundColor:
+        theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.04)'
     }
   }
 }));
@@ -48,6 +53,7 @@ const ComponentDataGrid = ({
 }) => {
   const styles = useStyles();
   const [test, setTest] = useState({} as any);
+  const [pageSize, setPageSize] = useState(5 as number);
   const columns: GridColDef[] = [
     {
       field: 'quantity',
@@ -60,7 +66,7 @@ const ComponentDataGrid = ({
         return params.value || 1;
       }
     },
-    { field: 'component', headerName: 'Component', flex: 3 },
+    { field: 'component', headerName: 'Component', flex: 3, cellClassName: styles.nonEditableCell },
     {
       field: 'unitCost',
       headerName: 'Unit Cost',
@@ -204,7 +210,11 @@ const ComponentDataGrid = ({
           components={{
             NoRowsOverlay: renderNoRowsOverlay
           }}
-          hideFooterPagination
+          //hideFooterPagination
+          pageSize={pageSize}
+          rowsPerPageOptions={[5, 10, 20]}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          disableSelectionOnClick
         />
       </div>
     </div>

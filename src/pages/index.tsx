@@ -25,9 +25,11 @@ const IndexPage: FC = (props: any) => {
   const [state, dispatch] = useContext(WaterSystemContext);
 
   const allWaterSystems = props.data.allWaterSystemDetailsCsv.nodes;
-  const dropdownOptions = props.data.allWaterSystemDetailsCsv.nodes.map(
-    (waterSystem: WaterSystem) => `${waterSystem.joinSystemName} (${waterSystem.joinSystemPWSID})`
-  );
+  const dropdownOptions = props.data.allWaterSystemDetailsCsv.nodes
+    .map(
+      (waterSystem: WaterSystem) => `${waterSystem.joinSystemName} (${waterSystem.joinSystemPWSID})`
+    )
+    .sort((a: string, b: string) => (a > b ? 1 : -1));
 
   const handleWaterSystemChange = (value: string) => {
     let newWaterSystem;
