@@ -90,7 +90,7 @@ const urbanCounties = [
 ].map((county) => county.toLowerCase());
 
 const getRegionalAdjustment = (waterSystemCounty: string) => {
-  const { ruralAdjustment, suburbanAdjustment, urbanAdjustment } = setCostVariables;
+  const { ruralAdjustment, suburbanAdjustment, urbanAdjustment } = setCostVariables || {};
   if (!waterSystemCounty) {
     return ruralAdjustment;
   }
@@ -105,7 +105,7 @@ const getRegionalAdjustment = (waterSystemCounty: string) => {
 };
 
 const getElevationAdjustmentRequirement = (waterSystemDetails: WaterSystem) => {
-  const { joinElevation, receivingElevation } = waterSystemDetails;
+  const { joinElevation, receivingElevation } = waterSystemDetails || {};
 
   const pressureLoss = (parseInt(receivingElevation) - parseInt(joinElevation)) * 0.433;
 
@@ -123,7 +123,7 @@ export const getConsolidationCostDetails = ({
     pipelineCosts,
     adminLegalCEQACosts,
     contingency
-  } = consolidationCostParams;
+  } = consolidationCostParams || {};
 
   const { distanceBuffer, boosterStation, inflationAdjustment, planningAndConstructionAdjustment } =
     setCostVariables;
@@ -248,8 +248,8 @@ export const getSystemComponentValues = ({
       uid: Math.random()
     }
   ] as Array<any>;
-  const { joinCounty, joinPopulation } = waterSystemDetails;
-  const { connections } = consolidationCostParams;
+  const { joinCounty, joinPopulation } = waterSystemDetails || {};
+  const { connections } = consolidationCostParams || {};
 
   // (population * 150gpd * 2.25peaking factor) / 1440 minutes
   // gpm
