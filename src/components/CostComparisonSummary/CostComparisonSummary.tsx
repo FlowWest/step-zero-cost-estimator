@@ -31,7 +31,10 @@ const CostComparisonSummary = ({
     <>
       {selectedWaterSystem && Object.keys(selectedWaterSystem).length ? (
         <div>
-          <Typography paragraph>Complete both calculators for cost comparison</Typography>
+          <Typography paragraph>
+            Provide the required information in both the Consolidation and Capital Improvment Plan
+            calculators to view your cost comparison.
+          </Typography>
           <Typography paragraph>
             <span className={styles.totalCostLabel}>Consolidation Costs: </span>
             {formatToUSD(consolidationCostDetails.total)}

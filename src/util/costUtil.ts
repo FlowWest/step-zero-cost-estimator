@@ -147,7 +147,7 @@ export const getConsolidationCostDetails = ({
   const subtotal = totalMaterialCosts + totalAdminFees + elevationAdjustmentCost;
 
   const totalContingencyCost = subtotal * (contingency / 100);
-  const planningAndConstructionAdjustmentCost = subtotal + planningAndConstructionAdjustment;
+  const planningAndConstructionAdjustmentCost = subtotal * planningAndConstructionAdjustment;
 
   const totalMergerCost = subtotal + totalContingencyCost + planningAndConstructionAdjustmentCost;
 

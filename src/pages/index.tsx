@@ -63,11 +63,16 @@ const IndexPage: FC = (props: any) => {
           Step Zero Calculator
         </Typography>
         <Typography paragraph>
-          Paragraph describing step zero as a precursor to feasability study. Explain to the user
-          what the consolidation and capital improvement caluclatros are used for, as well as how to
-          use the below input fields, expecations, warnings, reminders, etc etc. Lorem ipsum dolor
-          sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore magna aliqua.
+          This tool is “step zero” for small water systems considering entering into a drinking
+          water partnership through physical consolidation and is designed to help inform
+          stakeholders of the feasibility and costs associated with consolidation compared to
+          upgrading and maintaining their existing system. The estimates provided should be viewed
+          as a precursor to a full feasibility study. Actual cost of both capital improvements and
+          consolidation will vary by system based on site-specific details that are not accounted
+          for in this tool. Optimal receiving water systems for physical consolidation and cost
+          methodology were adapted from the Water Boards 2021 Drinking Water Cost Assessment & Gap
+          Analysis and the 2022 Drinking Water Needs Assessment Drought Infrastructure Cost
+          Assessment reports.
         </Typography>
       </Grid>
       <Grid container item xs={12}>

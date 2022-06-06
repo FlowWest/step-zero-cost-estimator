@@ -85,14 +85,14 @@ const AddComponentsModal = ({ open, handleClose }: { open: boolean; handleClose:
           </Typography>
           <br />
           <Typography variant="subtitle2" align="left" gutterBottom>
-            Please select or create water system components from the dropdown to best model the
-            current inventory and future needs of your water system.
+            Add water system components to best model the current inventory and future needs of your
+            water system to provide safe drinking water.
           </Typography>
-          <Typography variant="subtitle2" align="left" gutterBottom>
+          {/* <Typography variant="subtitle2" align="left" gutterBottom>
             Then use the transfer list to move components between the Existing and New sides to
             indicate which components are currently in use in your water system, as well as
             components needing to be acquired.
-          </Typography>
+          </Typography> */}
           <IconButton
             aria-label="close"
             onClick={() => handleCloseClick(null)}
