@@ -1,96 +1,60 @@
 import React, { useContext } from 'react';
-import {
-  Grid,
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow
-} from '@mui/material';
+import { Grid, Typography } from '@mui/material';
+import ComponentDataGrid from './ComponentDataGrid';
+import TotalCIPDataGrid from './TotalCIPDataGrid';
+import WarningMessage from '../../uiComponents/WarningMessage';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
-import { ComponentProperties } from '../../../util/interfaces';
+import { updateCIPCostData } from '../../../contexts/WaterSystem/actions';
+import { Theme } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 
-const WaterSystemComponentsGrid = () => {
+const useStyles = makeStyles((theme: Theme) => ({
+  tableContainer: {
+    marginBottom: '2rem'
+  }
+}));
+
+const WaterSystemComponentsGrid = ({ openAddComponents }: { openAddComponents: Function }) => {
   const [state, dispatch] = useContext(WaterSystemContext);
+  const styles = useStyles();
+
+  const getNewGridState = (params: any) => {
+    dispatch(
+      updateCIPCostData(params.id, {
+        installedCost: params.getValue(params.id, 'installedCost'),
+        annualReserve: params.getValue(params.id, 'annualReserve')
+      })
+    );
+  };
 
   return (
     <>
-      <Grid item xs={12}>
+      <Grid item xs={12} className={styles.tableContainer}>
+        <Typography style={{ fontWeight: 600 }}>
+          Total Existing and New Project Capital Improvement Costs
+        </Typography>
+        <TotalCIPDataGrid />
+      </Grid>
+      <Grid item xs={12} className={styles.tableContainer}>
         <Typography style={{ fontWeight: 600 }}>Existing Components</Typography>
+        <ComponentDataGrid
+          rows={state.existingComponents}
+          openAddComponents={openAddComponents}
+          connections={state.consolidationCostParams.connections}
+          getNewGridState={getNewGridState}
+        />
       </Grid>
-
-      <Grid item xs={12}>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Qty</TableCell>
-                <TableCell>Component</TableCell>
-                <TableCell>Unit Cost</TableCell>
-                <TableCell>Installed Cost</TableCell>
-                <TableCell>Avg Life (Years)</TableCell>
-                <TableCell>Annual Reserve</TableCell>
-                <TableCell>Monthly Reserve</TableCell>
-                <TableCell>Monthly Reserve per Customer</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {state?.existingComponents &&
-                state?.existingComponents.map((component: ComponentProperties) => (
-                  <TableRow>
-                    <TableCell>{1}</TableCell>
-                    <TableCell>{component?.component}</TableCell>
-                    <TableCell>{`$${component?.unitCost}`}</TableCell>
-                    <TableCell>{component?.installedCost}</TableCell>
-                    <TableCell>{component?.avgLife}</TableCell>
-                    <TableCell>{component?.annualReserve}</TableCell>
-                    <TableCell>{component.monthlyReserve}</TableCell>
-                    <TableCell>{component.monthlyReservePerCustomer}</TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Grid>
-
-      <Grid item xs={12}>
+      <Grid item xs={12} className={styles.tableContainer}>
         <Typography style={{ fontWeight: 600 }}>New Components</Typography>
+        <ComponentDataGrid
+          rows={state.newComponents}
+          openAddComponents={openAddComponents}
+          connections={state.consolidationCostParams.connections}
+          getNewGridState={getNewGridState}
+        />
       </Grid>
-
-      <Grid item xs={12}>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Qty</TableCell>
-                <TableCell>Component</TableCell>
-                <TableCell>Unit Cost</TableCell>
-                <TableCell>Installed Cost</TableCell>
-                <TableCell>Avg Life (Years)</TableCell>
-                <TableCell>Annual Reserve</TableCell>
-                <TableCell>Monthly Reserve</TableCell>
-                <TableCell>Monthly Reserve per Customer</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {state?.newComponents &&
-                state?.newComponents.map((component: ComponentProperties) => (
-                  <TableRow>
-                    <TableCell>{component?.qty}</TableCell>
-                    <TableCell>{component?.component}</TableCell>
-                    <TableCell>{component?.unitCost}</TableCell>
-                    <TableCell>{component?.installedCost}</TableCell>
-                    <TableCell>{component?.avgLife}</TableCell>
-                    <TableCell>{component?.annualReserve}</TableCell>
-                    <TableCell>{component.monthlyReserve}</TableCell>
-                    <TableCell>{component.monthlyReservePerCustomer}</TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+      <Grid item>
+        <WarningMessage />
       </Grid>
     </>
   );

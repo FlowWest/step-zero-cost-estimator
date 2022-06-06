@@ -24,9 +24,9 @@ const WaterSystemDetails = () => {
       />
       <InputSlider
         isCurrency={true}
-        inputProperty="connectionFees"
+        inputProperty="feeCostPerConnection"
         label="Connection Fees"
-        start={state?.consolidationCostParams?.connectionFees}
+        start={state.consolidationCostParams?.feeCostPerConnection}
         maxValue={10000}
         incrementBy={1000}
         inputAdornment={{
@@ -56,9 +56,9 @@ const WaterSystemDetails = () => {
       />
       <InputSlider
         isCurrency={true}
-        inputProperty="adminLegalCosts"
-        label={`Admin & Legal Costs`}
-        start={state?.consolidationCostParams?.adminLegalCosts}
+        inputProperty="adminLegalCEQACosts"
+        label={`Admin, Legal, & CEQA Costs`}
+        start={state.consolidationCostParams?.adminLegalCEQACosts}
         maxValue={1000000}
         incrementBy={100}
         inputAdornment={{ start: '$' }}

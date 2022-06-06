@@ -15,10 +15,10 @@ export interface AutocompleteProps {
 
 export interface ConsolidationCostParams {
   connections: number;
-  connectionFees: number;
+  feeCostPerConnection: number;
   distance: number;
   pipelineCosts: number;
-  adminLegalCosts: number;
+  adminLegalCEQACosts: number;
   contingency: number;
 }
 
@@ -33,6 +33,11 @@ export interface WaterSystemState {
   existingComponents: ComponentProperties[];
   newComponents: ComponentProperties[];
   autocompleteOptions: ComponentProperties[];
+  cipCostData: {
+    new: Object;
+    existing: Object;
+  };
+  systemComponents: Array<any>;
 }
 
 export interface ConsolidationCostDetails {
@@ -44,12 +49,15 @@ export interface ConsolidationCostDetails {
   };
   adminFees: {
     total: number;
-    adminLegalCosts: number;
+    adminLegalCEQACosts: number;
   };
-  financialAssistance: {};
   adjustments: {
     total: number;
-    totalContingency: number;
+    totalContingencyCost: number;
+    elevationAdjustmentCost: number;
+    regionalAdjustmentCost: number;
+    inflationAdjustmentCost: number;
+    planningAndConstructionAdjustmentCost: number;
   };
   total: number;
   totalCostPerConnection: number;

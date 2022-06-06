@@ -16,6 +16,7 @@ import TransferList from './TransferList';
 import ModalAutocomplete from './ModalAutocomplete';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import { updateComponents } from '../../../contexts/WaterSystem/actions';
+import { getSystemComponentValues } from '../../../util/costUtil';
 
 const useStyles = makeStyles((theme: Theme) => ({
   modal: {
@@ -83,10 +84,15 @@ const AddComponentsModal = ({ open, handleClose }: { open: boolean; handleClose:
             System Components
           </Typography>
           <br />
-          <Typography variant="subtitle2" align="center">
-            Please select or create water system components from the dropdown and then arrange them
-            in the list to indicate new and existing components in your water system
+          <Typography variant="subtitle2" align="left" gutterBottom>
+            Add water system components to best model the current inventory and future needs of your
+            water system to provide safe drinking water.
           </Typography>
+          {/* <Typography variant="subtitle2" align="left" gutterBottom>
+            Then use the transfer list to move components between the Existing and New sides to
+            indicate which components are currently in use in your water system, as well as
+            components needing to be acquired.
+          </Typography> */}
           <IconButton
             aria-label="close"
             onClick={() => handleCloseClick(null)}

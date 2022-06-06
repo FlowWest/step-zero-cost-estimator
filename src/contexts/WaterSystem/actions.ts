@@ -43,3 +43,13 @@ export const updateAutocompleteOptions = (autocompleteOptions: ComponentProperti
     }
   };
 };
+
+export const updateCIPCostData = (rowId: number, cipCostData: Object) => {
+  return {
+    type: ACTIONS.UPDATE_CIP_COST_DATA,
+    payload: {
+      rowId,
+      cipCostData
+    }
+  };
+};
