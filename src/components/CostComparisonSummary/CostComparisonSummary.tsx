@@ -41,7 +41,7 @@ const CostComparisonSummary = ({
           </Typography>
           <Typography paragraph>
             <span className={styles.totalCostLabel}>Capital Improvement Costs: </span>
-            {formatToUSD(4000000)}
+            {/* {formatToUSD(4000000)} */}
           </Typography>
           <CostComparisonWrapper />
         </div>
