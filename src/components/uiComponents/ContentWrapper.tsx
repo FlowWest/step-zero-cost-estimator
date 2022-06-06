@@ -21,12 +21,12 @@ interface ContentWrapperProps {
 const ContentWrapper: React.FC<ContentWrapperProps> = ({ title, children }) => {
   const styles = useStyles();
   return (
-    <Grid item>
+    <>
       <Typography variant="h5" gutterBottom className={styles.header}>
         {title}
       </Typography>
       <Container className={styles.contentWrapper}>{children}</Container>
-    </Grid>
+    </>
   );
 };
 
