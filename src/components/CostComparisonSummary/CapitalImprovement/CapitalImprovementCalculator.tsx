@@ -27,7 +27,7 @@ function CapitalImprovementCalculator(props: any) {
           </Button>
         </Grid>
         <br />
-        <WaterSystemComponentsGrid />
+        <WaterSystemComponentsGrid openAddComponents={handleOpen} />
       </Grid>
     </Grid>
   );

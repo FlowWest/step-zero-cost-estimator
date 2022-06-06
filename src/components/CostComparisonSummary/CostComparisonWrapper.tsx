@@ -17,7 +17,7 @@ const CostComparisonWrapper = () => {
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             <Tab label="Consolidation" value="1" />
-            <Tab label="CIP" value="2" />
+            <Tab label="Capital Improvement" value="2" />
           </TabList>
         </Box>
         <TabPanel value="1">

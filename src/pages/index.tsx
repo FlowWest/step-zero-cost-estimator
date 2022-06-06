@@ -25,9 +25,11 @@ const IndexPage: FC = (props: any) => {
   const [state, dispatch] = useContext(WaterSystemContext);
 
   const allWaterSystems = props.data.allWaterSystemDetailsCsv.nodes;
-  const dropdownOptions = props.data.allWaterSystemDetailsCsv.nodes.map(
-    (waterSystem: WaterSystem) => `${waterSystem.joinSystemName} (${waterSystem.joinSystemPWSID})`
-  );
+  const dropdownOptions = props.data.allWaterSystemDetailsCsv.nodes
+    .map(
+      (waterSystem: WaterSystem) => `${waterSystem.joinSystemName} (${waterSystem.joinSystemPWSID})`
+    )
+    .sort((a: string, b: string) => (a > b ? 1 : -1));
 
   const handleWaterSystemChange = (value: string) => {
     let newWaterSystem;
@@ -61,11 +63,16 @@ const IndexPage: FC = (props: any) => {
           Step Zero Calculator
         </Typography>
         <Typography paragraph>
-          Paragraph describing step zero as a precursor to feasability study. Explain to the user
-          what the consolidation and capital improvement caluclatros are used for, as well as how to
-          use the below input fields, expecations, warnings, reminders, etc etc. Lorem ipsum dolor
-          sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore magna aliqua.
+          This tool is “step zero” for small water systems considering entering into a drinking
+          water partnership through physical consolidation and is designed to help inform
+          stakeholders of the feasibility and costs associated with consolidation compared to
+          upgrading and maintaining their existing system. The estimates provided should be viewed
+          as a precursor to a full feasibility study. Actual cost of both capital improvements and
+          consolidation will vary by system based on site-specific details that are not accounted
+          for in this tool. Optimal receiving water systems for physical consolidation and cost
+          methodology were adapted from the Water Boards 2021 Drinking Water Cost Assessment & Gap
+          Analysis and the 2022 Drinking Water Needs Assessment Drought Infrastructure Cost
+          Assessment reports.
         </Typography>
       </Grid>
       <Grid container item xs={12}>
@@ -105,52 +112,7 @@ const IndexPage: FC = (props: any) => {
         </Grid>
         <Grid item xs={12} className={styles.gridItemContainer}>
           <ContentWrapper title="Calculation Methodology Explanation">
-            <Typography paragraph>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit quis voluptates
-              perspiciatis quas. Officiis, eligendi!
-            </Typography>
-            <Typography paragraph>
-              Paragraph describing math behind the calculations, providing helpful information,
-              answering FAQS etc? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-              officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-              proident, sunt in
-            </Typography>
-            <Typography paragraph>
-              Paragraph describing math behind the calculations, providing helpful information,
-              answering FAQS etc? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-              officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-              proident, sunt in
-            </Typography>
-            <Typography paragraph>
-              Paragraph describing math behind the calculations, providing helpful information,
-              answering FAQS etc? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-              officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-              proident, sunt in
-            </Typography>
+            <div style={{ height: '400px' }}></div>
           </ContentWrapper>
         </Grid>
       </Grid>

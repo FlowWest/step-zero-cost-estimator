@@ -30,11 +30,10 @@ export interface HeaderProps {
 
 const Header: FC<HeaderProps> = (props) => {
   // use default theme from user os settings
-  const [darkModeOn, setDarkModeOn] = useState<boolean>(
-    typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-  );
+  // const [darkModeOn, setDarkModeOn] = useState<boolean>(
+  //   window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  // );
+  const [darkModeOn, setDarkModeOn] = useState<boolean>(false);
   const styles = useStyles();
 
   const onSwitch = (): void => {

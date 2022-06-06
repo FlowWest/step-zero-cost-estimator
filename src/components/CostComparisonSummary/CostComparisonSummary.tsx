@@ -4,7 +4,7 @@ import { makeStyles } from '@mui/styles';
 import CostComparisonWrapper from './CostComparisonWrapper';
 import { WaterSystem } from '../../util/interfaces';
 import { formatToUSD } from '../../util/util';
-import { getConsolidationCostDetails } from '../../util/consolidationUtil';
+import { getConsolidationCostDetails } from '../../util/costUtil';
 
 const useStyles = makeStyles((theme: Theme) => ({
   totalCostLabel: {
@@ -31,14 +31,17 @@ const CostComparisonSummary = ({
     <>
       {selectedWaterSystem && Object.keys(selectedWaterSystem).length ? (
         <div>
-          <Typography paragraph>Complete both calculators for cost comparison</Typography>
+          <Typography paragraph>
+            Provide the required information in both the Consolidation and Capital Improvment Plan
+            calculators to view your cost comparison.
+          </Typography>
           <Typography paragraph>
             <span className={styles.totalCostLabel}>Consolidation Costs: </span>
             {formatToUSD(consolidationCostDetails.total)}
           </Typography>
           <Typography paragraph>
             <span className={styles.totalCostLabel}>Capital Improvement Costs: </span>
-            {formatToUSD(4000000)}
+            {/* {formatToUSD(4000000)} */}
           </Typography>
           <CostComparisonWrapper />
         </div>
