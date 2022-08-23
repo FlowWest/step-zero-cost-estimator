@@ -44,15 +44,14 @@ const ComponentDataGrid = ({
   rows,
   openAddComponents,
   connections,
-  getNewGridState
+  setTotalCostValues
 }: {
   rows: Array<any>;
   openAddComponents: Function;
   connections: number;
-  getNewGridState: Function;
+  setTotalCostValues: Function;
 }) => {
   const styles = useStyles();
-  const [test, setTest] = useState({} as any);
   const [pageSize, setPageSize] = useState(5 as number);
   const columns: GridColDef[] = [
     {
@@ -86,8 +85,11 @@ const ComponentDataGrid = ({
       headerAlign: 'right',
       cellClassName: styles.nonEditableCell,
       valueGetter: (params) => {
-        const quantity = params.getValue(params.id, 'quantity');
-        return quantity * params.row.unitCost;
+        const { id, getValue, row } = params;
+        const quantity = getValue(id, 'quantity');
+        const installedCost = quantity * row.unitCost;
+
+        return installedCost;
       },
       valueFormatter: (params) => {
         return `$${formatter.format(params.value)}`;
@@ -141,7 +143,6 @@ const ComponentDataGrid = ({
       cellClassName: styles.nonEditableCell,
       valueGetter: (params) => {
         const monthlyReserve = params.getValue(params.id, 'monthlyReserve');
-        // getTest(params);
         return monthlyReserve / connections;
       },
       valueFormatter: (params) => {
@@ -149,22 +150,6 @@ const ComponentDataGrid = ({
       }
     }
   ];
-
-  //   const getTest = (params: any) => {
-  //     setTest((prevState: any) => {return  {
-  //       ...prevState,
-  //       [params.id]: {
-
-  //         installedCost: params.getValue(params.id, 'installedCost'),
-  //         annualReserve: params.getValue(params.id, 'annualReserve')
-  //       }
-  //     }})
-  //   );
-  // };
-
-  useEffect(() => {
-    console.log('test');
-  }, [test]);
 
   const renderNoRowsOverlay = () => {
     return (
@@ -195,22 +180,23 @@ const ComponentDataGrid = ({
             'cell--editing': styles.cellEditing,
             editInputCell: styles.cellInput
           }}
-          // onCellEditCommit={(cell: any) => {
-          //   setGridState((prevState: any) => {
-          //     const test = {
-          //       ...prevState,
-          //       [cell.id]: {
-          //         installedCost: cell.getValue(cell.id, 'installedCost'),
-          //         annualReserve: cell.getValue(cell.id, 'annualReserve')
-          //       }
-          //     };
-          //     return test;
-          //   });
-          // }}
+          onCellEditCommit={(cell: any) => {
+            console.log('cell', cell);
+            setTotalCostValues((prevState: Array<any>) => {
+              const { id, row, field, value } = cell;
+              const installedCost = cell.getValue(id, 'installedCost');
+              const newState = prevState.map((row) => {
+                if (row.uid === id) {
+                  row[field] = value;
+                }
+                return row;
+              });
+              return newState;
+            });
+          }}
           components={{
             NoRowsOverlay: renderNoRowsOverlay
           }}
-          //hideFooterPagination
           pageSize={pageSize}
           rowsPerPageOptions={[5, 10, 20]}
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Grid, Typography } from '@mui/material';
 import ComponentDataGrid from './ComponentDataGrid';
 import TotalCIPDataGrid from './TotalCIPDataGrid';
@@ -16,16 +16,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const WaterSystemComponentsGrid = ({ openAddComponents }: { openAddComponents: Function }) => {
   const [state, dispatch] = useContext(WaterSystemContext);
+  const [totalCostValues, setTotalCostValues] = useState([] as Array<any>);
   const styles = useStyles();
 
-  const getNewGridState = (params: any) => {
-    dispatch(
-      updateCIPCostData(params.id, {
-        installedCost: params.getValue(params.id, 'installedCost'),
-        annualReserve: params.getValue(params.id, 'annualReserve')
-      })
-    );
-  };
+  useEffect(() => {
+    setTotalCostValues([...state.existingComponents, ...state.newComponents]);
+  }, [state.existingComponents, state.newComponents]);
 
   return (
     <>
@@ -33,7 +29,10 @@ const WaterSystemComponentsGrid = ({ openAddComponents }: { openAddComponents: F
         <Typography style={{ fontWeight: 600 }}>
           Total Existing and New Project Capital Improvement Costs
         </Typography>
-        <TotalCIPDataGrid />
+        <TotalCIPDataGrid
+          totalCostValues={totalCostValues}
+          connections={state.consolidationCostParams.connections}
+        />
       </Grid>
       <Grid item xs={12} className={styles.tableContainer}>
         <Typography style={{ fontWeight: 600 }}>Existing Components</Typography>
@@ -41,7 +40,7 @@ const WaterSystemComponentsGrid = ({ openAddComponents }: { openAddComponents: F
           rows={state.existingComponents}
           openAddComponents={openAddComponents}
           connections={state.consolidationCostParams.connections}
-          getNewGridState={getNewGridState}
+          setTotalCostValues={setTotalCostValues}
         />
       </Grid>
       <Grid item xs={12} className={styles.tableContainer}>
@@ -50,7 +49,7 @@ const WaterSystemComponentsGrid = ({ openAddComponents }: { openAddComponents: F
           rows={state.newComponents}
           openAddComponents={openAddComponents}
           connections={state.consolidationCostParams.connections}
-          getNewGridState={getNewGridState}
+          setTotalCostValues={setTotalCostValues}
         />
       </Grid>
       <Grid item>

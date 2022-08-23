@@ -1,25 +1,32 @@
-import React, { useContext } from 'react';
-import { WaterSystemContext } from '../../../contexts/WaterSystem';
+import React, { useState, useEffect } from 'react';
 import { DataGrid, GridColDef, GridOverlay } from '@mui/x-data-grid';
-import { Theme, Typography, Button } from '@mui/material';
+import { Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { sumBy } from 'lodash';
 
 const useStyles = makeStyles((theme: Theme) => ({
-  editableCell: {
-    background: '#fed330',
-    color: 'black'
-  },
-  cellEditing: {
-    backgroundColor: '#fed330 !important'
-  },
-  cellInput: {
-    color: 'black'
-  },
   addItemButtonWrapper: {
     display: 'flex',
     justifyContent: 'center',
     marginBlock: '5px',
     zIndex: 1000
+  },
+  root: {
+    '& .MuiDataGrid-columnHeaderTitle': {
+      textOverflow: 'clip',
+      whiteSpace: 'break-spaces',
+      lineHeight: 1,
+      textAlign: 'right'
+    },
+    '& .MuiDataGrid-row.Mui-even:not(:hover)': {
+      backgroundColor:
+        theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.04)'
+    }
+  },
+  hideRightSeparator: {
+    '& > .MuiDataGrid-columnSeparator': {
+      visibility: 'hidden'
+    }
   }
 }));
 
@@ -28,42 +35,49 @@ const formatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2
 });
 
-const TotalCIPDataGrid = () => {
-  const [state, dispatch] = useContext(WaterSystemContext);
+const TotalCIPDataGrid = ({
+  totalCostValues,
+  connections
+}: {
+  totalCostValues: Array<any>;
+  connections: number;
+}) => {
+  const [totalInstalledCost, setTotalInstalledCost] = useState({
+    installedCost: 0,
+    annualReserve: 0
+  });
   const styles = useStyles();
   const columns: GridColDef[] = [
     {
       field: 'quantity',
       headerName: '',
-      editable: true,
+      editable: false,
       flex: 1,
       type: 'number',
-      valueGetter: (params) => {
-        return params.value || 1;
-      },
-      cellClassName: styles.editableCell
+      headerAlign: 'right',
+      headerClassName: styles.hideRightSeparator
     },
-    { field: 'component', headerName: '', flex: 3 },
+    {
+      field: 'component',
+      headerName: '',
+      flex: 3,
+      headerClassName: styles.hideRightSeparator
+    },
     {
       field: 'unitCost',
       headerName: '',
-      editable: true,
+      editable: false,
       flex: 1.5,
       type: 'number',
-      valueFormatter: (params) => {
-        return `$${formatter.format(params.value)}`;
-      },
-      cellClassName: styles.editableCell
+      headerAlign: 'right',
+      headerClassName: styles.hideRightSeparator
     },
     {
       field: 'installedCost',
       headerName: 'Installed Cost',
       flex: 1.5,
       type: 'number',
-      valueGetter: (params) => {
-        const quantity = params.getValue(params.id, 'quantity');
-        return quantity * params.row.unitCost;
-      },
+      headerAlign: 'right',
       valueFormatter: (params) => {
         return `$${formatter.format(params.value)}`;
       }
@@ -71,20 +85,18 @@ const TotalCIPDataGrid = () => {
     {
       field: 'avgLife',
       headerName: '',
-      editable: true,
+      editable: false,
       flex: 1.5,
       type: 'number',
-      cellClassName: styles.editableCell
+      headerAlign: 'right',
+      headerClassName: styles.hideRightSeparator
     },
     {
       field: 'annualReserve',
       headerName: 'Annual Reserve',
       flex: 1.5,
       type: 'number',
-      valueGetter: (params) => {
-        const installedCost = params.getValue(params.id, 'installedCost');
-        return installedCost / params.row.avgLife;
-      },
+      headerAlign: 'right',
       valueFormatter: (params) => {
         return `$${formatter.format(params.value)}`;
       }
@@ -94,6 +106,7 @@ const TotalCIPDataGrid = () => {
       headerName: 'Monthly Reserve',
       flex: 1.5,
       type: 'number',
+      headerAlign: 'right',
       valueGetter: (params) => {
         const annualReserve = params.getValue(params.id, 'annualReserve');
         return annualReserve / 12;
@@ -105,18 +118,38 @@ const TotalCIPDataGrid = () => {
     {
       field: 'monthlyReservePerCustomer',
       headerName: 'Monthly Reserve Per Customer',
-      width: 225,
+      // width: 225,
+      flex: 1.5,
       type: 'number',
+      headerAlign: 'right',
       valueGetter: (params) => {
         const monthlyReserve = params.getValue(params.id, 'monthlyReserve');
-        const numConnections = parseInt(state.consolidationCostParams.connections);
-        return monthlyReserve / numConnections;
+        return monthlyReserve / connections;
       },
       valueFormatter: (params) => {
         return `$${formatter.format(params.value)}`;
       }
     }
   ];
+
+  useEffect(() => {
+    const updatedCostValues = totalCostValues.reduce(
+      (previousValue, currentValue) => {
+        const newValue = { ...previousValue };
+        const quantity = currentValue.quantity || 1;
+        const installedCost = quantity * currentValue.unitCost;
+        newValue.installedCost += installedCost;
+        newValue.annualReserve += installedCost / currentValue.avgLife;
+
+        return newValue;
+      },
+      {
+        installedCost: 0,
+        annualReserve: 0
+      }
+    );
+    setTotalInstalledCost(updatedCostValues);
+  }, [totalCostValues]);
 
   const renderNoRowsOverlay = () => {
     return (
@@ -127,19 +160,31 @@ const TotalCIPDataGrid = () => {
       </GridOverlay>
     );
   };
-  console.log('STATE', state);
+  console.log('totalInstalledCost', totalInstalledCost);
   return (
     <div style={{ display: 'flex', height: '100%' }}>
       <div style={{ flexGrow: 1 }}>
         <DataGrid
           autoHeight
-          rows={[]}
+          rows={
+            totalCostValues.length > 0
+              ? [
+                  {
+                    id: 0,
+                    ...totalInstalledCost
+                  }
+                ]
+              : []
+          }
           columns={columns}
-          getRowId={(row) => row.uid}
+          getRowId={(row) => row.id}
           components={{
             NoRowsOverlay: renderNoRowsOverlay
           }}
           hideFooterPagination
+          classes={{
+            root: styles.root
+          }}
         />
       </div>
     </div>
