@@ -153,17 +153,20 @@ const ComponentDataGrid = ({
 
   const renderNoRowsOverlay = () => {
     return (
-      <GridOverlay>
-        <div className={styles.addItemButtonWrapper}>
-          <Button
-            onClick={() => {
-              openAddComponents();
-            }}
-          >
-            Add Components
-          </Button>
-        </div>
-      </GridOverlay>
+      // <GridOverlay>
+      <div
+        className={styles.addItemButtonWrapper}
+        style={{ position: 'relative', zIndex: 1, height: '100%' }}
+      >
+        <Button
+          onClick={() => {
+            openAddComponents();
+          }}
+        >
+          Add Components
+        </Button>
+      </div>
+      // </GridOverlay>
     );
   };
 
