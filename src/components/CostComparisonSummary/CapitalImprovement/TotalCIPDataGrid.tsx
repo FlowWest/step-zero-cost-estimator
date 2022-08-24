@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { DataGrid, GridColDef, GridOverlay } from '@mui/x-data-grid';
 import { Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { sumBy } from 'lodash';
 
 const useStyles = makeStyles((theme: Theme) => ({
   addItemButtonWrapper: {
@@ -160,7 +159,7 @@ const TotalCIPDataGrid = ({
       </GridOverlay>
     );
   };
-  console.log('totalInstalledCost', totalInstalledCost);
+
   return (
     <div style={{ display: 'flex', height: '100%' }}>
       <div style={{ flexGrow: 1 }}>
@@ -181,6 +180,7 @@ const TotalCIPDataGrid = ({
           components={{
             NoRowsOverlay: renderNoRowsOverlay
           }}
+          hideFooter
           hideFooterPagination
           classes={{
             root: styles.root
