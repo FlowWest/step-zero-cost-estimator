@@ -3,9 +3,7 @@ import { Container, Grid, Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
-  header: {
-    fontWeight: 'bold'
-  },
+  description: { marginBottom: 25 },
   contentWrapper: {
     background: theme.palette.background.content,
     borderTop: `.5rem solid ${theme.palette.primary.main}`,
@@ -16,16 +14,20 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface ContentWrapperProps {
   title: string;
+  description?: string;
 }
 
-const ContentWrapper: React.FC<ContentWrapperProps> = ({ title, children }) => {
-  const styles = useStyles();
+const ContentWrapper: React.FC<ContentWrapperProps> = ({ title, description, children }) => {
+  const classes = useStyles();
   return (
     <>
-      <Typography variant="h5" gutterBottom className={styles.header}>
+      <Typography variant="h3" gutterBottom>
         {title}
       </Typography>
-      <Container className={styles.contentWrapper}>{children}</Container>
+      {description !== undefined && (
+        <Typography className={classes.description}>{description}</Typography>
+      )}
+      <Container className={classes.contentWrapper}>{children}</Container>
     </>
   );
 };

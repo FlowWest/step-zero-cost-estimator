@@ -63,7 +63,7 @@ const IndexPage: FC = (props: any) => {
     <Grid container spacing={2} justifyContent="center">
       <Seo title="Calculator" />
       <Grid item xs={12}>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h2" gutterBottom>
           Step Zero Calculator
         </Typography>
         <Typography paragraph>
