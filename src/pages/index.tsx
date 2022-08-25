@@ -9,6 +9,7 @@ import { WaterSystemContext } from '../contexts/WaterSystem';
 import { updateWaterSystemAndParams } from '../contexts/WaterSystem/actions';
 import { graphql } from 'gatsby';
 import { WaterSystem } from '../util/interfaces';
+import { Seo } from '../components';
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
@@ -58,6 +59,7 @@ const IndexPage: FC = (props: any) => {
 
   return (
     <Grid container spacing={2} justifyContent="center">
+      <Seo title="Calculator" />
       <Grid item xs={12}>
         <Typography variant="h4" gutterBottom>
           Step Zero Calculator
