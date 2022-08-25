@@ -24,8 +24,9 @@ export const initialState = {
   newComponents: [],
   autocompleteOptions: [],
   cipCostData: {
-    existing: {},
-    new: {}
+    existing: 0,
+    new: 0,
+    total: 0
   },
   systemComponents: []
 };
@@ -88,7 +89,7 @@ export const reducer = (state: WaterSystemState, action: WaterSystemAction): Wat
     case ACTIONS.UPDATE_CIP_COST_DATA:
       return {
         ...state,
-        cipCostData: { ...state.cipCostData, [action.payload.rowId]: action.payload.cipCostData }
+        cipCostData: { ...state.cipCostData, [action.payload.cipType]: action.payload.cipCostData }
       };
     default:
       return state;

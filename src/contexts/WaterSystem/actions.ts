@@ -44,11 +44,11 @@ export const updateAutocompleteOptions = (autocompleteOptions: ComponentProperti
   };
 };
 
-export const updateCIPCostData = (rowId: number, cipCostData: Object) => {
+export const updateCIPCostData = (cipType: string, cipCostData: number) => {
   return {
     type: ACTIONS.UPDATE_CIP_COST_DATA,
     payload: {
-      rowId,
+      cipType,
       cipCostData
     }
   };

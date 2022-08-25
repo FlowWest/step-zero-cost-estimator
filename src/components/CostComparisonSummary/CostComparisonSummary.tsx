@@ -14,10 +14,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const CostComparisonSummary = ({
   selectedWaterSystem,
-  consolidationCostParams
+  consolidationCostParams,
+  cipCostData
 }: {
   selectedWaterSystem: WaterSystem;
   consolidationCostParams: any;
+  cipCostData: any;
 }) => {
   const styles = useStyles();
 
@@ -41,7 +43,7 @@ const CostComparisonSummary = ({
           </Typography>
           <Typography paragraph>
             <span className={styles.totalCostLabel}>Capital Improvement Costs: </span>
-            {/* {formatToUSD(4000000)} */}
+            {formatToUSD(cipCostData?.total)}
           </Typography>
           <CostComparisonWrapper />
         </div>

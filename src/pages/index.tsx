@@ -57,6 +57,8 @@ const IndexPage: FC = (props: any) => {
     );
   };
 
+  console.log('ssssss', state);
+
   return (
     <Grid container spacing={2} justifyContent="center">
       <Seo title="Calculator" />
@@ -109,6 +111,7 @@ const IndexPage: FC = (props: any) => {
             <CostComparisonSummary
               selectedWaterSystem={state?.currentWaterSystem}
               consolidationCostParams={state?.consolidationCostParams}
+              cipCostData={state?.cipCostData}
             />
           </ContentWrapper>
         </Grid>

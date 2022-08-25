@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { DataGrid, GridColDef, GridOverlay } from '@mui/x-data-grid';
 import { Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { WaterSystemContext } from '../../../contexts/WaterSystem';
+import { updateCIPCostData } from '../../../contexts/WaterSystem/actions';
 
 const useStyles = makeStyles((theme: Theme) => ({
   addItemButtonWrapper: {
@@ -41,6 +43,7 @@ const TotalCIPDataGrid = ({
   totalCostValues: Array<any>;
   connections: number;
 }) => {
+  const [state, dispatch] = useContext(WaterSystemContext);
   const [totalInstalledCost, setTotalInstalledCost] = useState({
     installedCost: 0,
     annualReserve: 0
@@ -147,6 +150,7 @@ const TotalCIPDataGrid = ({
         annualReserve: 0
       }
     );
+    dispatch(updateCIPCostData('total', updatedCostValues.installedCost));
     setTotalInstalledCost(updatedCostValues);
   }, [totalCostValues]);
 

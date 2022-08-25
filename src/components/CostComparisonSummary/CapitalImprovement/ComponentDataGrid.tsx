@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { DataGrid, GridColDef, GridFooterContainer, GridFooter, GridRow } from '@mui/x-data-grid';
+import React from 'react';
+import { DataGrid, GridColDef, GridFooterContainer } from '@mui/x-data-grid';
 import { Theme, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { render } from 'react-dom';
 
 const useStyles = makeStyles((theme: Theme) => ({
   nonEditableCell: {
