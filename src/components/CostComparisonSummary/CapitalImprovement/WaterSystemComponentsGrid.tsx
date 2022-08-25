@@ -1,16 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, Divider } from '@mui/material';
 import ComponentDataGrid from './ComponentDataGrid';
 import TotalCIPDataGrid from './TotalCIPDataGrid';
 import WarningMessage from '../../uiComponents/WarningMessage';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
-import { updateCIPCostData } from '../../../contexts/WaterSystem/actions';
+import ExportButtonGroup from '../../uiComponents/ExportButtonGroup';
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
   tableContainer: {
     marginBottom: '2rem'
+  },
+  contentContainer: {
+    paddingTop: '1rem'
   }
 }));
 
@@ -54,6 +57,18 @@ const WaterSystemComponentsGrid = ({ openAddComponents }: { openAddComponents: F
       </Grid>
       <Grid item>
         <WarningMessage />
+      </Grid>
+      <Divider />
+      <Grid
+        spacing={2}
+        container
+        item
+        xs={12}
+        className={styles.contentContainer}
+        justifyContent="flex-end"
+        order={{ xs: 4, md: 4 }}
+      >
+        <ExportButtonGroup />
       </Grid>
     </>
   );

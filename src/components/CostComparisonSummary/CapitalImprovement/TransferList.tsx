@@ -98,8 +98,16 @@ const TransferList = ({
   };
 
   const handleCopy = () => {
-    let leftCheckedCopy = [...leftChecked].map((obj) => ({ ...obj, uid: Math.random() }));
-    let rightCheckedCopy = [...rightChecked].map((obj) => ({ ...obj, uid: Math.random() }));
+    let leftCheckedCopy = [...leftChecked].map((obj) => ({
+      ...obj,
+      uid: Math.random(),
+      quantity: 1
+    }));
+    let rightCheckedCopy = [...rightChecked].map((obj) => ({
+      ...obj,
+      uid: Math.random(),
+      quantity: 1
+    }));
     setNewCpnts([...newComponents, ...leftCheckedCopy]);
     setExistingCpnts([...existingComponents, ...rightCheckedCopy]);
     setChecked([]);

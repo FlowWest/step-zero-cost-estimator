@@ -206,7 +206,7 @@ const ComponentDataGrid = ({
   const renderFooter = () => {
     return rows.length > 0 ? (
       <GridFooterContainer>
-        <div className={styles.footer}>{rows.length} Records</div>
+        <div className={styles.footer}>{rows.length} Rows</div>
       </GridFooterContainer>
     ) : null;
   };

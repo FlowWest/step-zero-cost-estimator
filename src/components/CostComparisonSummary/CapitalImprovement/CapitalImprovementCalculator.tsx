@@ -7,7 +7,6 @@ import AddComponentsModal from './AddComponentsModal';
 function CapitalImprovementCalculator(props: any) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
-    console.log('hello');
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
