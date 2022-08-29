@@ -43,7 +43,7 @@ export const WaterSystemDetailsAccordion = ({
       maxWidth="md"
     >
       <DialogTitle>
-        <Typography variant="h6">View Water System Details</Typography>
+        <Typography variant="h5">View Water System Details</Typography>
         <IconButton
           aria-label="close"
           onClick={handleCloseSystemsDetailsDialog}
@@ -65,7 +65,7 @@ export const WaterSystemDetailsAccordion = ({
         </Typography>
         <Grid container className={styles.systemsContent} spacing={1}>
           <Grid item xs={6}>
-            <Typography>Joining System</Typography>
+            <Typography variant="h6">Joining System</Typography>
             <List>
               <ListItem>
                 <ListItemText
@@ -85,7 +85,7 @@ export const WaterSystemDetailsAccordion = ({
             </List>
           </Grid>
           <Grid item xs={6}>
-            <Typography>Receiving System</Typography>
+            <Typography variant="h6">Receiving System</Typography>
             <List>
               <ListItem>
                 <ListItemText
@@ -106,7 +106,7 @@ export const WaterSystemDetailsAccordion = ({
           </Grid>
           <Divider style={{ width: '100%' }} />
           <Grid item xs={12}>
-            <Typography>Route</Typography>
+            <Typography variant="h6">Route</Typography>
             <List>
               <ListItem>
                 <ListItemText

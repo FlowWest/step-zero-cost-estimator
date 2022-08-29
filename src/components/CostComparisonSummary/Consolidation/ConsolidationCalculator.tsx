@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Grid, Typography, Theme, Divider } from '@mui/material';
 import WaterSystemDetails from './WaterSystemDetails';
 import { makeStyles } from '@mui/styles';
 import TotalConsolidationCost from './TotalConsolidationCost';
 import ExportButtonGroup from '../../uiComponents/ExportButtonGroup';
+import { WaterSystemContext } from '../../../contexts/WaterSystem';
 
 const useStyles = makeStyles((theme: Theme) => ({
   contentContainer: {
@@ -21,6 +22,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const ConsolidationCalculator = () => {
+  const [state, dispatch] = useContext(WaterSystemContext);
   const styles = useStyles();
   return (
     <>
@@ -36,8 +38,9 @@ const ConsolidationCalculator = () => {
             Edit Water System Details
           </Typography>
           <Typography paragraph>
-            Paragraph describing how these values are prepopulated from existing data, but user is
-            allowed to edit values if they see fit.
+            {state.currentWaterSystem?.joinSystemPWSID
+              ? `Values are sourced from the Consolidation Analysis report. These values are meant to be a starting point for your calculations and estimates. You may adjust the values below to. The consolidation cost estimates will be updated automatically based on the new values.`
+              : `For user-created water systems, the values for Number of Connections and Distance to Receiving System have been set to predetermined values. Please adjust those fields to better represent the water system.`}
           </Typography>
           <WaterSystemDetails />
         </Grid>

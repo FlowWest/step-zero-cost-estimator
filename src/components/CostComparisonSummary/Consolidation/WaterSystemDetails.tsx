@@ -43,11 +43,6 @@ const WaterSystemDetails = () => {
         start={state?.consolidationCostParams?.distance}
         inputProperty="distance"
         label="Distance to Receiving System"
-        tooltipText={
-          state?.currentWaterSystem?.receivingSystemName
-            ? `Default Receiving System: ${state?.currentWaterSystem?.receivingSystemName}`
-            : 'No default receiving system available'
-        }
         inputAdornment={{ end: 'feet' }}
         updateState={updateWaterSystemDetails}
       />
