@@ -22,6 +22,7 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 const useStyles = makeStyles((theme: Theme) => ({
   popper: {
+    zIndex: 10000,
     '& .MuiAutocomplete-listbox': {
       background: theme.palette.background.default
     }
@@ -32,14 +33,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const CustomPopper = function (props: any) {
-  const styles = useStyles();
+  const classes = useStyles();
   return (
-    <Popper
-      {...props}
-      className={styles.popper}
-      style={{ zIndex: 10000, ...props.style }}
-      placement="bottom"
-    />
+    <Popper {...props} className={classes.popper} style={{ ...props.style }} placement="bottom" />
   );
 };
 
@@ -54,7 +50,7 @@ const ModalAutocomplete = ({
   setExistingCpnts: React.Dispatch<any>;
   setNewCpnts: React.Dispatch<any>;
 }) => {
-  const styles = useStyles();
+  const classes = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
   const [value, setValue] = React.useState([] as Array<any>);
   const [waterSystemCpnts, setWaterSystemCpnts] = React.useState(
@@ -178,7 +174,7 @@ const ModalAutocomplete = ({
         }}
         renderTags={(tagValue, getTagProps) => {
           return tagValue.map((option, idx) => (
-            <Chip {...getTagProps} label={option.component} sx={{ mx: 0.5 }} />
+            <Chip key={idx} {...getTagProps} label={option.component} sx={{ mx: 0.5 }} />
           ));
         }}
         PopperComponent={CustomPopper}

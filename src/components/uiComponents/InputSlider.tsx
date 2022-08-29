@@ -43,7 +43,7 @@ const InputSlider = ({
   updateState?: Function;
   tooltipText?: string;
 }) => {
-  const styles = useStyles();
+  const classes = useStyles();
   const [value, setValue] = useState(start as number | string);
 
   const handleSliderChange = (event: Event, newValue: any) => {
@@ -78,17 +78,17 @@ const InputSlider = ({
       <Grid container alignItems="center">
         <Grid item xs={12}>
           <TextField
-            className={styles.root}
+            className={classes.root}
             id={inputProperty}
             sx={{ mb: 0.5 }}
             label={
               tooltipText ? (
                 <Tooltip
-                  title={<div className={styles.tooltipContent}>{tooltipText}</div>}
+                  title={<div className={classes.tooltipContent}>{tooltipText}</div>}
                   arrow
                   placement="right"
                 >
-                  <div className={styles.hoverableLabel}>{label}</div>
+                  <div className={classes.hoverableLabel}>{label}</div>
                 </Tooltip>
               ) : (
                 <div>{label}</div>

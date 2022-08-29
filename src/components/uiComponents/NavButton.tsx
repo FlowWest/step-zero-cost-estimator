@@ -20,13 +20,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 function NavButton({ children, ...otherProps }: any) {
-  const style = useStyles();
+  const classes = useStyles();
   return (
     <Button
       variant="text"
-      className={style.navButton}
+      className={classes.navButton}
       {...otherProps}
-      activeClassName={style.active}
+      activeClassName={classes.active}
     >
       {children}
     </Button>

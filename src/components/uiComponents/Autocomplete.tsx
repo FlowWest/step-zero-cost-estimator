@@ -7,9 +7,6 @@ import { AutocompleteProps } from '../../util/interfaces';
 const useStyles = makeStyles((theme: Theme) => ({
   selectItem: {
     backgroundColor: theme.palette.background.default
-  },
-  paper: {
-    backgroundColor: theme.palette.background.default
   }
 }));
 
@@ -21,7 +18,7 @@ const Autocomplete = ({
   setSelectedObject
 }: AutocompleteProps) => {
   const selectData = dropdownOptions;
-  const styles = useStyles();
+  const classes = useStyles();
   const [value, setValue] = useState('' as any);
 
   useEffect(() => {
@@ -47,7 +44,7 @@ const Autocomplete = ({
         autoSelect
         disabled={selectedObject && Object.keys(selectedObject).length > 0}
         id={`${dropdownLabel}-autocomplete`}
-        classes={{ paper: styles.selectItem }}
+        classes={{ paper: classes.selectItem }}
         options={selectData}
         value={value}
         onChange={(event: React.SyntheticEvent, newValue: string | null) => {

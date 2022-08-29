@@ -21,7 +21,7 @@ const CostComparisonSummary = ({
   consolidationCostParams: any;
   cipCostData: any;
 }) => {
-  const styles = useStyles();
+  const classes = useStyles();
 
   // Variable that holds calculated total cost of consolidation
   const consolidationCostDetails = getConsolidationCostDetails({
@@ -38,11 +38,11 @@ const CostComparisonSummary = ({
             calculators to view your cost comparison.
           </Typography>
           <Typography paragraph>
-            <span className={styles.totalCostLabel}>Consolidation Costs: </span>
+            <span className={classes.totalCostLabel}>Consolidation Costs: </span>
             {formatToUSD(consolidationCostDetails.total)}
           </Typography>
           <Typography paragraph>
-            <span className={styles.totalCostLabel}>Capital Improvement Costs: </span>
+            <span className={classes.totalCostLabel}>Capital Improvement Costs: </span>
             {formatToUSD(cipCostData?.total)}
           </Typography>
           <CostComparisonWrapper />

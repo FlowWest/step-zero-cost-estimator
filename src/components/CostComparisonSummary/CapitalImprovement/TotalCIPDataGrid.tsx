@@ -48,7 +48,7 @@ const TotalCIPDataGrid = ({
     installedCost: 0,
     annualReserve: 0
   });
-  const styles = useStyles();
+  const classes = useStyles();
   const columns: GridColDef[] = [
     {
       field: 'quantity',
@@ -57,13 +57,13 @@ const TotalCIPDataGrid = ({
       flex: 1,
       type: 'number',
       headerAlign: 'right',
-      headerClassName: styles.hideRightSeparator
+      headerClassName: classes.hideRightSeparator
     },
     {
       field: 'component',
       headerName: '',
       flex: 3,
-      headerClassName: styles.hideRightSeparator
+      headerClassName: classes.hideRightSeparator
     },
     {
       field: 'unitCost',
@@ -72,7 +72,7 @@ const TotalCIPDataGrid = ({
       flex: 1.5,
       type: 'number',
       headerAlign: 'right',
-      headerClassName: styles.hideRightSeparator
+      headerClassName: classes.hideRightSeparator
     },
     {
       field: 'installedCost',
@@ -91,7 +91,7 @@ const TotalCIPDataGrid = ({
       flex: 1.5,
       type: 'number',
       headerAlign: 'right',
-      headerClassName: styles.hideRightSeparator
+      headerClassName: classes.hideRightSeparator
     },
     {
       field: 'annualReserve',
@@ -187,7 +187,7 @@ const TotalCIPDataGrid = ({
           hideFooter
           hideFooterPagination
           classes={{
-            root: styles.root
+            root: classes.root
           }}
         />
       </div>

@@ -20,7 +20,7 @@ import { getSystemComponentValues } from '../../../util/costUtil';
 
 const useStyles = makeStyles((theme: Theme) => ({
   modal: {
-    position: 'absolute' as 'absolute',
+    position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const AddComponentsModal = ({ open, handleClose }: { open: boolean; handleClose: Function }) => {
-  const styles = useStyles();
+  const classes = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
   const [existingCpnts, setExistingCpnts] = useState(state?.existingComponents);
   const [newCpnts, setNewCpnts] = useState(state?.newComponents);
@@ -78,7 +78,7 @@ const AddComponentsModal = ({ open, handleClose }: { open: boolean; handleClose:
       aria-describedby="modal-modal-description"
       disableEscapeKeyDown
     >
-      <Box className={styles.modal}>
+      <Box className={classes.modal}>
         <DialogTitle sx={{ m: 0, p: 2 }}>
           <Typography variant="h6" align="center">
             System Components
@@ -96,7 +96,7 @@ const AddComponentsModal = ({ open, handleClose }: { open: boolean; handleClose:
           <IconButton
             aria-label="close"
             onClick={() => handleCloseClick(null)}
-            className={styles.closeIconButton}
+            className={classes.closeIconButton}
           >
             <Close />
           </IconButton>
@@ -119,14 +119,14 @@ const AddComponentsModal = ({ open, handleClose }: { open: boolean; handleClose:
         <br />
         <Stack direction="row" spacing={2}>
           <Button
-            className={`${styles.actionButton} ${styles.cancelButton}`}
+            className={`${classes.actionButton} ${classes.cancelButton}`}
             variant="contained"
             onClick={() => handleCloseClick(null)}
           >
             CANCEL
           </Button>
           <Button
-            className={styles.actionButton}
+            className={classes.actionButton}
             variant="contained"
             onClick={() => handleSubmit()}
           >

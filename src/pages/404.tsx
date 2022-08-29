@@ -15,9 +15,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const NotFoundPage: FC = () => {
-  const styles = useStyles();
+  const classes = useStyles();
   return (
-    <Container maxWidth="md" className={styles.root}>
+    <Container maxWidth="md" className={classes.root}>
       <Seo title="404: Not found" />
       <Typography variant="h2" gutterBottom component="h1">
         NOT FOUND

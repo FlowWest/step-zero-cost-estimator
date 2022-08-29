@@ -34,7 +34,7 @@ const Header: FC<HeaderProps> = (props) => {
   //   window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
   // );
   const [darkModeOn, setDarkModeOn] = useState<boolean>(false);
-  const styles = useStyles();
+  const classes = useStyles();
 
   const onSwitch = (): void => {
     setDarkModeOn((prev) => !prev);
@@ -45,12 +45,12 @@ const Header: FC<HeaderProps> = (props) => {
   }, [darkModeOn]);
 
   return (
-    <AppBar component="header" position="static" elevation={0} className={styles.root}>
+    <AppBar component="header" position="static" elevation={0} className={classes.root}>
       <Toolbar>
         <Grid container spacing={3}>
           <Grid item>
-            <Typography variant="h6" className={styles.title}>
-              <Link to="/" component={GatsbyLink} color="#fff" className={styles.link}>
+            <Typography variant="h6" className={classes.title}>
+              <Link to="/" component={GatsbyLink} color="#fff" className={classes.link}>
                 Step Zero
               </Link>
             </Typography>
