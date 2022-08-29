@@ -5,6 +5,7 @@ import { Theme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import { BsToggleOn, BsToggleOff } from 'react-icons/bs';
 import Button from '../uiComponents/NavButton';
+import { StaticImage } from 'gatsby-plugin-image';
 
 import { FC } from '../../util';
 
@@ -20,7 +21,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   link: {
     textDecoration: 'none'
-  }
+  },
+  logo: { marginBlock: 10 }
 }));
 
 export interface HeaderProps {
@@ -48,12 +50,15 @@ const Header: FC<HeaderProps> = (props) => {
     <AppBar component="header" position="static" elevation={0} className={classes.root}>
       <Toolbar>
         <Grid container spacing={3}>
-          <Grid item>
-            <Typography variant="h6" className={classes.title}>
-              <Link to="/" component={GatsbyLink} color="#fff" className={classes.link}>
-                Step Zero
-              </Link>
-            </Typography>
+          <Grid item className={classes.logo}>
+            <Link to="/" component={GatsbyLink} color="#fff" className={classes.link}>
+              <StaticImage
+                src="../../images/step-zero-logo1.png"
+                alt="FlowWest Logo"
+                placeholder="blurred"
+                height={65}
+              />
+            </Link>
           </Grid>
           <Grid item>
             <Button component={GatsbyLink} to="/">
