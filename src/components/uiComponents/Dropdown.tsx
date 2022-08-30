@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Dropdown = ({ dropdownLabel, dropdownPlaceholder, dropdownOptions }: DropdownProps) => {
   const selectData = dropdownOptions;
-  const styles = useStyles();
+  const classes = useStyles();
   const [value, setValue] = useState('' as string);
 
   const handleChange = (event: any) => {
@@ -37,7 +37,7 @@ const Dropdown = ({ dropdownLabel, dropdownPlaceholder, dropdownOptions }: Dropd
   };
 
   return (
-    <Box component="form" className={styles.boxContainer}>
+    <Box component="form" className={classes.boxContainer}>
       <TextField
         select
         InputLabelProps={{ shrink: true }}
@@ -47,7 +47,7 @@ const Dropdown = ({ dropdownLabel, dropdownPlaceholder, dropdownOptions }: Dropd
         variant="outlined"
         SelectProps={{
           displayEmpty: true,
-          MenuProps: { classes: { paper: styles.selectItem } }
+          MenuProps: { classes: { paper: classes.selectItem } }
         }}
         fullWidth
       >

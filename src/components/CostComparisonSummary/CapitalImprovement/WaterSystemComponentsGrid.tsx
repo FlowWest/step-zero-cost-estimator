@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const WaterSystemComponentsGrid = ({ openAddComponents }: { openAddComponents: Function }) => {
   const [state, dispatch] = useContext(WaterSystemContext);
   const [totalCostValues, setTotalCostValues] = useState([] as Array<any>);
-  const styles = useStyles();
+  const classes = useStyles();
 
   useEffect(() => {
     setTotalCostValues([...state.existingComponents, ...state.newComponents]);
@@ -28,7 +28,7 @@ const WaterSystemComponentsGrid = ({ openAddComponents }: { openAddComponents: F
 
   return (
     <>
-      <Grid item xs={12} className={styles.tableContainer}>
+      <Grid item xs={12} className={classes.tableContainer}>
         <Typography style={{ fontWeight: 600 }}>
           Total Existing and New Project Capital Improvement Costs
         </Typography>
@@ -37,7 +37,7 @@ const WaterSystemComponentsGrid = ({ openAddComponents }: { openAddComponents: F
           connections={state.consolidationCostParams.connections}
         />
       </Grid>
-      <Grid item xs={12} className={styles.tableContainer}>
+      <Grid item xs={12} className={classes.tableContainer}>
         <Typography style={{ fontWeight: 600 }}>Existing Components</Typography>
         <ComponentDataGrid
           rows={state.existingComponents}
@@ -46,7 +46,7 @@ const WaterSystemComponentsGrid = ({ openAddComponents }: { openAddComponents: F
           setTotalCostValues={setTotalCostValues}
         />
       </Grid>
-      <Grid item xs={12} className={styles.tableContainer}>
+      <Grid item xs={12} className={classes.tableContainer}>
         <Typography style={{ fontWeight: 600 }}>New Components</Typography>
         <ComponentDataGrid
           rows={state.newComponents}
@@ -64,7 +64,7 @@ const WaterSystemComponentsGrid = ({ openAddComponents }: { openAddComponents: F
         container
         item
         xs={12}
-        className={styles.contentContainer}
+        className={classes.contentContainer}
         justifyContent="flex-end"
         order={{ xs: 4, md: 4 }}
       >

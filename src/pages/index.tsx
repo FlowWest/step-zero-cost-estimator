@@ -10,7 +10,7 @@ import { updateWaterSystemAndParams } from '../contexts/WaterSystem/actions';
 import { graphql } from 'gatsby';
 import { WaterSystem } from '../util/interfaces';
 import { Seo } from '../components';
-import WaterSystemDetailsAccordion from '../components/CostComparisonSummary/WaterSystemDetailsAccordion';
+import WaterSystemDetailsDialog from '../components/CostComparisonSummary/WaterSystemDetailsDialog';
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const IndexPage: FC = (props: any) => {
-  const styles = useStyles();
+  const classes = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
   const [systemsDetailsDialogIsOpen, setSystemsDetailsDialogIsOpen] = useState(false as boolean);
 
@@ -74,7 +74,7 @@ const IndexPage: FC = (props: any) => {
     <Grid container spacing={2} justifyContent="center">
       <Seo title="Calculator" />
       <Grid item xs={12}>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h3" gutterBottom>
           Step Zero Calculator
         </Typography>
         <Typography paragraph>
@@ -102,7 +102,7 @@ const IndexPage: FC = (props: any) => {
         </Grid>
         {state && Object.keys(state?.currentWaterSystem).length > 0 && (
           <>
-            <Grid item xs={12} md={4} className={styles.buttonContainer}>
+            <Grid item xs={12} md={4} className={classes.buttonContainer}>
               <Button
                 onClick={() => {
                   dispatch({ type: 'update_water_system', payload: {} });
@@ -113,12 +113,12 @@ const IndexPage: FC = (props: any) => {
             </Grid>
             {state.currentWaterSystem?.joinSystemPWSID && (
               <Grid item xs={12} md={4}>
-                <Button variant="text" onClick={handleOpenSystemsDetailsDialog}>
+                <Button variant="outlined" onClick={handleOpenSystemsDetailsDialog}>
                   View additional water systems information
                 </Button>
               </Grid>
             )}
-            <WaterSystemDetailsAccordion
+            <WaterSystemDetailsDialog
               state={state}
               systemsDetailsDialogIsOpen={systemsDetailsDialogIsOpen}
               handleCloseSystemsDetailsDialog={handleCloseSystemsDetailsDialog}
@@ -127,7 +127,7 @@ const IndexPage: FC = (props: any) => {
         )}
       </Grid>
       <Grid container item xs={12} style={{ gap: '50px' }}>
-        <Grid item xs={12} className={styles.gridItemContainer}>
+        <Grid item xs={12} className={classes.gridItemContainer}>
           <ContentWrapper
             title={`Cost Comparison Summary ${
               state?.currentWaterSystem?.name ? `for ${state?.currentWaterSystem?.name}` : ''
@@ -140,7 +140,7 @@ const IndexPage: FC = (props: any) => {
             />
           </ContentWrapper>
         </Grid>
-        <Grid item xs={12} className={styles.gridItemContainer}>
+        <Grid item xs={12} className={classes.gridItemContainer}>
           <ContentWrapper title="Calculation Methodology Explanation">
             <div style={{ height: '400px' }}></div>
           </ContentWrapper>

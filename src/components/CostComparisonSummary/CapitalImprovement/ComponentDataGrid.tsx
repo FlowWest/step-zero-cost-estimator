@@ -58,7 +58,7 @@ const ComponentDataGrid = ({
   connections: number;
   setTotalCostValues: Function;
 }) => {
-  const styles = useStyles();
+  const classes = useStyles();
   const columns: GridColDef[] = [
     {
       field: 'quantity',
@@ -74,7 +74,12 @@ const ComponentDataGrid = ({
         return params.value || 1;
       }
     },
-    { field: 'component', headerName: 'Component', flex: 3, cellClassName: styles.nonEditableCell },
+    {
+      field: 'component',
+      headerName: 'Component',
+      flex: 3,
+      cellClassName: classes.nonEditableCell
+    },
     {
       field: 'unitCost',
       headerName: 'Unit Cost',
@@ -100,7 +105,7 @@ const ComponentDataGrid = ({
       flex: 1.5,
       type: 'number',
       headerAlign: 'right',
-      cellClassName: styles.nonEditableCell,
+      cellClassName: classes.nonEditableCell,
       valueGetter: (params) => {
         if (params.getValue(params.id, 'component') === 'Total') {
           const allRowIds = params.api.getAllRowIds();
@@ -135,7 +140,7 @@ const ComponentDataGrid = ({
       flex: 1.5,
       type: 'number',
       headerAlign: 'right',
-      cellClassName: styles.nonEditableCell,
+      cellClassName: classes.nonEditableCell,
       valueGetter: (params) => {
         if (params.getValue(params.id, 'component') === 'Total') {
           const allRowIds = params.api.getAllRowIds();
@@ -158,7 +163,7 @@ const ComponentDataGrid = ({
       flex: 1.5,
       type: 'number',
       headerAlign: 'right',
-      cellClassName: styles.nonEditableCell,
+      cellClassName: classes.nonEditableCell,
       valueGetter: (params) => {
         const annualReserve = params.getValue(params.id, 'annualReserve');
         return annualReserve / 12;
@@ -174,7 +179,7 @@ const ComponentDataGrid = ({
       flex: 1.5,
       type: 'number',
       headerAlign: 'right',
-      cellClassName: styles.nonEditableCell,
+      cellClassName: classes.nonEditableCell,
       valueGetter: (params) => {
         const monthlyReserve = params.getValue(params.id, 'monthlyReserve');
         return monthlyReserve / connections;
@@ -189,7 +194,7 @@ const ComponentDataGrid = ({
     return (
       <div
         style={{ position: 'relative', zIndex: 1, height: '100%' }}
-        className={styles.addItemButtonWrapper}
+        className={classes.addItemButtonWrapper}
       >
         <Button
           onClick={() => {
@@ -205,7 +210,7 @@ const ComponentDataGrid = ({
   const renderFooter = () => {
     return rows.length > 0 ? (
       <GridFooterContainer>
-        <div className={styles.footer}>{rows.length} Rows</div>
+        <div className={classes.footer}>{rows.length} Rows</div>
       </GridFooterContainer>
     ) : null;
   };
@@ -229,13 +234,13 @@ const ComponentDataGrid = ({
           columns={columns}
           getRowId={(row) => row.uid}
           classes={{
-            root: styles.root,
-            'cell--editing': styles.cellEditing,
-            editInputCell: styles.cellInput
+            root: classes.root,
+            'cell--editing': classes.cellEditing,
+            editInputCell: classes.cellInput
           }}
           getRowClassName={(params) => {
             if (params.isLastVisible) {
-              return styles.summaryRow;
+              return classes.summaryRow;
             }
             return '';
           }}

@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const ConsolidationCalculator = () => {
   const [state, dispatch] = useContext(WaterSystemContext);
-  const styles = useStyles();
+  const classes = useStyles();
   return (
     <>
       <Grid container spacing={0}>
@@ -32,9 +32,9 @@ const ConsolidationCalculator = () => {
           xs={12}
           md={4}
           order={{ xs: 3, md: 2 }}
-          className={`${styles.contentContainer} ${styles.waterSystemsDetailsContainer}`}
+          className={`${classes.contentContainer} ${classes.waterSystemsDetailsContainer}`}
         >
-          <Typography className={styles.editWaterSystemHeader} paragraph>
+          <Typography className={classes.editWaterSystemHeader} paragraph>
             Edit Water System Details
           </Typography>
           <Typography paragraph>
@@ -44,7 +44,7 @@ const ConsolidationCalculator = () => {
           </Typography>
           <WaterSystemDetails />
         </Grid>
-        <Grid item xs={12} md={8} order={{ xs: 2, md: 3 }} className={styles.contentContainer}>
+        <Grid item xs={12} md={8} order={{ xs: 2, md: 3 }} className={classes.contentContainer}>
           <TotalConsolidationCost />
         </Grid>
       </Grid>
@@ -54,7 +54,7 @@ const ConsolidationCalculator = () => {
         container
         item
         xs={12}
-        className={styles.contentContainer}
+        className={classes.contentContainer}
         justifyContent="flex-end"
         order={{ xs: 4, md: 4 }}
       >

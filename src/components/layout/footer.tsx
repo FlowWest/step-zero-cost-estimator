@@ -25,12 +25,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const Footer: FC = () => {
-  const styles = useStyles();
+  const classes = useStyles();
 
   return (
-    <footer className={styles.footer}>
+    <footer className={classes.footer}>
       <Container maxWidth="md">
-        <Typography variant="body1" className={styles.footerText}>
+        <Typography variant="body1" className={classes.footerText}>
           © {new Date().getFullYear()}, Built and maintained by
           {` `}
           <Link href="https://flowwest.com/" target="_blank" color="inherit" underline="none">
@@ -38,7 +38,7 @@ const Footer: FC = () => {
             <StaticImage
               src="../../images/fw-logo-transparent.png"
               alt="FlowWest Logo"
-              className={styles.logo}
+              className={classes.logo}
               placeholder="blurred"
               width={20}
               height={20}
