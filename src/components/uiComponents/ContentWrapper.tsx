@@ -21,7 +21,7 @@ const ContentWrapper: React.FC<ContentWrapperProps> = ({ title, description, chi
   const classes = useStyles();
   return (
     <>
-      <Typography variant="h3" gutterBottom>
+      <Typography variant="h4" gutterBottom>
         {title}
       </Typography>
       {description !== undefined && (

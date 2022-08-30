@@ -98,7 +98,7 @@ export interface ComponentProperties {
 }
 
 export interface ResourceObject {
-  logo: string;
+  fileName: string;
   description: string;
   title: string;
   link: string;
