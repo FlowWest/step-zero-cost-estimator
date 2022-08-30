@@ -96,3 +96,10 @@ export interface ComponentProperties {
   monthlyReserve: number | null;
   monthlyReservePerCustomer: number | null;
 }
+
+export interface ResourceObject {
+  fileName: string;
+  description: string;
+  title: string;
+  link: string;
+}
