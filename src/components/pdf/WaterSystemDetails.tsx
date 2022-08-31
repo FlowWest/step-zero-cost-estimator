@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet, Text } from '@react-pdf/renderer';
 import { fontSize } from '@mui/system';
-
+import { formatToUSD } from '../../util';
 const styles = StyleSheet.create({
   table: {
-    width: '45%',
+    width: '50%',
     display: 'flex',
     flexDirection: 'row',
     border: '1px solid black',
@@ -27,39 +27,45 @@ const styles = StyleSheet.create({
   },
 
   column1: {
-    width: '50%'
+    width: '35%'
   },
   column2: {
-    width: '50%'
+    width: '65%'
   },
-  cell: { padding: 5, fontSize: 10 },
+  cell: { padding: 5, fontSize: 8 },
   oddCell: { backgroundColor: '#dfdfdf' }
 });
-const currentWaterSystem = {
-  values: {
-    name: '49ER TRAILER RANCH',
-    id: 'CA5500120',
-    numConnections: '80',
-    connectionFees: '$6,600',
-    piplineCost: '$155',
-    adminFees: '$285,000',
-    contingency: '20%'
-  },
-  categories: {
-    name: 'Water System',
-    id: 'WSID',
-    numConnections: 'Number of Connections',
-    connectionFees: 'Connection Fees',
-    piplineCost: 'Pipeline Cost',
-    adminFees: 'Admin Fees',
-    contingency: 'Contingency'
-  }
-};
-const WaterSystemDetails = () => {
+
+const WaterSystemDetails = ({ state }: { state: any }): JSX.Element => {
+  const { consolidationCostParams, currentWaterSystem } = state;
+  console.log(currentWaterSystem);
+  console.log(consolidationCostParams);
+
+  const waterSystemObject = {
+    values: {
+      name: currentWaterSystem.joinSystemName,
+      id: currentWaterSystem.joinSystemPWSID,
+      numConnections: currentWaterSystem.joinConnections,
+      connectionFees: formatToUSD(consolidationCostParams.feeCostPerConnection),
+      pipelineCost: formatToUSD(consolidationCostParams.pipelineCosts),
+      adminFees: formatToUSD(consolidationCostParams.adminLegalCEQACosts),
+      contingency: `${consolidationCostParams.contingency}%`
+    },
+    categories: {
+      name: 'Water System',
+      id: 'WSID',
+      numConnections: 'Number of Connections',
+      connectionFees: 'Connection Fees',
+      pipelineCost: 'Pipeline Cost',
+      adminFees: 'Admin Fees',
+      contingency: 'Contingency'
+    }
+  };
+
   return (
     <View style={styles.table}>
       <View style={[styles.column, styles.column1, styles.bold]}>
-        {Object.values(currentWaterSystem.categories).map((value, idx) => {
+        {Object.values(waterSystemObject.categories).map((value, idx) => {
           return (
             <View key={idx} style={idx % 2 !== 0 ? [styles.oddCell, styles.cell] : styles.cell}>
               <Text>{value}</Text>
@@ -68,7 +74,7 @@ const WaterSystemDetails = () => {
         })}
       </View>
       <View style={[styles.column, styles.column2, styles.bold]}>
-        {Object.values(currentWaterSystem.values).map((value, idx) => {
+        {Object.values(waterSystemObject.values).map((value, idx) => {
           return (
             <View key={idx} style={idx % 2 !== 0 ? [styles.oddCell, styles.cell] : styles.cell}>
               <Text>{value}</Text>
