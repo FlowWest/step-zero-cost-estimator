@@ -1,6 +1,4 @@
 import React, { useContext } from 'react';
-import { PDFViewer } from '@react-pdf/renderer';
-import MyDocument from '../components/pdf/PdfRender';
 import { Button, Grid, Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { FC } from '../util';
@@ -59,8 +57,6 @@ const IndexPage: FC = (props: any) => {
     );
   };
 
-  console.log('ssssss', state);
-
   return (
     <Grid container spacing={2} justifyContent="center">
       <Seo title="Calculator" />
@@ -118,11 +114,7 @@ const IndexPage: FC = (props: any) => {
           </ContentWrapper>
         </Grid>
         <Grid item xs={12} className={classes.gridItemContainer}>
-          <ContentWrapper title="Calculation Methodology Explanation">
-            <PDFViewer width="100%" height="1000px">
-              <MyDocument />
-            </PDFViewer>
-          </ContentWrapper>
+          <ContentWrapper title="Calculation Methodology Explanation"></ContentWrapper>
         </Grid>
       </Grid>
     </Grid>
