@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material';
 import { display } from '@mui/system';
 import Header from './Header';
 import WaterSystemDetails from './WaterSystemDetails';
+import { WaterSystem } from '../../util/interfaces';
 // Create styles
 
 const styles = StyleSheet.create({
@@ -22,15 +23,16 @@ const styles = StyleSheet.create({
 });
 
 // Create Document Component
-const MyDocument = () => {
+const PDFRender = ({ state }: { state: any }): JSX.Element => {
+  console.log('pdf render', state);
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         <Header />
-        <WaterSystemDetails />
+        <WaterSystemDetails state={state} />
       </Page>
     </Document>
   );
 };
 
-export default MyDocument;
+export default PDFRender;
