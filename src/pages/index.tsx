@@ -57,8 +57,6 @@ const IndexPage: FC = (props: any) => {
     );
   };
 
-  console.log('ssssss', state);
-
   return (
     <Grid container spacing={2} justifyContent="center">
       <Seo title="Calculator" />
@@ -116,9 +114,7 @@ const IndexPage: FC = (props: any) => {
           </ContentWrapper>
         </Grid>
         <Grid item xs={12} className={classes.gridItemContainer}>
-          <ContentWrapper title="Calculation Methodology Explanation">
-            <div style={{ height: '400px' }}></div>
-          </ContentWrapper>
+          <ContentWrapper title="Calculation Methodology Explanation"></ContentWrapper>
         </Grid>
       </Grid>
     </Grid>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, registerables, TooltipItem } from 'chart.js';
 import { ConsolidationCostDetails } from '../../util/interfaces';
@@ -33,6 +33,15 @@ const DoughnutChart = ({ chartData }: { chartData: ConsolidationCostDetails }) =
     }
   });
 
+  const chartRef = useRef(null);
+
+  const downloadImage = useCallback(() => {
+    const link = document.createElement('a');
+    link.download = 'chart.png';
+    link.href = chartRef.current.toBase64Image();
+    link.click();
+  }, []);
+
   const doughnutData = {
     labels: ['Material Costs', 'Administrative Costs', 'Adjustments'],
     datasets: [
@@ -51,29 +60,32 @@ const DoughnutChart = ({ chartData }: { chartData: ConsolidationCostDetails }) =
   };
 
   return (
-    <Doughnut
-      data={doughnutData}
-      plugins={[ChartDataLabels]}
-      options={{
-        cutout: '65%',
-        plugins: {
-          legend: {
-            display: false
-            //labels: { usePointStyle: true, pointStyle: 'rectRounded' }
-          },
-          tooltip: {
-            enabled: false,
-            callbacks: {
-              label: (tooltipItem: TooltipItem<'doughnut'>) => {
-                const { label, formattedValue } = tooltipItem;
-
-                return `${label}: $${formattedValue}`;
+    <>
+      <Doughnut
+        ref={chartRef}
+        data={doughnutData}
+        plugins={[ChartDataLabels]}
+        options={{
+          cutout: '65%',
+          plugins: {
+            legend: {
+              display: false
+              //labels: { usePointStyle: true, pointStyle: 'rectRounded' }
+            },
+            tooltip: {
+              enabled: false,
+              callbacks: {
+                label: (tooltipItem: TooltipItem<'doughnut'>) => {
+                  const { label, formattedValue } = tooltipItem;
+                  return `${label}: $${formattedValue}`;
+                }
               }
             }
           }
-        }
-      }}
-    />
+        }}
+      />
+      <button onClick={downloadImage}>Download</button>
+    </>
   );
 };
 

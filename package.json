@@ -36,6 +36,7 @@
         "@mui/material": "^5.5.3",
         "@mui/styles": "^5.5.3",
         "@mui/x-data-grid": "^5.15.3",
+        "@react-pdf/renderer": "^3.0.0",
         "chart.js": "^3.7.1",
         "chartjs-plugin-datalabels": "^2.0.0",
         "deepmerge": "^4.2.2",
