@@ -1,15 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, Button } from '@mui/material';
-import PDFRender from '../pdf/PDFRender';
-import { PDFDownloadLink, StyleSheet } from '@react-pdf/renderer';
-
-const styles = StyleSheet.create({
-  linkButton: {
-    color: 'white'
-  }
-});
+import PreviewModal from '../pdf/PreviewModal';
 
 const ExportButtonGroup = ({ state }: { state: any }) => {
+  const [previewIsOpen, setPreviewIsOpen] = useState(false as boolean);
+
   return (
     <>
       <Grid item xs={12} md={4} lg={2}>
@@ -23,18 +18,23 @@ const ExportButtonGroup = ({ state }: { state: any }) => {
         </Button>
       </Grid>
       <Grid item xs={12} md={4} lg={2}>
-        <PDFDownloadLink
-          document={<PDFRender state={state} />}
-          fileName="testingFile123.pdf"
-          style={{ textDecoration: 'none' }}
+        <Button
+          variant="contained"
+          fullWidth
+          onClick={() => {
+            setPreviewIsOpen(true);
+          }}
         >
-          {({ blob, url, loading, error }) => (
-            <Button variant="contained" fullWidth>
-              Export PDF
-            </Button>
-          )}
-        </PDFDownloadLink>
+          Export PDF
+        </Button>
       </Grid>
+      {previewIsOpen && (
+        <PreviewModal
+          state={state}
+          previewIsOpen={previewIsOpen}
+          setPreviewIsOpen={setPreviewIsOpen}
+        />
+      )}
     </>
   );
 };
