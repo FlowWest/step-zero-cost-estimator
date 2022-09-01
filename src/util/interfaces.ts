@@ -103,4 +103,5 @@ export interface ResourceObject {
   description: string;
   title: string;
   link: string;
+  category: string;
 }

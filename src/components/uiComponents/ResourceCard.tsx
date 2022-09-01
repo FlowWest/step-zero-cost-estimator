@@ -51,7 +51,7 @@ const ResourceCard = ({ resource }: { resource: ResourceObject }) => {
       justifyContent={isSmallScreen ? 'center' : 'flex-start'}
       xs={12}
       component={Card}
-      style={{ backgroundColor: theme.palette.common.white }}
+      style={{ backgroundColor: theme.palette.background.content }}
     >
       <Grid item style={{ display: 'flex', alignItems: 'center' }}>
         <Box
