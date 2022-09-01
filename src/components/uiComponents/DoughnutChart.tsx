@@ -35,13 +35,6 @@ const DoughnutChart = ({ chartData }: { chartData: ConsolidationCostDetails }) =
 
   const chartRef = useRef(null);
 
-  const downloadImage = useCallback(() => {
-    const link = document.createElement('a');
-    link.download = 'chart.png';
-    link.href = chartRef.current.toBase64Image();
-    link.click();
-  }, []);
-
   const doughnutData = {
     labels: ['Material Costs', 'Administrative Costs', 'Adjustments'],
     datasets: [
@@ -62,6 +55,7 @@ const DoughnutChart = ({ chartData }: { chartData: ConsolidationCostDetails }) =
   return (
     <>
       <Doughnut
+        id={'consolidation-chart'}
         ref={chartRef}
         data={doughnutData}
         plugins={[ChartDataLabels]}
@@ -84,7 +78,6 @@ const DoughnutChart = ({ chartData }: { chartData: ConsolidationCostDetails }) =
           }
         }}
       />
-      <button onClick={downloadImage}>Download</button>
     </>
   );
 };

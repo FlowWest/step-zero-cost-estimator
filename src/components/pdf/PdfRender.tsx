@@ -1,11 +1,17 @@
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet, Image, Canvas } from '@react-pdf/renderer';
-import { Typography, Theme } from '@mui/material';
-import { useTheme } from '@mui/material';
-import { display } from '@mui/system';
+import {
+  PDFViewer,
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Image,
+  Canvas
+} from '@react-pdf/renderer';
+import { Chart } from 'chart.js';
 import Header from './Header';
 import WaterSystemDetails from './WaterSystemDetails';
-import { WaterSystem } from '../../util/interfaces';
 // Create styles
 
 const styles = StyleSheet.create({
@@ -24,14 +30,17 @@ const styles = StyleSheet.create({
 
 // Create Document Component
 const PDFRender = ({ state }: { state: any }): JSX.Element => {
-  console.log('pdf render', state);
+  const consolidationChart = Chart.getChart('consolidation-chart') as any;
+  const imageData = consolidationChart.toBase64Image();
   return (
-    <Document>
-      <Page size="A4" style={styles.page}>
-        <Header />
-        <WaterSystemDetails state={state} />
-      </Page>
-    </Document>
+    <PDFViewer>
+      <Document>
+        <Page size="A4" style={styles.page}>
+          <Header />
+          <WaterSystemDetails state={state} />
+        </Page>
+      </Document>
+    </PDFViewer>
   );
 };
 
