@@ -3,14 +3,8 @@ import { View, StyleSheet, Text } from '@react-pdf/renderer';
 import { fontSize } from '@mui/system';
 import { formatToUSD } from '../../util';
 const styles = StyleSheet.create({
-  table: {
-    width: '50%',
-    display: 'flex',
-    flexDirection: 'row',
-    border: '1px solid black',
-    marginTop: 25,
-    borderRadius: '5px',
-    overflow: 'hidden'
+  bold: {
+    fontWeight: 'bold'
   },
   column: {
     display: 'flex',
@@ -19,21 +13,28 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 8
   },
+  column1: {
+    width: '50%'
+  },
+  column2: {
+    width: '50%'
+  },
+  cell: { padding: 10, fontSize: 9 },
   header: {
     borderTop: 'none'
   },
-  bold: {
-    fontWeight: 'bold'
+  oddCell: { backgroundColor: '#dfdfdf' },
+  table: {
+    width: '80%',
+    display: 'flex',
+    flexDirection: 'row',
+    border: '1px solid black',
+    marginTop: 10,
+    borderRadius: '5px',
+    overflow: 'hidden'
   },
-
-  column1: {
-    width: '35%'
-  },
-  column2: {
-    width: '65%'
-  },
-  cell: { padding: 5, fontSize: 8 },
-  oddCell: { backgroundColor: '#dfdfdf' }
+  waterSystemID: { fontSize: 12 },
+  waterSystemName: { fontSize: 14, marginTop: 15 }
 });
 
 const WaterSystemDetails = ({ state }: { state: any }): JSX.Element => {
@@ -43,8 +44,6 @@ const WaterSystemDetails = ({ state }: { state: any }): JSX.Element => {
 
   const waterSystemObject = {
     values: {
-      name: currentWaterSystem.joinSystemName,
-      id: currentWaterSystem.joinSystemPWSID,
       numConnections: currentWaterSystem.joinConnections,
       connectionFees: formatToUSD(consolidationCostParams.feeCostPerConnection),
       pipelineCost: formatToUSD(consolidationCostParams.pipelineCosts),
@@ -52,8 +51,6 @@ const WaterSystemDetails = ({ state }: { state: any }): JSX.Element => {
       contingency: `${consolidationCostParams.contingency}%`
     },
     categories: {
-      name: 'Water System',
-      id: 'WSID',
       numConnections: 'Number of Connections',
       connectionFees: 'Connection Fees',
       pipelineCost: 'Pipeline Cost',
@@ -63,24 +60,28 @@ const WaterSystemDetails = ({ state }: { state: any }): JSX.Element => {
   };
 
   return (
-    <View style={styles.table}>
-      <View style={[styles.column, styles.column1, styles.bold]}>
-        {Object.values(waterSystemObject.categories).map((value, idx) => {
-          return (
-            <View key={idx} style={idx % 2 !== 0 ? [styles.oddCell, styles.cell] : styles.cell}>
-              <Text>{value}</Text>
-            </View>
-          );
-        })}
-      </View>
-      <View style={[styles.column, styles.column2, styles.bold]}>
-        {Object.values(waterSystemObject.values).map((value, idx) => {
-          return (
-            <View key={idx} style={idx % 2 !== 0 ? [styles.oddCell, styles.cell] : styles.cell}>
-              <Text>{value}</Text>
-            </View>
-          );
-        })}
+    <View>
+      <Text style={styles.waterSystemName}>{currentWaterSystem.joinSystemName}</Text>
+      <Text style={styles.waterSystemID}>{currentWaterSystem.joinSystemPWSID}</Text>
+      <View style={styles.table}>
+        <View style={[styles.column, styles.column1, styles.bold]}>
+          {Object.values(waterSystemObject.categories).map((value, idx) => {
+            return (
+              <View key={idx} style={idx % 2 !== 0 ? [styles.oddCell, styles.cell] : styles.cell}>
+                <Text>{value}</Text>
+              </View>
+            );
+          })}
+        </View>
+        <View style={[styles.column, styles.column2, styles.bold]}>
+          {Object.values(waterSystemObject.values).map((value, idx) => {
+            return (
+              <View key={idx} style={idx % 2 !== 0 ? [styles.oddCell, styles.cell] : styles.cell}>
+                <Text>{value}</Text>
+              </View>
+            );
+          })}
+        </View>
       </View>
     </View>
   );

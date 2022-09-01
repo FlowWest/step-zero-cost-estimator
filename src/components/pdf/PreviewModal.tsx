@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
   },
   embedContainer: {
     width: '60vw',
-    height: '80vh',
+    height: '90vh',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
