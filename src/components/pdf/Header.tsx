@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const Header = () => {
+const Header = ({ title }: { title: string }): JSX.Element => {
   return (
     <>
       <View style={styles.container}>
@@ -29,7 +29,7 @@ const Header = () => {
           <Text style={styles.logoText}>Consolidation Calculator</Text>
         </View>
         <View style={styles.columnRight}>
-          <Text style={styles.title}>Consolidation Report</Text>
+          <Text style={styles.title}>{title}</Text>
         </View>
       </View>
       <Divider />
