@@ -1,10 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Grid, Typography, Theme, Divider } from '@mui/material';
 import WaterSystemDetails from './WaterSystemDetails';
 import { makeStyles } from '@mui/styles';
 import TotalConsolidationCost from './TotalConsolidationCost';
 import ExportButtonGroup from '../../uiComponents/ExportButtonGroup';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
+import { updateChartImage } from '../../../contexts/WaterSystem/actions';
+import { Chart } from 'chart.js';
+import { has } from 'lodash';
 
 const useStyles = makeStyles((theme: Theme) => ({
   contentContainer: {
@@ -23,7 +26,23 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const ConsolidationCalculator = () => {
   const classes = useStyles();
-  const [state] = useContext(WaterSystemContext);
+  const [state, dispatch] = useContext(WaterSystemContext);
+  // const [hasChartRendered, setHasChartRendered] = useState<boolean>(false);
+  // const consolidationChart = Chart.getChart('consolidation-chart') as any;
+
+  // useEffect(() => {
+  //   const getChartImageSrc = () => {
+  //     if (consolidationChart === undefined) {
+  //       return;
+  //     }
+
+  //     setHasChartRendered(true);
+  //     const imageData = consolidationChart.toBase64Image();
+  //     dispatch(updateChartImage(imageData));
+  //   };
+  //   getChartImageSrc();
+  // }, [hasChartRendered]);
+
   return (
     <>
       <Grid container spacing={0}>
