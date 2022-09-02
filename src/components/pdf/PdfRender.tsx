@@ -2,7 +2,8 @@ import React from 'react';
 import { Page, Text, View, Document, StyleSheet, Image, Canvas } from '@react-pdf/renderer';
 import { Chart } from 'chart.js';
 import Header from './Header';
-import WaterSystemDetails from './WaterSystemDetails';
+import WaterSystemDetailsPdf from './WaterSystemDetailsPdf';
+import ComponentsTable from './ComponentsTable';
 import FeesTable from './FeesTable';
 // Create styles
 
@@ -28,23 +29,41 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-between'
-  }
+  },
+  disclaimerText: { color: 'rgba(0,0,0,.4)', fontSize: 9, marginTop: 25, fontStyle: 'italic' }
 });
 
 // Create Document Component
 const PdfRender = ({ state }: { state: any }): JSX.Element => {
   const consolidationChart = Chart.getChart('consolidation-chart') as any;
   const imageData = consolidationChart.toBase64Image();
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <Header />
+        <Header title="Consolidation Report" />
         <View style={styles.grid}>
-          <WaterSystemDetails state={state} />
+          <WaterSystemDetailsPdf state={state} />
           <Image src={imageData} style={styles.chartImage} />
         </View>
         <View style={styles.grid}>
           <FeesTable state={state} />
+        </View>
+        <View style={styles.grid}>
+          <Text style={styles.disclaimerText}>
+            The information provided on this page is for a step zero analysis and is intended for
+            exploratory purposes only. The calculations are not a replacement for a full feasibility
+            analysis.
+          </Text>
+        </View>
+      </Page>
+      <Page size="A4" style={styles.page}>
+        <Header title="Capital Improvement Report" />
+        <View style={styles.grid}>
+          <WaterSystemDetailsPdf state={state} />
+        </View>
+        <View style={styles.grid}>
+          <ComponentsTable state={state} age="new" />
         </View>
       </Page>
     </Document>
