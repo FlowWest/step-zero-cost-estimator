@@ -36,7 +36,12 @@ const styles = StyleSheet.create({
 // Create Document Component
 const PdfRender = ({ state }: { state: any }): JSX.Element => {
   const consolidationChart = Chart.getChart('consolidation-chart') as any;
-  const imageData = consolidationChart.toBase64Image();
+  const imageData =
+    consolidationChart === undefined
+      ? localStorage.getItem('chartSrc')
+      : consolidationChart?.toBase64Image();
+
+  console.log('🚀 ~ PdfRender ~ imageData', imageData);
 
   return (
     <Document>
