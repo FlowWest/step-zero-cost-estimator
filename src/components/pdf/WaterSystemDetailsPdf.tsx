@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   waterSystemName: { fontSize: 14, marginTop: 15 }
 });
 
-const WaterSystemDetails = ({ state }: { state: any }): JSX.Element => {
+const WaterSystemDetailsPdf = ({ state }: { state: any }): JSX.Element => {
   const { consolidationCostParams, currentWaterSystem } = state;
   console.log(currentWaterSystem);
   console.log(consolidationCostParams);
@@ -87,4 +87,4 @@ const WaterSystemDetails = ({ state }: { state: any }): JSX.Element => {
   );
 };
 
-export default WaterSystemDetails;
+export default WaterSystemDetailsPdf;
