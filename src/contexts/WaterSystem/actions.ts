@@ -53,3 +53,12 @@ export const updateCIPCostData = (cipType: string, cipCostData: number) => {
     }
   };
 };
+
+export const updateChartImage = (chartSrc: string) => {
+  return {
+    type: ACTIONS.UPDATE_CHART_IMAGE,
+    payload: {
+      chartSrc
+    }
+  };
+};
