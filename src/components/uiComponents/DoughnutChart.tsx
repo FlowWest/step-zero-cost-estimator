@@ -1,9 +1,8 @@
-import React, { useCallback, useRef } from 'react';
+import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, registerables, TooltipItem } from 'chart.js';
 import { ConsolidationCostDetails } from '../../util/interfaces';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { sum } from 'lodash';
 import { formatToUSD } from '../../util';
 
 ChartJS.register(...registerables);
@@ -33,8 +32,6 @@ const DoughnutChart = ({ chartData }: { chartData: ConsolidationCostDetails }) =
     }
   });
 
-  const chartRef = useRef(null);
-
   const doughnutData = {
     labels: ['Material Costs', 'Administrative Costs', 'Adjustments'],
     datasets: [
@@ -56,7 +53,6 @@ const DoughnutChart = ({ chartData }: { chartData: ConsolidationCostDetails }) =
     <>
       <Doughnut
         id={'consolidation-chart'}
-        ref={chartRef}
         data={doughnutData}
         plugins={[ChartDataLabels]}
         options={{

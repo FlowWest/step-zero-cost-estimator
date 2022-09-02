@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
 
 const FeesTable = ({ state }: { state: any }): JSX.Element => {
   const feeDetails = getConsolidationCostDetails(state);
-  console.log('🚀 ~ FeesTable ~ feeDetails', feeDetails);
 
   const adjustments = { ...feeDetails.adjustments, title: 'Adjustments' };
   const materialCosts = { ...feeDetails.materialCosts, title: 'Material Costs' };
