@@ -6,35 +6,39 @@ const styles = StyleSheet.create({
   bold: {
     fontWeight: 'bold'
   },
-  column: {
-    display: 'flex',
-    flexDirection: 'column',
-    borderTop: '1px solid #EEE',
-    paddingTop: 8,
-    paddingBottom: 8
-  },
   column1: {
     width: '50%'
   },
   column2: {
     width: '50%'
   },
-  cell: { padding: 10, fontSize: 9 },
-  header: {
-    borderTop: 'none'
-  },
-  oddCell: { backgroundColor: '#dfdfdf' },
+  textDefault: { fontSize: 10 },
+  //portrait table styles
+  //=========================
+  // table: {
+  //   width: '80%',
+  //   display: 'flex',
+  //   flexDirection: 'row',
+  //   border: '1px solid black',
+  //   marginTop: 10,
+  //   borderRadius: '5px',
+  //   overflow: 'hidden'
+  // },
+  //landscape table styles
+  //=========================
   table: {
-    width: '80%',
+    width: '85%',
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     border: '1px solid black',
     marginTop: 10,
     borderRadius: '5px',
     overflow: 'hidden'
   },
+  tableRow: { display: 'flex', flexDirection: 'row', padding: 8 },
+  oddRow: { backgroundColor: '#dfdfdf' },
   waterSystemID: { fontSize: 12 },
-  waterSystemName: { fontSize: 14, marginTop: 15 }
+  waterSystemName: { fontSize: 12, marginTop: 15 }
 });
 
 const WaterSystemDetailsPdf = ({ state }: { state: any }): JSX.Element => {
@@ -61,27 +65,23 @@ const WaterSystemDetailsPdf = ({ state }: { state: any }): JSX.Element => {
 
   return (
     <View>
-      <Text style={styles.waterSystemName}>{currentWaterSystem.joinSystemName}</Text>
-      <Text style={styles.waterSystemID}>{currentWaterSystem.joinSystemPWSID}</Text>
+      <Text
+        style={styles.waterSystemName}
+      >{`${currentWaterSystem.joinSystemName} (${currentWaterSystem.joinSystemPWSID})`}</Text>
       <View style={styles.table}>
-        <View style={[styles.column, styles.column1, styles.bold]}>
-          {Object.values(waterSystemObject.categories).map((value, idx) => {
-            return (
-              <View key={idx} style={idx % 2 !== 0 ? [styles.oddCell, styles.cell] : styles.cell}>
-                <Text>{value}</Text>
-              </View>
-            );
-          })}
-        </View>
-        <View style={[styles.column, styles.column2, styles.bold]}>
-          {Object.values(waterSystemObject.values).map((value, idx) => {
-            return (
-              <View key={idx} style={idx % 2 !== 0 ? [styles.oddCell, styles.cell] : styles.cell}>
-                <Text>{value}</Text>
-              </View>
-            );
-          })}
-        </View>
+        {Object.keys(waterSystemObject.values).map((item, idx) => (
+          <View
+            key={idx}
+            style={idx % 2 !== 0 ? [styles.oddRow, styles.tableRow] : styles.tableRow}
+          >
+            <View style={styles.column1}>
+              <Text style={styles.textDefault}>{waterSystemObject.categories[`${item}`]}</Text>
+            </View>
+            <View style={styles.column2}>
+              <Text style={styles.textDefault}>{waterSystemObject.values[`${item}`]}</Text>
+            </View>
+          </View>
+        ))}
       </View>
     </View>
   );
