@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { View, StyleSheet, Text } from '@react-pdf/renderer';
-import { fontSize } from '@mui/system';
+
 import { formatToUSD } from '../../util';
 const styles = StyleSheet.create({
   bold: {
@@ -13,19 +13,6 @@ const styles = StyleSheet.create({
     width: '50%'
   },
   textDefault: { fontSize: 10 },
-  //portrait table styles
-  //=========================
-  // table: {
-  //   width: '80%',
-  //   display: 'flex',
-  //   flexDirection: 'row',
-  //   border: '1px solid black',
-  //   marginTop: 10,
-  //   borderRadius: '5px',
-  //   overflow: 'hidden'
-  // },
-  //landscape table styles
-  //=========================
   table: {
     width: '85%',
     display: 'flex',
@@ -43,12 +30,10 @@ const styles = StyleSheet.create({
 
 const WaterSystemDetailsPdf = ({ state }: { state: any }): JSX.Element => {
   const { consolidationCostParams, currentWaterSystem } = state;
-  console.log(currentWaterSystem);
-  console.log(consolidationCostParams);
 
   const waterSystemObject = {
     values: {
-      numConnections: currentWaterSystem.joinConnections,
+      numConnections: consolidationCostParams.connections,
       connectionFees: formatToUSD(consolidationCostParams.feeCostPerConnection),
       pipelineCost: formatToUSD(consolidationCostParams.pipelineCosts),
       adminFees: formatToUSD(consolidationCostParams.adminLegalCEQACosts),
