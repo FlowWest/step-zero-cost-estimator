@@ -43,7 +43,6 @@ const FeesTable = ({ state }: { state: any }): JSX.Element => {
               {formatSubItemText(subItem)}
             </Text>
             <Text style={[styles.costDetailsAmount, styles.defaultText]}>
-              {/* TypeScript Error - implicit any */}
               {formatToUSD(costType[subItem])}
             </Text>
           </View>
