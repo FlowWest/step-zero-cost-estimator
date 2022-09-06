@@ -46,7 +46,7 @@ const WaterSystemDetailsPdf = ({ state }: { state: any }): JSX.Element => {
       adminFees: 'Admin Fees',
       contingency: 'Contingency'
     }
-  };
+  } as any;
 
   return (
     <View>
