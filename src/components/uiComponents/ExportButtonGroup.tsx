@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, Button } from '@mui/material';
+import PreviewModal from '../pdf/PreviewModal';
 
-const ExportButtonGroup = () => {
+const ExportButtonGroup = ({ state }: { state: any }) => {
+  const [previewIsOpen, setPreviewIsOpen] = useState(false as boolean);
+
   return (
     <>
       <Grid item xs={12} md={4} lg={2}>
@@ -15,10 +18,23 @@ const ExportButtonGroup = () => {
         </Button>
       </Grid>
       <Grid item xs={12} md={4} lg={2}>
-        <Button variant="contained" fullWidth>
+        <Button
+          variant="contained"
+          fullWidth
+          onClick={() => {
+            setPreviewIsOpen(true);
+          }}
+        >
           Export PDF
         </Button>
       </Grid>
+      {previewIsOpen && (
+        <PreviewModal
+          state={state}
+          previewIsOpen={previewIsOpen}
+          setPreviewIsOpen={setPreviewIsOpen}
+        />
+      )}
     </>
   );
 };

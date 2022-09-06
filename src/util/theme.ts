@@ -42,10 +42,10 @@ const makeTheme = (variant: ThemeOptions): Theme => {
         fontWeight: 300
       },
       body1: {
-        color: 'black'
+        // color: 'black'
       },
       body2: {
-        color: 'gray'
+        // color: 'gray'
       }
     },
     overrides: {

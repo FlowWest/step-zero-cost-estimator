@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Grid, Typography, Theme, Divider } from '@mui/material';
 import WaterSystemDetails from './WaterSystemDetails';
 import { makeStyles } from '@mui/styles';
 import TotalConsolidationCost from './TotalConsolidationCost';
 import ExportButtonGroup from '../../uiComponents/ExportButtonGroup';
+import { WaterSystemContext } from '../../../contexts/WaterSystem';
 
 const useStyles = makeStyles((theme: Theme) => ({
   contentContainer: {
@@ -22,6 +23,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const ConsolidationCalculator = () => {
   const classes = useStyles();
+  const [state, dispatch] = useContext(WaterSystemContext);
+
   return (
     <>
       <Grid container spacing={0}>
@@ -55,7 +58,7 @@ const ConsolidationCalculator = () => {
         justifyContent="flex-end"
         order={{ xs: 4, md: 4 }}
       >
-        <ExportButtonGroup />
+        <ExportButtonGroup state={state} />
       </Grid>
     </>
   );
