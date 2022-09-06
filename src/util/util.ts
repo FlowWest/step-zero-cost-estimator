@@ -1,3 +1,5 @@
+import { startCase } from 'lodash';
+
 export const setCookie = (cookie: string, value: string): void => {
   if (typeof window !== 'undefined') {
     window.document.cookie = `${cookie}=${value}; path=/`;
@@ -26,4 +28,22 @@ export const formatToUSD = (value: number): string => {
   });
 
   return convertToUSD.format(value);
+};
+
+//Function will create title cased strings from the object keys
+export const formatSubItemText = (subItem: any) => {
+  const subItemWordsArray = subItem.replace(/([a-z])([A-Z])/g, '$1 $2').split(' ');
+  const updatedWordsArray: string[] = [];
+
+  subItemWordsArray.forEach((word: string) => {
+    if (word.toLowerCase() === 'total') {
+      return;
+    } else if (word.toLowerCase() === 'and') {
+      updatedWordsArray.push(word.toLowerCase());
+    } else {
+      updatedWordsArray.push(startCase(word));
+    }
+  });
+  const newString = updatedWordsArray.join(' ');
+  return newString;
 };
