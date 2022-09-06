@@ -1,6 +1,5 @@
-import { WaterSystem, WaterSystemState, WaterSystemAction } from '../../util/interfaces';
+import { WaterSystemState, WaterSystemAction } from '../../util/interfaces';
 import { getSystemComponentValues } from '../../util/costUtil';
-import { AccessTimeRounded } from '@mui/icons-material';
 
 export const ACTIONS = {
   UPDATE_WATER_SYSTEM: 'update_water_system',
@@ -8,8 +7,7 @@ export const ACTIONS = {
   UPDATE_WATER_SYSTEM_AND_PARAMS: 'update_water_system_and_params',
   UPDATE_COMPONENTS: 'update_components',
   UPDATE_AUTOCOMPLETE_OPTIONS: 'update_autocomplete_options',
-  UPDATE_CIP_COST_DATA: 'update_cip_cost_data',
-  UPDATE_CHART_IMAGE: 'update_chart_data'
+  UPDATE_CIP_COST_DATA: 'update_cip_cost_data'
 };
 
 export const initialState = {
@@ -30,8 +28,7 @@ export const initialState = {
     new: 0,
     total: 0
   },
-  systemComponents: [],
-  chartSrc: ''
+  systemComponents: []
 };
 
 export const reducer = (state: WaterSystemState, action: WaterSystemAction): WaterSystemState => {
@@ -42,8 +39,7 @@ export const reducer = (state: WaterSystemState, action: WaterSystemAction): Wat
         currentWaterSystem: action.payload,
         existingComponents: [],
         newComponents: [],
-        autocompleteOptions: [],
-        chartSrc: ''
+        autocompleteOptions: []
       };
     case ACTIONS.UPDATE_CONSOLIDATION_COST_PARAMS: {
       const updatedParams = { ...state.consolidationCostParams, ...action.payload };
@@ -72,9 +68,7 @@ export const reducer = (state: WaterSystemState, action: WaterSystemAction): Wat
         systemComponents: getSystemComponentValues({
           waterSystemDetails: state.currentWaterSystem,
           consolidationCostParams: updatedCostParams
-        }),
-
-        chartSrc: ''
+        })
       };
     }
     case ACTIONS.UPDATE_COMPONENTS:
