@@ -27,14 +27,8 @@ const styles = StyleSheet.create({
   },
   headerText: { fontSize: 9, color: 'rgba(0,0,0,.75)' },
   cellText: { fontSize: 9, color: 'rgba(0,0,0)' },
-  column1: { width: '12.5%' },
-  column2: { width: '37.5%' },
-  column3: { width: '12.5%' },
-  column4: { width: '12.5%' },
-  column5: { width: '12.5%' },
-  column6: { width: '12.5%' },
-  column7: { width: '12.5%' },
-  column8: { width: '12.5%' },
+  columnSmall: { width: '12.5%' },
+  columnLarge: { width: '37.5%' },
   noColumnData: {
     width: '100%',
     height: '100px',
@@ -57,7 +51,7 @@ const ComponentsTable = ({
   const tableTitles = {
     new: 'New Components',
     existing: 'Existing Components',
-    total: 'Total Existing and New Project Capital Imporvement Costs'
+    total: 'Total Existing and New Project Capital Improvement Costs'
   };
 
   const [allComponents, setAllComponents] = useState({ annualReserve: 0, installedCost: 0 });
@@ -87,40 +81,40 @@ const ComponentsTable = ({
       {type === 'total' && (
         <View style={styles.tableWrapper}>
           <View style={styles.tableRow}>
-            <View style={[styles.column1, styles.tableCell]}></View>
-            <View style={[styles.column2, styles.tableCell]}></View>
-            <View style={[styles.column3, styles.tableCell]}></View>
-            <View style={[styles.column4, styles.tableCell]}>
+            <View style={[styles.columnSmall, styles.tableCell]}></View>
+            <View style={[styles.columnLarge, styles.tableCell]}></View>
+            <View style={[styles.columnSmall, styles.tableCell]}></View>
+            <View style={[styles.columnSmall, styles.tableCell]}>
               <Text style={styles.headerText}>Installed Cost</Text>
             </View>
-            <View style={[styles.column5, styles.tableCell]}></View>
-            <View style={[styles.column6, styles.tableCell]}>
+            <View style={[styles.columnSmall, styles.tableCell]}></View>
+            <View style={[styles.columnSmall, styles.tableCell]}>
               <Text style={styles.headerText}>Annual Reserve</Text>
             </View>
-            <View style={[styles.column7, styles.tableCell]}>
+            <View style={[styles.columnSmall, styles.tableCell]}>
               <Text style={styles.headerText}>Monthly Reserve</Text>
             </View>
-            <View style={[styles.column8, styles.tableCell]}>
+            <View style={[styles.columnSmall, styles.tableCell]}>
               <Text style={styles.headerText}>Monthly Reserve</Text>
               <Text style={styles.headerText}>Per Customer</Text>
             </View>
           </View>
           {state.existingComponents.length || state.newComponents.length ? (
             <View style={styles.tableRow}>
-              <View style={[styles.column1, styles.tableCell]}></View>
-              <View style={[styles.column2, styles.tableCell]}></View>
-              <View style={[styles.column3, styles.tableCell]}></View>
-              <View style={[styles.column4, styles.tableCell]}>
+              <View style={[styles.columnSmall, styles.tableCell]}></View>
+              <View style={[styles.columnLarge, styles.tableCell]}></View>
+              <View style={[styles.columnSmall, styles.tableCell]}></View>
+              <View style={[styles.columnSmall, styles.tableCell]}>
                 <Text style={styles.cellText}>{formatToUSD(allComponents.installedCost)}</Text>
               </View>
-              <View style={[styles.column5, styles.tableCell]}></View>
-              <View style={[styles.column6, styles.tableCell]}>
+              <View style={[styles.columnSmall, styles.tableCell]}></View>
+              <View style={[styles.columnSmall, styles.tableCell]}>
                 <Text style={styles.cellText}>{formatToUSD(allComponents.annualReserve)}</Text>
               </View>
-              <View style={[styles.column7, styles.tableCell]}>
+              <View style={[styles.columnSmall, styles.tableCell]}>
                 <Text style={styles.cellText}>{formatToUSD(allComponents.annualReserve / 12)}</Text>
               </View>
-              <View style={[styles.column8, styles.tableCell]}>
+              <View style={[styles.columnSmall, styles.tableCell]}>
                 <Text style={styles.cellText}>
                   {formatToUSD(
                     allComponents.annualReserve / 12 / state.consolidationCostParams.connections
@@ -140,29 +134,29 @@ const ComponentsTable = ({
       {type !== 'total' && (
         <View style={styles.tableWrapper}>
           <View style={styles.tableRow}>
-            <View style={[styles.column1, styles.tableCell]}>
+            <View style={[styles.columnSmall, styles.tableCell]}>
               <Text style={styles.headerText}>Quantity</Text>
             </View>
-            <View style={[styles.column2, styles.tableCell]}>
+            <View style={[styles.columnLarge, styles.tableCell]}>
               <Text style={styles.headerText}>Component</Text>
             </View>
-            <View style={[styles.column3, styles.tableCell]}>
+            <View style={[styles.columnSmall, styles.tableCell]}>
               <Text style={styles.headerText}>Unit Cost</Text>
             </View>
-            <View style={[styles.column4, styles.tableCell]}>
+            <View style={[styles.columnSmall, styles.tableCell]}>
               <Text style={styles.headerText}>Installed Cost</Text>
             </View>
-            <View style={[styles.column5, styles.tableCell]}>
+            <View style={[styles.columnSmall, styles.tableCell]}>
               <Text style={styles.headerText}>Average Life</Text>
               <Text style={styles.headerText}>{'(Years)'}</Text>
             </View>
-            <View style={[styles.column6, styles.tableCell]}>
+            <View style={[styles.columnSmall, styles.tableCell]}>
               <Text style={styles.headerText}>Annual Reserve</Text>
             </View>
-            <View style={[styles.column7, styles.tableCell]}>
+            <View style={[styles.columnSmall, styles.tableCell]}>
               <Text style={styles.headerText}>Monthly Reserve</Text>
             </View>
-            <View style={[styles.column8, styles.tableCell]}>
+            <View style={[styles.columnSmall, styles.tableCell]}>
               <Text style={styles.headerText}>Monthly Reserve</Text>
               <Text style={styles.headerText}>Per Customer</Text>
             </View>
@@ -184,28 +178,28 @@ const ComponentsTable = ({
                   monthlyReserve / state.consolidationCostParams.connections;
                 return (
                   <View style={styles.tableRow} key={idx}>
-                    <View style={[styles.column1, styles.tableCell]}>
+                    <View style={[styles.columnSmall, styles.tableCell]}>
                       <Text style={styles.cellText}>1</Text>
                     </View>
-                    <View style={[styles.column2, styles.tableCell]}>
+                    <View style={[styles.columnLarge, styles.tableCell]}>
                       <Text style={styles.cellText}>{component}</Text>
                     </View>
-                    <View style={[styles.column3, styles.tableCell]}>
+                    <View style={[styles.columnSmall, styles.tableCell]}>
                       <Text style={styles.cellText}>{formatToUSD(unitCost)}</Text>
                     </View>
-                    <View style={[styles.column4, styles.tableCell]}>
+                    <View style={[styles.columnSmall, styles.tableCell]}>
                       <Text style={styles.cellText}>{formatToUSD(installedCost)}</Text>
                     </View>
-                    <View style={[styles.column5, styles.tableCell]}>
+                    <View style={[styles.columnSmall, styles.tableCell]}>
                       <Text style={styles.cellText}>{avgLife}</Text>
                     </View>
-                    <View style={[styles.column6, styles.tableCell]}>
+                    <View style={[styles.columnSmall, styles.tableCell]}>
                       <Text style={styles.cellText}>{formatToUSD(annualReserve)}</Text>
                     </View>
-                    <View style={[styles.column7, styles.tableCell]}>
+                    <View style={[styles.columnSmall, styles.tableCell]}>
                       <Text style={styles.cellText}>{formatToUSD(monthlyReserve)}</Text>
                     </View>
-                    <View style={[styles.column8, styles.tableCell]}>
+                    <View style={[styles.columnSmall, styles.tableCell]}>
                       <Text style={styles.cellText}>{formatToUSD(monthlyReservePerCustomer)}</Text>
                     </View>
                   </View>
