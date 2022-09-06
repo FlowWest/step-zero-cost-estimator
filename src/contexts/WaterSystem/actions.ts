@@ -15,7 +15,10 @@ export const updateConsolidationCostParams = (updatedParam: Record<string, unkno
   };
 };
 
-export const updateWaterSystemAndParams = (newWaterSystem: WaterSystem, updatedParams: Object) => {
+export const updateWaterSystemAndParams = (
+  newWaterSystem: WaterSystem,
+  updatedParams: Record<string, unknown>
+) => {
   return {
     type: ACTIONS.UPDATE_WATER_SYSTEM_AND_PARAMS,
     payload: { newWaterSystem, updatedParams }
