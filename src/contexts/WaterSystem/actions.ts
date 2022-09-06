@@ -8,7 +8,7 @@ export const updateWaterSystem = (newWaterSystem: WaterSystem) => {
   };
 };
 
-export const updateConsolidationCostParams = (updatedParam: Object) => {
+export const updateConsolidationCostParams = (updatedParam: Record<string, unknown>) => {
   return {
     type: ACTIONS.UPDATE_CONSOLIDATION_COST_PARAMS,
     payload: updatedParam
@@ -50,15 +50,6 @@ export const updateCIPCostData = (cipType: string, cipCostData: number) => {
     payload: {
       cipType,
       cipCostData
-    }
-  };
-};
-
-export const updateChartImage = (chartSrc: string) => {
-  return {
-    type: ACTIONS.UPDATE_CHART_IMAGE,
-    payload: {
-      chartSrc
     }
   };
 };
