@@ -6,13 +6,9 @@ import { getConsolidationCostDetails } from '../../util/costUtil';
 import { startCase } from 'lodash';
 
 const styles = StyleSheet.create({
-  //table: { marginTop: 10, width: '100%' },//original style,
-  //defaultText: { fontSize: 12 },//portrait
-  //costTitle: { fontSize: 14 },//portrait
-  defaultText: { fontSize: 10 }, //landscape
-  //costTitle: { fontSize: 12 }, //landscape
-  costTitle: { fontSize: 12, marginBottom: 3 }, // alt landscape
-  table: { marginTop: 20, width: '100%' }, //alt landscape,
+  defaultText: { fontSize: 10 },
+  costTitle: { fontSize: 12, marginBottom: 3 },
+  table: { marginTop: 20, width: '100%' },
   tableWrapper: { display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' },
   costType: {},
   divider: { marginTop: 5, width: '100%', height: 1, backgroundColor: 'rgba(0,0,0,.4)' },
@@ -22,16 +18,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '90%',
-    //margin: 10//portrait
-    //margin: 5 //landscape
-    margin: 8 //alt landscape
+    margin: 8
   },
   costDetailsTitle: { color: 'rgba(0,0,0)' },
   costDetailsAmount: { color: 'rgba(0,0,0,0.5)' }
 });
 
 const FeesTable = ({ state }: { state: any }): JSX.Element => {
-  const feeDetails = getConsolidationCostDetails(state);
+  const feeDetails = getConsolidationCostDetails({
+    waterSystemDetails: state.currentWaterSystem,
+    consolidationCostParams: state.consolidationCostParams
+  });
 
   const adjustments = { ...feeDetails.adjustments, title: 'Adjustments' };
   const materialCosts = { ...feeDetails.materialCosts, title: 'Material Costs' };
