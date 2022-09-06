@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 const ConsolidationCalculator = () => {
   const [state, dispatch] = useContext(WaterSystemContext);
   const classes = useStyles();
-  const [state, dispatch] = useContext(WaterSystemContext);
 
   return (
     <>
