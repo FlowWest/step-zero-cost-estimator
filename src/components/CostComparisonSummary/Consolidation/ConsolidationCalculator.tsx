@@ -1,13 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Grid, Typography, Theme, Divider } from '@mui/material';
 import WaterSystemDetails from './WaterSystemDetails';
 import { makeStyles } from '@mui/styles';
 import TotalConsolidationCost from './TotalConsolidationCost';
 import ExportButtonGroup from '../../uiComponents/ExportButtonGroup';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
-import { updateChartImage } from '../../../contexts/WaterSystem/actions';
-import { Chart } from 'chart.js';
-import { has } from 'lodash';
 
 const useStyles = makeStyles((theme: Theme) => ({
   contentContainer: {
