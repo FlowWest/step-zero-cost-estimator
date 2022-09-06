@@ -25,6 +25,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 const ConsolidationCalculator = () => {
   const [state, dispatch] = useContext(WaterSystemContext);
   const classes = useStyles();
+  const [state, dispatch] = useContext(WaterSystemContext);
+
   return (
     <>
       <Grid container spacing={0}>
@@ -59,7 +61,7 @@ const ConsolidationCalculator = () => {
         justifyContent="flex-end"
         order={{ xs: 4, md: 4 }}
       >
-        <ExportButtonGroup />
+        <ExportButtonGroup state={state} />
       </Grid>
     </>
   );

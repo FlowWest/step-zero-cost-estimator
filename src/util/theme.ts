@@ -18,7 +18,6 @@ declare module '@mui/material/styles' {
 const makeTheme = (variant: ThemeOptions): Theme => {
   const common = {
     typography: {
-      h1: {},
       h2: {
         fontWeight: 300
       },

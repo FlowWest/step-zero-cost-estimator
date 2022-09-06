@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const WaterSystemComponentsGrid = ({ openAddComponents }: { openAddComponents: Function }) => {
   const [state, dispatch] = useContext(WaterSystemContext);
+
   const [totalCostValues, setTotalCostValues] = useState([] as Array<any>);
   const classes = useStyles();
 
@@ -68,7 +69,7 @@ const WaterSystemComponentsGrid = ({ openAddComponents }: { openAddComponents: F
         justifyContent="flex-end"
         order={{ xs: 4, md: 4 }}
       >
-        <ExportButtonGroup />
+        <ExportButtonGroup state={state} />
       </Grid>
     </>
   );

@@ -3,7 +3,6 @@ import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, registerables, TooltipItem } from 'chart.js';
 import { ConsolidationCostDetails } from '../../util/interfaces';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { sum } from 'lodash';
 import { formatToUSD } from '../../util';
 
 ChartJS.register(...registerables);
@@ -51,29 +50,38 @@ const DoughnutChart = ({ chartData }: { chartData: ConsolidationCostDetails }) =
   };
 
   return (
-    <Doughnut
-      data={doughnutData}
-      plugins={[ChartDataLabels]}
-      options={{
-        cutout: '65%',
-        plugins: {
-          legend: {
-            display: false
-            //labels: { usePointStyle: true, pointStyle: 'rectRounded' }
+    <>
+      <Doughnut
+        id={'consolidation-chart'}
+        data={doughnutData}
+        plugins={[ChartDataLabels]}
+        options={{
+          animation: {
+            onComplete: function (animation) {
+              const consolidationChart = ChartJS.getChart('consolidation-chart') as any;
+              const chartSrc = consolidationChart?.toBase64Image();
+              localStorage.setItem('chartSrc', chartSrc);
+            }
           },
-          tooltip: {
-            enabled: false,
-            callbacks: {
-              label: (tooltipItem: TooltipItem<'doughnut'>) => {
-                const { label, formattedValue } = tooltipItem;
-
-                return `${label}: $${formattedValue}`;
+          cutout: '65%',
+          plugins: {
+            legend: {
+              display: false
+              //labels: { usePointStyle: true, pointStyle: 'rectRounded' }
+            },
+            tooltip: {
+              enabled: false,
+              callbacks: {
+                label: (tooltipItem: TooltipItem<'doughnut'>) => {
+                  const { label, formattedValue } = tooltipItem;
+                  return `${label}: $${formattedValue}`;
+                }
               }
             }
           }
-        }
-      }}
-    />
+        }}
+      />
+    </>
   );
 };
 
