@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text } from '@react-pdf/renderer';
 import { formatToUSD } from '../../util';
-import { getConsolidationCostDetails } from '../../util/costUtil';
 
-import { startCase } from 'lodash';
+import { sortBy } from 'lodash';
 
 const styles = StyleSheet.create({
   defaultText: { fontSize: 12 },
@@ -55,17 +54,33 @@ const ComponentsTable = ({
   state: any;
   type: 'new' | 'existing' | 'total';
 }): JSX.Element => {
-  const feeDetails = getConsolidationCostDetails(state);
-  console.log('🚀 ~ ComponentsTable ~ state', state);
   const tableTitles = {
     new: 'New Components',
     existing: 'Existing Components',
     total: 'Total Existing and New Project Capital Imporvement Costs'
   };
 
-  const allUsedComponents = state.existingComponents.concat(state.newComponents);
-  const installedCostTotal = allUsedComponents.reduce((cur, acc) => (cur.unitCost += acc), 0);
+  const [allComponents, setAllComponents] = useState({ annualReserve: 0, installedCost: 0 });
 
+  useEffect(() => {
+    const totalCostValues = [...state.existingComponents, ...state.newComponents];
+    const updatedCostValues = totalCostValues.reduce(
+      (previousValue, currentValue) => {
+        const newValue = { ...previousValue };
+        const quantity = currentValue.quantity || 1;
+        const installedCost = quantity * currentValue.unitCost;
+        newValue.installedCost += installedCost;
+        newValue.annualReserve += installedCost / currentValue.avgLife;
+
+        return newValue;
+      },
+      {
+        installedCost: 0,
+        annualReserve: 0
+      }
+    );
+    setAllComponents({ ...updatedCostValues });
+  }, [state]);
   return (
     <View style={styles.container} wrap={false}>
       <Text style={styles.tableHeader}>{tableTitles[`${type}`]}</Text>
@@ -96,17 +111,21 @@ const ComponentsTable = ({
               <View style={[styles.column2, styles.tableCell]}></View>
               <View style={[styles.column3, styles.tableCell]}></View>
               <View style={[styles.column4, styles.tableCell]}>
-                <Text style={styles.cellText}>$1,234,567</Text>
+                <Text style={styles.cellText}>{formatToUSD(allComponents.installedCost)}</Text>
               </View>
               <View style={[styles.column5, styles.tableCell]}></View>
               <View style={[styles.column6, styles.tableCell]}>
-                <Text style={styles.cellText}>$34,322</Text>
+                <Text style={styles.cellText}>{formatToUSD(allComponents.annualReserve)}</Text>
               </View>
               <View style={[styles.column7, styles.tableCell]}>
-                <Text style={styles.cellText}>$2,394</Text>
+                <Text style={styles.cellText}>{formatToUSD(allComponents.annualReserve / 12)}</Text>
               </View>
               <View style={[styles.column8, styles.tableCell]}>
-                <Text style={styles.cellText}>$98</Text>
+                <Text style={styles.cellText}>
+                  {formatToUSD(
+                    allComponents.annualReserve / 12 / state.consolidationCostParams.connections
+                  )}
+                </Text>
               </View>
             </View>
           ) : (
@@ -149,7 +168,7 @@ const ComponentsTable = ({
             </View>
           </View>
           {state[`${type}Components`].length ? (
-            state[`${type}Components`].map(
+            sortBy(state[`${type}Components`], ['component']).map(
               (
                 {
                   component,
@@ -158,11 +177,7 @@ const ComponentsTable = ({
                 }: { component: string; unitCost: number; avgLife: number },
                 idx: number
               ) => {
-                console.log('🚀 ~ {state.systemComponents.map ~ components', component);
-                const quantity = state[`${type}Components`].filter(
-                  (item) => item.component === component
-                ).length;
-                const installedCost = unitCost * quantity;
+                const installedCost = unitCost;
                 const annualReserve = installedCost / avgLife;
                 const monthlyReserve = annualReserve / 12;
                 const monthlyReservePerCustomer =
@@ -170,7 +185,7 @@ const ComponentsTable = ({
                 return (
                   <View style={styles.tableRow} key={idx}>
                     <View style={[styles.column1, styles.tableCell]}>
-                      <Text style={styles.cellText}>{quantity}</Text>
+                      <Text style={styles.cellText}>1</Text>
                     </View>
                     <View style={[styles.column2, styles.tableCell]}>
                       <Text style={styles.cellText}>{component}</Text>
