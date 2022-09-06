@@ -56,6 +56,13 @@ const DoughnutChart = ({ chartData }: { chartData: ConsolidationCostDetails }) =
         data={doughnutData}
         plugins={[ChartDataLabels]}
         options={{
+          animation: {
+            onComplete: function (animation) {
+              const consolidationChart = ChartJS.getChart('consolidation-chart') as any;
+              const chartSrc = consolidationChart?.toBase64Image();
+              localStorage.setItem('chartSrc', chartSrc);
+            }
+          },
           cutout: '65%',
           plugins: {
             legend: {
