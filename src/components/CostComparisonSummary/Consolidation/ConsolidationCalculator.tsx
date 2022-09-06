@@ -27,21 +27,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 const ConsolidationCalculator = () => {
   const classes = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
-  // const [hasChartRendered, setHasChartRendered] = useState<boolean>(false);
-  // const consolidationChart = Chart.getChart('consolidation-chart') as any;
-
-  // useEffect(() => {
-  //   const getChartImageSrc = () => {
-  //     if (consolidationChart === undefined) {
-  //       return;
-  //     }
-
-  //     setHasChartRendered(true);
-  //     const imageData = consolidationChart.toBase64Image();
-  //     dispatch(updateChartImage(imageData));
-  //   };
-  //   getChartImageSrc();
-  // }, [hasChartRendered]);
 
   return (
     <>
