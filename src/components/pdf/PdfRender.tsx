@@ -9,7 +9,7 @@ import { getConsolidationCostDetails } from '../../util/costUtil';
 // Create styles
 const styles = StyleSheet.create({
   page: {
-    flexDirection: 'column', //original styles
+    flexDirection: 'column',
     backgroundColor: '#fff',
     padding: '15px 25px'
   },
@@ -20,19 +20,11 @@ const styles = StyleSheet.create({
     display: 'flex'
   },
   chartWrapper: {
-    //width: '45%' //landscape
-    width: '75%', //alt landscape
+    width: '75%',
     transform: 'translateX(15px)'
   },
   chartImage: {
     marginTop: 15
-    //width: '45%',//portrait
-    //marginRight: 10 //portrait
-    //height: '100px' //landscape
-    //position: 'absolute'
-    //transform: 'translate(45px 35px) scale(2)' //landscape
-    //height: '300px' //alt landscape
-    //width: '100%' //alt landscape
   },
   grid: {
     display: 'flex',
@@ -54,23 +46,19 @@ const PdfRender = ({ state }: { state: any }): JSX.Element => {
       ? localStorage.getItem('chartSrc')
       : consolidationChart?.toBase64Image();
 
-  console.log('🚀 ~ PdfRender ~ imageData', imageData);
-  const { total: totalConsolidationCost } = getConsolidationCostDetails(state);
-
   return (
     <Document>
       <Page size="A4" orientation="landscape" style={styles.page}>
         <Header title="Consolidation Report" />
-        {/* Data Wrapper - For alt layout */}
+
         <View style={{ display: 'flex', flexDirection: 'row' }}>
-          {/* <View style={styles.grid}> Original Styles*/}
           <View style={{ width: '50%', display: 'flex', flexDirection: 'column-reverse' }}>
             <WaterSystemDetailsPdf state={state} />
             <View style={styles.chartWrapper}>
               <Image src={imageData} style={styles.chartImage} />
             </View>
           </View>
-          {/* <View style={styles.grid}> Original Styles*/}
+
           <View style={{ width: '50%' }}>
             <FeesTable state={state} />
           </View>
