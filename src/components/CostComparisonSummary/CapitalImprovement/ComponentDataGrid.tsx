@@ -1,5 +1,14 @@
 import React from 'react';
-import { DataGrid, GridColDef, GridFooterContainer } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridColDef,
+  GridFooterContainer,
+  GridSortModel,
+  GridCallbackDetails,
+  gridStringOrNumberComparator,
+  gridNumberComparator,
+  GridSortCellParams
+} from '@mui/x-data-grid';
 import { Theme, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
@@ -47,6 +56,36 @@ const formatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2
 });
 
+const sortComparator = (
+  v1: any,
+  v2: any,
+  params1: GridSortCellParams<any>,
+  params2: GridSortCellParams<any>
+) => {
+  const row1 = params1.api.getRow(params1.id);
+  const row2 = params2.api.getRow(params2.id);
+  const sortModel = params1.api.getSortModel();
+  const { sort } = sortModel[0];
+
+  // sort total row at bottom
+  if (row1.component === 'Total') {
+    return sort === 'asc' ? 1 : -1;
+  }
+  if (row2.component === 'Total') {
+    return sort === 'asc' ? -1 : 1;
+  }
+
+  if (typeof v1 === 'string') {
+    return gridStringOrNumberComparator(v1, v2, params1, params2);
+  }
+
+  if (typeof v1 === 'number') {
+    return gridNumberComparator(v1, v2, params1, params2);
+  }
+
+  return v1 - v2;
+};
+
 const ComponentDataGrid = ({
   rows,
   openAddComponents,
@@ -67,6 +106,7 @@ const ComponentDataGrid = ({
       flex: 1,
       type: 'number',
       headerAlign: 'right',
+      sortComparator: sortComparator,
       valueGetter: (params) => {
         if (params.getValue(params.id, 'component') === 'Total') {
           return null;
@@ -78,7 +118,8 @@ const ComponentDataGrid = ({
       field: 'component',
       headerName: 'Component',
       flex: 3,
-      cellClassName: classes.nonEditableCell
+      cellClassName: classes.nonEditableCell,
+      sortComparator: sortComparator
     },
     {
       field: 'unitCost',
@@ -87,6 +128,7 @@ const ComponentDataGrid = ({
       flex: 1.5,
       type: 'number',
       headerAlign: 'right',
+      sortComparator: sortComparator,
       valueGetter: (params) => {
         if (params.getValue(params.id, 'component') === 'Total') {
           return null;
@@ -106,6 +148,7 @@ const ComponentDataGrid = ({
       type: 'number',
       headerAlign: 'right',
       cellClassName: classes.nonEditableCell,
+      sortComparator: sortComparator,
       valueGetter: (params) => {
         if (params.getValue(params.id, 'component') === 'Total') {
           const allRowIds = params.api.getAllRowIds();
@@ -132,7 +175,8 @@ const ComponentDataGrid = ({
       editable: true,
       flex: 1.5,
       type: 'number',
-      headerAlign: 'right'
+      headerAlign: 'right',
+      sortComparator: sortComparator
     },
     {
       field: 'annualReserve',
@@ -155,7 +199,8 @@ const ComponentDataGrid = ({
       },
       valueFormatter: (params) => {
         return `$${formatter.format(params.value)}`;
-      }
+      },
+      sortComparator: sortComparator
     },
     {
       field: 'monthlyReserve',
@@ -170,7 +215,8 @@ const ComponentDataGrid = ({
       },
       valueFormatter: (params) => {
         return `$${formatter.format(params.value)}`;
-      }
+      },
+      sortComparator: sortComparator
     },
     {
       field: 'monthlyReservePerCustomer',
@@ -186,7 +232,8 @@ const ComponentDataGrid = ({
       },
       valueFormatter: (params) => {
         return `$${formatter.format(params.value)}`;
-      }
+      },
+      sortComparator: sortComparator
     }
   ];
 
@@ -261,6 +308,10 @@ const ComponentDataGrid = ({
             Footer: renderFooter
           }}
           disableSelectionOnClick
+          onSortModelChange={(model: GridSortModel, details: GridCallbackDetails) => {
+            console.log('model', model);
+            console.log('details', details);
+          }}
         />
       </div>
     </div>
