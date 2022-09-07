@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Grid, Button } from '@mui/material';
-import PreviewModal from '../pdf/PreviewModal';
+import PreviewModal from '../exports/pdf/PreviewModal';
 
 const ExportButtonGroup = ({ state }: { state: any }) => {
   const [previewIsOpen, setPreviewIsOpen] = useState(false as boolean);
