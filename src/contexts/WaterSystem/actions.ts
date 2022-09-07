@@ -8,14 +8,17 @@ export const updateWaterSystem = (newWaterSystem: WaterSystem) => {
   };
 };
 
-export const updateConsolidationCostParams = (updatedParam: Object) => {
+export const updateConsolidationCostParams = (updatedParam: Record<string, unknown>) => {
   return {
     type: ACTIONS.UPDATE_CONSOLIDATION_COST_PARAMS,
     payload: updatedParam
   };
 };
 
-export const updateWaterSystemAndParams = (newWaterSystem: WaterSystem, updatedParams: Object) => {
+export const updateWaterSystemAndParams = (
+  newWaterSystem: WaterSystem,
+  updatedParams: Record<string, unknown>
+) => {
   return {
     type: ACTIONS.UPDATE_WATER_SYSTEM_AND_PARAMS,
     payload: { newWaterSystem, updatedParams }
@@ -44,11 +47,11 @@ export const updateAutocompleteOptions = (autocompleteOptions: ComponentProperti
   };
 };
 
-export const updateCIPCostData = (rowId: number, cipCostData: Object) => {
+export const updateCIPCostData = (cipType: string, cipCostData: number) => {
   return {
     type: ACTIONS.UPDATE_CIP_COST_DATA,
     payload: {
-      rowId,
+      cipType,
       cipCostData
     }
   };

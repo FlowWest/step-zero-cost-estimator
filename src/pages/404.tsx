@@ -1,5 +1,6 @@
 import React from 'react';
-import { Typography, Container } from '@mui/material';
+import { Link as GatsbyLink } from 'gatsby';
+import { Typography, Container, Link } from '@mui/material';
 import { Theme } from '@mui/material/styles';
 
 import makeStyles from '@mui/styles/makeStyles';
@@ -11,19 +12,27 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     marginTop: theme.spacing(8),
     marginBottom: theme.spacing(2)
+  },
+  link: {
+    color: theme.palette.primary.main,
+    textDecoration: 'none',
+    '&:hover': { textDecoration: 'underline', fontWeight: 500 }
   }
 }));
 
 const NotFoundPage: FC = () => {
-  const styles = useStyles();
+  const classes = useStyles();
   return (
-    <Container maxWidth="md" className={styles.root}>
+    <Container maxWidth="md" className={classes.root}>
       <Seo title="404: Not found" />
       <Typography variant="h2" gutterBottom component="h1">
         NOT FOUND
       </Typography>
-      <Typography variant="body1">
-        You just hit a route that doesn&#39;t exist... the sadness.
+      <Typography variant="body1">Oops! The page you are looking for does not exist.</Typography>
+      <Typography variant="body1" style={{ marginTop: '1rem' }}>
+        <Link component={GatsbyLink} to="/" className={classes.link}>
+          Go back to the homepage
+        </Link>
       </Typography>
     </Container>
   );

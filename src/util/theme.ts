@@ -1,5 +1,6 @@
 import deepMerge from 'deepmerge';
 import { createTheme, responsiveFontSizes, ThemeOptions, Theme } from '@mui/material/styles';
+import { fontWeight } from '@mui/system';
 
 declare module '@mui/material/styles' {
   interface TypeBackground {
@@ -16,6 +17,23 @@ declare module '@mui/material/styles' {
 
 const makeTheme = (variant: ThemeOptions): Theme => {
   const common = {
+    typography: {
+      h2: {
+        fontWeight: 300
+      },
+      h3: {
+        fontWeight: 300
+      },
+      h4: {
+        fontWeight: 300
+      },
+      h5: {
+        fontWeight: 300
+      },
+      h6: {
+        fontWeight: 300
+      }
+    },
     overrides: {
       MuiCssBaseline: {
         '@global': {

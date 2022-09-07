@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Grid, Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { FC } from '../util';
@@ -9,6 +9,8 @@ import { WaterSystemContext } from '../contexts/WaterSystem';
 import { updateWaterSystemAndParams } from '../contexts/WaterSystem/actions';
 import { graphql } from 'gatsby';
 import { WaterSystem } from '../util/interfaces';
+import { Seo } from '../components';
+import WaterSystemDetailsDialog from '../components/CostComparisonSummary/WaterSystemDetailsDialog';
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
@@ -17,12 +19,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   gridItemContainer: {
     margin: '1rem 0'
+  },
+  accordionContainer: {
+    background: theme.palette.background.content
   }
 }));
 
 const IndexPage: FC = (props: any) => {
-  const styles = useStyles();
+  const classes = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
+  const [systemsDetailsDialogIsOpen, setSystemsDetailsDialogIsOpen] = useState(false as boolean);
 
   const allWaterSystems = props.data.allWaterSystemDetailsCsv.nodes;
   const dropdownOptions = props.data.allWaterSystemDetailsCsv.nodes
@@ -56,10 +62,19 @@ const IndexPage: FC = (props: any) => {
     );
   };
 
+  const handleCloseSystemsDetailsDialog = () => {
+    setSystemsDetailsDialogIsOpen(false);
+  };
+
+  const handleOpenSystemsDetailsDialog = () => {
+    setSystemsDetailsDialogIsOpen(true);
+  };
+
   return (
     <Grid container spacing={2} justifyContent="center">
+      <Seo title="Calculator" />
       <Grid item xs={12}>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h3" gutterBottom>
           Step Zero Calculator
         </Typography>
         <Typography paragraph>
@@ -86,19 +101,33 @@ const IndexPage: FC = (props: any) => {
           />
         </Grid>
         {state && Object.keys(state?.currentWaterSystem).length > 0 && (
-          <Grid item xs={12} md={4} className={styles.buttonContainer}>
-            <Button
-              onClick={() => {
-                dispatch({ type: 'update_water_system', payload: {} });
-              }}
-            >
-              Select a new water system
-            </Button>
-          </Grid>
+          <>
+            <Grid item xs={12} md={4} className={classes.buttonContainer}>
+              <Button
+                onClick={() => {
+                  dispatch({ type: 'update_water_system', payload: {} });
+                }}
+              >
+                Select a new water system
+              </Button>
+            </Grid>
+            {state.currentWaterSystem?.joinSystemPWSID && (
+              <Grid item xs={12} md={4}>
+                <Button variant="outlined" onClick={handleOpenSystemsDetailsDialog}>
+                  View additional water systems information
+                </Button>
+              </Grid>
+            )}
+            <WaterSystemDetailsDialog
+              state={state}
+              systemsDetailsDialogIsOpen={systemsDetailsDialogIsOpen}
+              handleCloseSystemsDetailsDialog={handleCloseSystemsDetailsDialog}
+            />
+          </>
         )}
       </Grid>
       <Grid container item xs={12} style={{ gap: '50px' }}>
-        <Grid item xs={12} className={styles.gridItemContainer}>
+        <Grid item xs={12} className={classes.gridItemContainer}>
           <ContentWrapper
             title={`Cost Comparison Summary ${
               state?.currentWaterSystem?.name ? `for ${state?.currentWaterSystem?.name}` : ''
@@ -107,13 +136,12 @@ const IndexPage: FC = (props: any) => {
             <CostComparisonSummary
               selectedWaterSystem={state?.currentWaterSystem}
               consolidationCostParams={state?.consolidationCostParams}
+              cipCostData={state?.cipCostData}
             />
           </ContentWrapper>
         </Grid>
-        <Grid item xs={12} className={styles.gridItemContainer}>
-          <ContentWrapper title="Calculation Methodology Explanation">
-            <div style={{ height: '400px' }}></div>
-          </ContentWrapper>
+        <Grid item xs={12} className={classes.gridItemContainer}>
+          <ContentWrapper title="Calculation Methodology Explanation"></ContentWrapper>
         </Grid>
       </Grid>
     </Grid>

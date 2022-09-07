@@ -49,7 +49,11 @@ const WaterSystemDetailsCIP = () => {
             InputLabelProps={{
               shrink: true
             }}
-            defaultValue={`${state?.currentWaterSystem.joinSystemName}`}
+            defaultValue={
+              state?.currentWaterSystem.joinSystemName
+                ? state?.currentWaterSystem.joinSystemName
+                : state?.currentWaterSystem?.name
+            }
             disabled
           />
         </Grid>
@@ -62,7 +66,7 @@ const WaterSystemDetailsCIP = () => {
             }}
             defaultValue={
               state?.currentWaterSystem.joinSystemPWSID
-                ? `${state?.currentWaterSystem.joinSystemPWSID}`
+                ? state?.currentWaterSystem.joinSystemPWSID
                 : 'N/A'
             }
             disabled

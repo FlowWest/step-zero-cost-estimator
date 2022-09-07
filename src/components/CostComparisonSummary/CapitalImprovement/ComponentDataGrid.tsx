@@ -1,5 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { DataGrid, GridColDef, GridOverlay } from '@mui/x-data-grid';
+import React from 'react';
+import {
+  DataGrid,
+  GridColDef,
+  GridFooterContainer,
+  GridSortModel,
+  GridCallbackDetails,
+  gridStringOrNumberComparator,
+  gridNumberComparator,
+  GridSortCellParams
+} from '@mui/x-data-grid';
 import { Theme, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
@@ -32,7 +41,14 @@ const useStyles = makeStyles((theme: Theme) => ({
       backgroundColor:
         theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.04)'
     }
-  }
+  },
+  summaryRow: {
+    background: `${theme.palette.background.default} !important`,
+    color: 'black',
+    pointerEvents: 'none',
+    borderTop: '1px solid black'
+  },
+  footer: { width: '100%', textAlign: 'right', marginRight: 10 }
 }));
 
 const formatter = new Intl.NumberFormat('en-US', {
@@ -40,20 +56,48 @@ const formatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2
 });
 
+const sortComparator = (
+  v1: any,
+  v2: any,
+  params1: GridSortCellParams<any>,
+  params2: GridSortCellParams<any>
+) => {
+  const row1 = params1.api.getRow(params1.id);
+  const row2 = params2.api.getRow(params2.id);
+  const sortModel = params1.api.getSortModel();
+  const { sort } = sortModel[0];
+
+  // sort total row at bottom
+  if (row1.component === 'Total') {
+    return sort === 'asc' ? 1 : -1;
+  }
+  if (row2.component === 'Total') {
+    return sort === 'asc' ? -1 : 1;
+  }
+
+  if (typeof v1 === 'string') {
+    return gridStringOrNumberComparator(v1, v2, params1, params2);
+  }
+
+  if (typeof v1 === 'number') {
+    return gridNumberComparator(v1, v2, params1, params2);
+  }
+
+  return v1 - v2;
+};
+
 const ComponentDataGrid = ({
   rows,
   openAddComponents,
   connections,
-  getNewGridState
+  setTotalCostValues
 }: {
   rows: Array<any>;
   openAddComponents: Function;
   connections: number;
-  getNewGridState: Function;
+  setTotalCostValues: Function;
 }) => {
-  const styles = useStyles();
-  const [test, setTest] = useState({} as any);
-  const [pageSize, setPageSize] = useState(5 as number);
+  const classes = useStyles();
   const columns: GridColDef[] = [
     {
       field: 'quantity',
@@ -62,11 +106,21 @@ const ComponentDataGrid = ({
       flex: 1,
       type: 'number',
       headerAlign: 'right',
+      sortComparator: sortComparator,
       valueGetter: (params) => {
+        if (params.getValue(params.id, 'component') === 'Total') {
+          return null;
+        }
         return params.value || 1;
       }
     },
-    { field: 'component', headerName: 'Component', flex: 3, cellClassName: styles.nonEditableCell },
+    {
+      field: 'component',
+      headerName: 'Component',
+      flex: 3,
+      cellClassName: classes.nonEditableCell,
+      sortComparator: sortComparator
+    },
     {
       field: 'unitCost',
       headerName: 'Unit Cost',
@@ -74,8 +128,17 @@ const ComponentDataGrid = ({
       flex: 1.5,
       type: 'number',
       headerAlign: 'right',
+      sortComparator: sortComparator,
+      valueGetter: (params) => {
+        if (params.getValue(params.id, 'component') === 'Total') {
+          return null;
+        }
+        return params.value;
+      },
       valueFormatter: (params) => {
-        return `$${formatter.format(params.value)}`;
+        if (params.value) {
+          return `$${formatter.format(params.value)}`;
+        }
       }
     },
     {
@@ -84,10 +147,23 @@ const ComponentDataGrid = ({
       flex: 1.5,
       type: 'number',
       headerAlign: 'right',
-      cellClassName: styles.nonEditableCell,
+      cellClassName: classes.nonEditableCell,
+      sortComparator: sortComparator,
       valueGetter: (params) => {
-        const quantity = params.getValue(params.id, 'quantity');
-        return quantity * params.row.unitCost;
+        if (params.getValue(params.id, 'component') === 'Total') {
+          const allRowIds = params.api.getAllRowIds();
+          const componentRows = allRowIds.slice(0, allRowIds.length - 1);
+          const total = componentRows.reduce((currentTotal: number, rowId: number) => {
+            return (currentTotal += params.getValue(rowId, 'installedCost'));
+          }, 0);
+          return total;
+        }
+
+        const { id, getValue, row } = params;
+        const quantity = getValue(id, 'quantity');
+        const installedCost = quantity * row.unitCost;
+
+        return installedCost;
       },
       valueFormatter: (params) => {
         return `$${formatter.format(params.value)}`;
@@ -99,7 +175,8 @@ const ComponentDataGrid = ({
       editable: true,
       flex: 1.5,
       type: 'number',
-      headerAlign: 'right'
+      headerAlign: 'right',
+      sortComparator: sortComparator
     },
     {
       field: 'annualReserve',
@@ -107,14 +184,23 @@ const ComponentDataGrid = ({
       flex: 1.5,
       type: 'number',
       headerAlign: 'right',
-      cellClassName: styles.nonEditableCell,
+      cellClassName: classes.nonEditableCell,
       valueGetter: (params) => {
+        if (params.getValue(params.id, 'component') === 'Total') {
+          const allRowIds = params.api.getAllRowIds();
+          const componentRows = allRowIds.slice(0, allRowIds.length - 1);
+          const total = componentRows.reduce((currentTotal: number, rowId: number) => {
+            return (currentTotal += params.getValue(rowId, 'annualReserve'));
+          }, 0);
+          return total;
+        }
         const installedCost = params.getValue(params.id, 'installedCost');
         return installedCost / params.row.avgLife;
       },
       valueFormatter: (params) => {
         return `$${formatter.format(params.value)}`;
-      }
+      },
+      sortComparator: sortComparator
     },
     {
       field: 'monthlyReserve',
@@ -122,14 +208,15 @@ const ComponentDataGrid = ({
       flex: 1.5,
       type: 'number',
       headerAlign: 'right',
-      cellClassName: styles.nonEditableCell,
+      cellClassName: classes.nonEditableCell,
       valueGetter: (params) => {
         const annualReserve = params.getValue(params.id, 'annualReserve');
         return annualReserve / 12;
       },
       valueFormatter: (params) => {
         return `$${formatter.format(params.value)}`;
-      }
+      },
+      sortComparator: sortComparator
     },
     {
       field: 'monthlyReservePerCustomer',
@@ -138,48 +225,41 @@ const ComponentDataGrid = ({
       flex: 1.5,
       type: 'number',
       headerAlign: 'right',
-      cellClassName: styles.nonEditableCell,
+      cellClassName: classes.nonEditableCell,
       valueGetter: (params) => {
         const monthlyReserve = params.getValue(params.id, 'monthlyReserve');
-        // getTest(params);
         return monthlyReserve / connections;
       },
       valueFormatter: (params) => {
         return `$${formatter.format(params.value)}`;
-      }
+      },
+      sortComparator: sortComparator
     }
   ];
 
-  //   const getTest = (params: any) => {
-  //     setTest((prevState: any) => {return  {
-  //       ...prevState,
-  //       [params.id]: {
-
-  //         installedCost: params.getValue(params.id, 'installedCost'),
-  //         annualReserve: params.getValue(params.id, 'annualReserve')
-  //       }
-  //     }})
-  //   );
-  // };
-
-  useEffect(() => {
-    console.log('test');
-  }, [test]);
-
   const renderNoRowsOverlay = () => {
     return (
-      <GridOverlay>
-        <div className={styles.addItemButtonWrapper}>
-          <Button
-            onClick={() => {
-              openAddComponents();
-            }}
-          >
-            Add Components
-          </Button>
-        </div>
-      </GridOverlay>
+      <div
+        style={{ position: 'relative', zIndex: 1, height: '100%' }}
+        className={classes.addItemButtonWrapper}
+      >
+        <Button
+          onClick={() => {
+            openAddComponents();
+          }}
+        >
+          Add Components
+        </Button>
+      </div>
     );
+  };
+
+  const renderFooter = () => {
+    return rows.length > 0 ? (
+      <GridFooterContainer>
+        <div className={classes.footer}>{rows.length} Rows</div>
+      </GridFooterContainer>
+    ) : null;
   };
 
   return (
@@ -187,33 +267,46 @@ const ComponentDataGrid = ({
       <div style={{ flexGrow: 1 }}>
         <DataGrid
           autoHeight
-          rows={rows}
+          rows={
+            rows.length > 0
+              ? [
+                  ...rows,
+                  {
+                    uid: Math.random(),
+                    component: 'Total'
+                  }
+                ]
+              : []
+          }
           columns={columns}
           getRowId={(row) => row.uid}
           classes={{
-            root: styles.root,
-            'cell--editing': styles.cellEditing,
-            editInputCell: styles.cellInput
+            root: classes.root,
+            'cell--editing': classes.cellEditing,
+            editInputCell: classes.cellInput
           }}
-          // onCellEditCommit={(cell: any) => {
-          //   setGridState((prevState: any) => {
-          //     const test = {
-          //       ...prevState,
-          //       [cell.id]: {
-          //         installedCost: cell.getValue(cell.id, 'installedCost'),
-          //         annualReserve: cell.getValue(cell.id, 'annualReserve')
-          //       }
-          //     };
-          //     return test;
-          //   });
-          // }}
+          getRowClassName={(params) => {
+            if (params.isLastVisible) {
+              return classes.summaryRow;
+            }
+            return '';
+          }}
+          onCellEditCommit={(cell: any) => {
+            setTotalCostValues((prevState: Array<any>) => {
+              const { id, field, value } = cell;
+              const newState = prevState.map((row) => {
+                if (row.uid === id) {
+                  row[field] = value;
+                }
+                return row;
+              });
+              return newState;
+            });
+          }}
           components={{
-            NoRowsOverlay: renderNoRowsOverlay
+            NoRowsOverlay: renderNoRowsOverlay,
+            Footer: renderFooter
           }}
-          //hideFooterPagination
-          pageSize={pageSize}
-          rowsPerPageOptions={[5, 10, 20]}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
           disableSelectionOnClick
         />
       </div>

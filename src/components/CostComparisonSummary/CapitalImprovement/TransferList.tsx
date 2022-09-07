@@ -58,7 +58,7 @@ const TransferList = ({
   setExistingCpnts: React.Dispatch<any>;
   setNewCpnts: React.Dispatch<any>;
 }) => {
-  const styles = useStyles();
+  const classes = useStyles();
 
   const [checked, setChecked] = React.useState<readonly ComponentProperties[]>([]);
   const leftChecked = intersection(checked, existingComponents);
@@ -98,8 +98,16 @@ const TransferList = ({
   };
 
   const handleCopy = () => {
-    let leftCheckedCopy = [...leftChecked].map((obj) => ({ ...obj, uid: Math.random() }));
-    let rightCheckedCopy = [...rightChecked].map((obj) => ({ ...obj, uid: Math.random() }));
+    let leftCheckedCopy = [...leftChecked].map((obj) => ({
+      ...obj,
+      uid: Math.random(),
+      quantity: 1
+    }));
+    let rightCheckedCopy = [...rightChecked].map((obj) => ({
+      ...obj,
+      uid: Math.random(),
+      quantity: 1
+    }));
     setNewCpnts([...newComponents, ...leftCheckedCopy]);
     setExistingCpnts([...existingComponents, ...rightCheckedCopy]);
     setChecked([]);
@@ -124,7 +132,7 @@ const TransferList = ({
   const customList = (title: string, components: readonly ComponentProperties[]) => (
     <>
       <Box>{title}</Box>
-      <Box className={styles.customList}>
+      <Box className={classes.customList}>
         <List dense component="div" role="list">
           {components.map((cpnt: ComponentProperties, idx) => {
             const labelId = `transfer-list-item-${cpnt?.component}-label`;
@@ -160,10 +168,10 @@ const TransferList = ({
       container
       justifyContent="center"
       alignItems="center"
-      className={styles.transferListContainer}
+      className={classes.transferListContainer}
     >
       <Grid item>{customList('Existing', existingComponents)}</Grid>
-      <Grid item className={styles.buttonGridContainer}>
+      <Grid item className={classes.buttonGridContainer}>
         <Grid container direction="column" alignItems="center">
           <Button
             sx={{ my: 0.5 }}
@@ -173,7 +181,7 @@ const TransferList = ({
             disabled={leftChecked.length === 0}
             aria-label="move selected right"
           >
-            <ArrowRightIcon className={styles.transferListIcons} />
+            <ArrowRightIcon className={classes.transferListIcons} />
           </Button>
           <Button
             sx={{ my: 0.5 }}
@@ -183,7 +191,7 @@ const TransferList = ({
             disabled={rightChecked.length === 0}
             aria-label="move selected left"
           >
-            <ArrowLeftIcon className={styles.transferListIcons} />
+            <ArrowLeftIcon className={classes.transferListIcons} />
           </Button>
           <Button
             sx={{ my: 0.5 }}
@@ -193,7 +201,7 @@ const TransferList = ({
             disabled={checked.length === 0}
             aria-label="copy to other side"
           >
-            <ContentCopyIcon className={styles.transferListIcons} />
+            <ContentCopyIcon className={classes.transferListIcons} />
           </Button>
           <Button
             sx={{ my: 0.5 }}
@@ -203,7 +211,7 @@ const TransferList = ({
             disabled={checked.length === 0}
             aria-label="delete"
           >
-            <DeleteIcon className={styles.transferListIcons} />
+            <DeleteIcon className={classes.transferListIcons} />
           </Button>
         </Grid>
       </Grid>

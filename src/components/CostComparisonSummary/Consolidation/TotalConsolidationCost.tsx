@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const TotalConsolidationCost = () => {
-  const styles = useStyles();
+  const classes = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
 
   const { currentWaterSystem, consolidationCostParams } = state || {};
@@ -36,13 +36,13 @@ const TotalConsolidationCost = () => {
 
   return (
     <Grid
-      className={styles.componentsContainer}
+      className={classes.componentsContainer}
       container
       direction="column"
       justifyContent="space-between"
       alignItems="center"
     >
-      <Grid item className={styles.gridItem}>
+      <Grid item className={classes.gridItem}>
         <Typography variant="h5" paragraph>
           Total Consolidation Cost: {formatToUSD(consolidationCostDetails.total)}
         </Typography>
@@ -51,7 +51,7 @@ const TotalConsolidationCost = () => {
         </Typography>
         <ConsolidationTabs chartData={consolidationCostDetails} />
       </Grid>
-      <Grid item className={styles.gridItem}>
+      <Grid item className={classes.gridItem}>
         <WarningMessage />
       </Grid>
     </Grid>

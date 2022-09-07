@@ -1,4 +1,4 @@
-import { WaterSystem, WaterSystemState, WaterSystemAction } from '../../util/interfaces';
+import { WaterSystemState, WaterSystemAction } from '../../util/interfaces';
 import { getSystemComponentValues } from '../../util/costUtil';
 
 export const ACTIONS = {
@@ -24,8 +24,9 @@ export const initialState = {
   newComponents: [],
   autocompleteOptions: [],
   cipCostData: {
-    existing: {},
-    new: {}
+    existing: 0,
+    new: 0,
+    total: 0
   },
   systemComponents: []
 };
@@ -40,7 +41,7 @@ export const reducer = (state: WaterSystemState, action: WaterSystemAction): Wat
         newComponents: [],
         autocompleteOptions: []
       };
-    case ACTIONS.UPDATE_CONSOLIDATION_COST_PARAMS:
+    case ACTIONS.UPDATE_CONSOLIDATION_COST_PARAMS: {
       const updatedParams = { ...state.consolidationCostParams, ...action.payload };
 
       return {
@@ -51,17 +52,12 @@ export const reducer = (state: WaterSystemState, action: WaterSystemAction): Wat
           consolidationCostParams: updatedParams
         })
       };
-    case ACTIONS.UPDATE_WATER_SYSTEM_AND_PARAMS:
+    }
+    case ACTIONS.UPDATE_WATER_SYSTEM_AND_PARAMS: {
       const updatedCostParams = {
         ...state.consolidationCostParams,
         ...action.payload.updatedParams
       };
-      const test2 = state?.currentWaterSystem
-        ? getSystemComponentValues({
-            waterSystemDetails: state.currentWaterSystem,
-            consolidationCostParams: updatedCostParams
-          })
-        : '';
       return {
         ...state,
         currentWaterSystem: action.payload.newWaterSystem,
@@ -74,6 +70,7 @@ export const reducer = (state: WaterSystemState, action: WaterSystemAction): Wat
           consolidationCostParams: updatedCostParams
         })
       };
+    }
     case ACTIONS.UPDATE_COMPONENTS:
       return {
         ...state,
@@ -88,7 +85,7 @@ export const reducer = (state: WaterSystemState, action: WaterSystemAction): Wat
     case ACTIONS.UPDATE_CIP_COST_DATA:
       return {
         ...state,
-        cipCostData: { ...state.cipCostData, [action.payload.rowId]: action.payload.cipCostData }
+        cipCostData: { ...state.cipCostData, [action.payload.cipType]: action.payload.cipCostData }
       };
     default:
       return state;

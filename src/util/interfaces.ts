@@ -1,14 +1,14 @@
 export interface DropdownProps {
   dropdownLabel: string;
   dropdownPlaceholder: string;
-  dropdownOptions: Array<Object>;
+  dropdownOptions: Array<Record<string, unknown>>;
   setSelectedObject: any;
 }
 
 export interface AutocompleteProps {
   dropdownLabel: string;
   dropdownPlaceholder: string;
-  dropdownOptions: Array<Object>;
+  dropdownOptions: Array<Record<string, unknown>>;
   selectedObject: { joinSystemName: string; joinSystemPWSID: string };
   setSelectedObject: any;
 }
@@ -28,14 +28,14 @@ export interface WaterSystemAction {
 }
 
 export interface WaterSystemState {
-  currentWaterSystem: WaterSystem | {};
+  currentWaterSystem: WaterSystem | Record<string, unknown>;
   consolidationCostParams: ConsolidationCostParams;
   existingComponents: ComponentProperties[];
   newComponents: ComponentProperties[];
   autocompleteOptions: ComponentProperties[];
   cipCostData: {
-    new: Object;
-    existing: Object;
+    new: Record<string, unknown>;
+    existing: Record<string, unknown>;
   };
   systemComponents: Array<any>;
 }
@@ -95,4 +95,13 @@ export interface ComponentProperties {
   annualReserve: number | null;
   monthlyReserve: number | null;
   monthlyReservePerCustomer: number | null;
+}
+
+export interface ResourceObject {
+  fileName?: string;
+  logo?: string;
+  description: string;
+  title: string;
+  link: string;
+  category: string;
 }

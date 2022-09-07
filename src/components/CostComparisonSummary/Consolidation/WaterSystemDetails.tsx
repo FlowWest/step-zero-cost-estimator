@@ -13,6 +13,7 @@ const WaterSystemDetails = () => {
       })
     );
   };
+
   return (
     <>
       <InputSlider
@@ -27,7 +28,7 @@ const WaterSystemDetails = () => {
         inputProperty="feeCostPerConnection"
         label="Connection Fees"
         start={state.consolidationCostParams?.feeCostPerConnection}
-        maxValue={10000}
+        maxValue={50000}
         incrementBy={1000}
         inputAdornment={{
           start: '$',
