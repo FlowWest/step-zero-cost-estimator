@@ -308,10 +308,6 @@ const ComponentDataGrid = ({
             Footer: renderFooter
           }}
           disableSelectionOnClick
-          onSortModelChange={(model: GridSortModel, details: GridCallbackDetails) => {
-            console.log('model', model);
-            console.log('details', details);
-          }}
         />
       </div>
     </div>
