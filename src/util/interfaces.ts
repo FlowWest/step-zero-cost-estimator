@@ -98,8 +98,10 @@ export interface ComponentProperties {
 }
 
 export interface ResourceObject {
-  fileName: string;
+  fileName?: string;
+  logo?: string;
   description: string;
   title: string;
   link: string;
+  category: string;
 }

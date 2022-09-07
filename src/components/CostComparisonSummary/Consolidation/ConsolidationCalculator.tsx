@@ -18,12 +18,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   editWaterSystemHeader: {
     fontWeight: 600
-  }
+  },
+  editWaterSystemDescription: { marginBottom: '2rem' }
 }));
 
 const ConsolidationCalculator = () => {
-  const classes = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
+  const classes = useStyles();
 
   return (
     <>
@@ -38,9 +39,10 @@ const ConsolidationCalculator = () => {
           <Typography className={classes.editWaterSystemHeader} paragraph>
             Edit Water System Details
           </Typography>
-          <Typography paragraph>
-            Paragraph describing how these values are prepopulated from existing data, but user is
-            allowed to edit values if they see fit.
+          <Typography className={classes.editWaterSystemDescription} paragraph>
+            {state.currentWaterSystem?.joinSystemPWSID
+              ? `Values are sourced from the Consolidation Analysis report. These values are meant to be a starting point for your calculations and estimates. You may adjust the values below to. The consolidation cost estimates will be updated automatically based on the new values.`
+              : `For user-created water systems, the values for Number of Connections and Distance to Receiving System have been set to predetermined values. Please adjust those fields to better represent the water system.`}
           </Typography>
           <WaterSystemDetails />
         </Grid>

@@ -13,6 +13,7 @@ const WaterSystemDetails = () => {
       })
     );
   };
+
   return (
     <>
       <InputSlider

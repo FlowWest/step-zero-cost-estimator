@@ -18,34 +18,20 @@ declare module '@mui/material/styles' {
 const makeTheme = (variant: ThemeOptions): Theme => {
   const common = {
     typography: {
-      h1: {
-        //color: 'red'
-      },
       h2: {
-        //color: 'green',
         fontWeight: 300
       },
       h3: {
-        //color: 'blue',
         fontWeight: 300
       },
       h4: {
-        // color: 'orange',
         fontWeight: 300
       },
       h5: {
-        // color: 'brown',
         fontWeight: 300
       },
       h6: {
-        //color: 'pink',
         fontWeight: 300
-      },
-      body1: {
-        // color: 'black'
-      },
-      body2: {
-        // color: 'gray'
       }
     },
     overrides: {

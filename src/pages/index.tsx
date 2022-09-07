@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Grid, Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { FC } from '../util';
@@ -10,6 +10,7 @@ import { updateWaterSystemAndParams } from '../contexts/WaterSystem/actions';
 import { graphql } from 'gatsby';
 import { WaterSystem } from '../util/interfaces';
 import { Seo } from '../components';
+import WaterSystemDetailsDialog from '../components/CostComparisonSummary/WaterSystemDetailsDialog';
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
@@ -18,12 +19,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   gridItemContainer: {
     margin: '1rem 0'
+  },
+  accordionContainer: {
+    background: theme.palette.background.content
   }
 }));
 
 const IndexPage: FC = (props: any) => {
   const classes = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext);
+  const [systemsDetailsDialogIsOpen, setSystemsDetailsDialogIsOpen] = useState(false as boolean);
 
   const allWaterSystems = props.data.allWaterSystemDetailsCsv.nodes;
   const dropdownOptions = props.data.allWaterSystemDetailsCsv.nodes
@@ -57,6 +62,14 @@ const IndexPage: FC = (props: any) => {
     );
   };
 
+  const handleCloseSystemsDetailsDialog = () => {
+    setSystemsDetailsDialogIsOpen(false);
+  };
+
+  const handleOpenSystemsDetailsDialog = () => {
+    setSystemsDetailsDialogIsOpen(true);
+  };
+
   return (
     <Grid container spacing={2} justifyContent="center">
       <Seo title="Calculator" />
@@ -88,15 +101,29 @@ const IndexPage: FC = (props: any) => {
           />
         </Grid>
         {state && Object.keys(state?.currentWaterSystem).length > 0 && (
-          <Grid item xs={12} md={4} className={classes.buttonContainer}>
-            <Button
-              onClick={() => {
-                dispatch({ type: 'update_water_system', payload: {} });
-              }}
-            >
-              Select a new water system
-            </Button>
-          </Grid>
+          <>
+            <Grid item xs={12} md={4} className={classes.buttonContainer}>
+              <Button
+                onClick={() => {
+                  dispatch({ type: 'update_water_system', payload: {} });
+                }}
+              >
+                Select a new water system
+              </Button>
+            </Grid>
+            {state.currentWaterSystem?.joinSystemPWSID && (
+              <Grid item xs={12} md={4}>
+                <Button variant="outlined" onClick={handleOpenSystemsDetailsDialog}>
+                  View additional water systems information
+                </Button>
+              </Grid>
+            )}
+            <WaterSystemDetailsDialog
+              state={state}
+              systemsDetailsDialogIsOpen={systemsDetailsDialogIsOpen}
+              handleCloseSystemsDetailsDialog={handleCloseSystemsDetailsDialog}
+            />
+          </>
         )}
       </Grid>
       <Grid container item xs={12} style={{ gap: '50px' }}>
