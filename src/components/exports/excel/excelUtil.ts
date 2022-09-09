@@ -1,4 +1,5 @@
 import { utils, writeFile } from 'xlsx';
+import { startCase } from 'lodash';
 
 export const handleExcelExport = (state: any) => {
   const workbook = utils.book_new();
@@ -26,8 +27,9 @@ export const handleExcelExport = (state: any) => {
     }
   ];
 
-  const cipExistingRows = state.existingComponents.length
-    ? state.existingComponents.map((component: Record<string, unknown>) => ({
+  const getRows = (type: 'new' | 'existing') => {
+    if (state[`${type}Components`].length) {
+      return state[`${type}Components`].map((component: Record<string, unknown>) => ({
         A: '1',
         B: component.component,
         C: component.unitCost,
@@ -36,21 +38,10 @@ export const handleExcelExport = (state: any) => {
         F: '',
         G: '',
         H: ''
-      }))
-    : [{ A: 'No Data' }];
-
-  const cipNewRows = state.newComponents.length
-    ? state.newComponents.map((component: Record<string, unknown>) => ({
-        A: '1',
-        B: component.component,
-        C: component.unitCost,
-        D: '',
-        E: component.avgLife,
-        F: '',
-        G: '',
-        H: ''
-      }))
-    : [{ A: 'No Data' }];
+      }));
+    }
+    return [{ A: 'No Data' }];
+  };
 
   utils.sheet_add_json(cipPage, [{ A: 'SIMPLIFIED CAPITAL IMPROVEMENT PLAN (CIP)' }], {
     skipHeader: true,
@@ -63,16 +54,17 @@ export const handleExcelExport = (state: any) => {
     origin: 'A8'
   });
   utils.sheet_add_json(cipPage, cipColumnHeaders, { skipHeader: true, origin: 'A9' });
-  utils.sheet_add_json(cipPage, cipExistingRows, { skipHeader: true, origin: 'A10' });
+  utils.sheet_add_json(cipPage, getRows('existing'), { skipHeader: true, origin: 'A10' });
   utils.sheet_add_json(cipPage, [{ A: 'NEW Project CIP Costs' }], {
     skipHeader: true,
     origin: 'A25'
   });
-  utils.sheet_add_json(cipPage, cipNewRows, { skipHeader: true, origin: 'A26' });
+  utils.sheet_add_json(cipPage, getRows('new'), { skipHeader: true, origin: 'A26' });
 
   // utils.book_append_sheet(workbook, guidelinesPage, 'GUIDELINES');
   // utils.book_append_sheet(workbook, budgetPage, '5-Year Budget');
-  writeFile(workbook, 'sws_budget_calculator.xlsx');
+  // writeFile(workbook, 'sws_budget_calculator.xlsx');
+  writeFile(workbook, 'test_excel.xlsx');
 
   return;
 };
