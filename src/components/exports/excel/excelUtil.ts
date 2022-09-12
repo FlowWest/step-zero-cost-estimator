@@ -1,32 +1,82 @@
-import { utils, writeFile } from 'xlsx';
+import { utils, writeFile } from 'xlsx-js-style';
 import { startCase } from 'lodash';
 import { formatToUSD } from '../../../util';
 
 export const handleExcelExport = (state: any) => {
+  const styles = {
+    boldText: { font: { bold: true } },
+    fillYellow: {
+      fill: { fgColor: { rgb: 'fafa6b' } }
+    },
+    fillOrange: {
+      fill: { fgColor: { rgb: 'fac66b' } }
+    },
+    thinBorder: {
+      border: {
+        top: { style: 'thin', color: { rgb: '000' } },
+        bottom: { style: 'thin', color: { rgb: '000' } },
+        left: { style: 'thin', color: { rgb: '000' } },
+        right: { style: 'thin', color: { rgb: '000' } }
+      }
+    },
+    thickBorder: {
+      border: {
+        top: { style: 'thick', color: { rgb: '000' } },
+        bottom: { style: 'thick', color: { rgb: '000' } },
+        left: { style: 'thick', color: { rgb: '000' } },
+        right: { style: 'thick', color: { rgb: '000' } }
+      }
+    }
+  };
+
   const workbook = utils.book_new();
-  // const guidelinesPage = utils.json_to_sheet([]);
+  //const guidelinesPage = utils.json_to_sheet([]);
   // const budgetPage = utils.json_to_sheet([]);
   const cipPage = utils.json_to_sheet([]);
   utils.book_append_sheet(workbook, cipPage, 'CIP');
 
   const emptyRow = { A: '' };
-  const cipSystemName = [{ A: 'System Name', B: '', C: state.currentWaterSystem.joinSystemName }];
+  const cipSystemName = [
+    [
+      { v: 'System Name' },
+      { v: state.currentWaterSystem.joinSystemName, s: { ...styles.fillYellow } }
+    ]
+  ];
   const cipSystemDetails = [
-    { A: 'Date', B: '', C: new Date() },
-    { A: 'System ID No.', B: '', C: state.currentWaterSystem.joinSystemPWSID },
-    { A: 'Service Connections', B: '', C: state.consolidationCostParams.connections }
+    [
+      { v: 'Date:' },
+      { v: new Date().toLocaleString(), s: { ...styles.fillYellow, ...styles.thinBorder } }
+    ],
+    [
+      { v: 'System ID No.:' },
+      {
+        v: state.currentWaterSystem.joinSystemPWSID,
+        s: { ...styles.fillYellow, ...styles.thinBorder }
+      }
+    ],
+    [
+      { v: 'Connections:' },
+      {
+        v: state.consolidationCostParams.connections,
+        s: { ...styles.fillYellow, ...styles.thinBorder }
+      }
+    ]
   ];
   const cipColumnHeaders = [
-    {
-      A: 'QTY',
-      B: 'COMPONENT',
-      C: 'UNIT COST',
-      D: 'INSTALLED COST',
-      E: 'AVG LIFE (YEARS)',
-      F: 'ANNUAL RESERVE',
-      G: 'MONTHLY RESERVE',
-      H: 'MONTHLY RESERVE PER CUSTOMER'
-    }
+    [
+      { v: 'QTY' },
+      { v: '' },
+      { v: 'COMPONENT' },
+      { v: '' },
+      { v: '' },
+      { v: '' },
+      { v: 'UNIT COST' },
+      { v: 'INSTALLED COST' },
+      { v: 'AVG LIFE (YEARS)' },
+      { v: 'ANNUAL RESERVE' },
+      { v: 'MONTHLY RESERVE' },
+      { v: 'MONTHLY RESERVE PER CUSTOMER' }
+    ]
   ];
 
   const getColumnTotal = (componentsArray: any[], columnName: string) => {
@@ -37,36 +87,73 @@ export const handleExcelExport = (state: any) => {
 
   const getRows = (type: 'new' | 'existing') => {
     if (state[`${type}Components`].length) {
-      return state[`${type}Components`].map((component: any) => ({
-        A: '1',
-        B: component.component,
-        C: formatToUSD(component.unitCost),
-        D: formatToUSD(component.unitCost * 1),
-        E: component.avgLife,
-        F: formatToUSD(component.annualReserve),
-        G: formatToUSD(component.monthlyReserve),
-        H: formatToUSD(component.monthlyReserve / state.consolidationCostParams.connections)
-      }));
+      return state[`${type}Components`].map((component: any) => [
+        { v: '1', s: { ...styles.fillYellow, ...styles.thinBorder } },
+        { v: '' },
+        { v: component.component, s: { ...styles.fillYellow, ...styles.thinBorder } },
+        { v: '' },
+        { v: '' },
+        { v: '' },
+        {
+          v: formatToUSD(component.unitCost),
+          s: { ...styles.fillYellow, ...styles.thinBorder }
+        },
+        {
+          v: formatToUSD(component.unitCost * 1),
+          s: { ...styles.thinBorder }
+        },
+        {
+          v: component.avgLife,
+          s: { ...styles.fillYellow, ...styles.thinBorder }
+        },
+        {
+          v: formatToUSD(component.annualReserve),
+          s: { ...styles.thinBorder }
+        },
+        { v: formatToUSD(component.monthlyReserve), s: { ...styles.thinBorder } },
+        {
+          v: formatToUSD(component.monthlyReserve / state.consolidationCostParams.connections),
+          s: { ...styles.thinBorder }
+        }
+      ]);
     }
     return [{ A: 'No Data' }];
   };
 
-  const componentSubtotals = (type: 'new' | 'existing') => {
+  const componentSubtotalsRow = (type: 'new' | 'existing') => {
     const componentsArray = state[`${type}Components`];
-
-    return {
-      A: '',
-      B: `SUBTOTAL ${type} CIP Costs`,
-      C: '',
-      D: formatToUSD(getColumnTotal(componentsArray, 'unitCost')),
-      E: '',
-      F: formatToUSD(getColumnTotal(componentsArray, 'annualReserve')),
-      G: formatToUSD(getColumnTotal(componentsArray, 'monthlyReserve')),
-      H: formatToUSD(
-        getColumnTotal(componentsArray, 'monthlyReserve') /
-          state.consolidationCostParams.connections
-      )
-    };
+    return [
+      { v: '', s: { ...styles.thickBorder } },
+      {
+        v: `SUBTOTAL ${startCase(type)} CIP Costs`,
+        s: { ...styles.thickBorder, ...styles.boldText }
+      },
+      { v: '', s: { ...styles.thickBorder } },
+      { v: '', s: { ...styles.thickBorder } },
+      { v: '', s: { ...styles.thickBorder } },
+      { v: '', s: { ...styles.thickBorder } },
+      { v: '', s: { ...styles.thickBorder } },
+      {
+        v: formatToUSD(getColumnTotal(componentsArray, 'unitCost')),
+        s: { ...styles.thickBorder }
+      },
+      { v: '', s: { ...styles.thickBorder } },
+      {
+        v: formatToUSD(getColumnTotal(componentsArray, 'annualReserve')),
+        s: { ...styles.thickBorder, ...styles.fillOrange }
+      },
+      {
+        v: formatToUSD(getColumnTotal(componentsArray, 'monthlyReserve')),
+        s: { ...styles.thickBorder }
+      },
+      {
+        v: formatToUSD(
+          getColumnTotal(componentsArray, 'monthlyReserve') /
+            state.consolidationCostParams.connections
+        ),
+        s: { ...styles.thickBorder }
+      }
+    ];
   };
 
   const totalExistingAndNew = () => {
@@ -118,6 +205,16 @@ export const handleExcelExport = (state: any) => {
   utils.sheet_add_json(cipPage, cipSystemName, { skipHeader: true, origin: 'B5' });
   utils.sheet_add_json(cipPage, cipSystemDetails, { skipHeader: true, origin: 'G3' });
 
+  let cipCellMerges = [
+    //header
+    { s: { r: 1, c: 1 }, e: { r: 1, c: 5 } }, //page title
+    { s: { r: 4, c: 2 }, e: { r: 4, c: 5 } }, //system name
+    { s: { r: 2, c: 7 }, e: { r: 2, c: 9 } }, //date
+    { s: { r: 3, c: 7 }, e: { r: 3, c: 9 } }, //system no.
+    { s: { r: 4, c: 7 }, e: { r: 4, c: 9 } } //connections
+  ];
+  cipPage['!merges'] = cipCellMerges;
+
   //EXISTING COMPONENTS TABLE
   utils.sheet_add_json(cipPage, [{ A: 'EXISTING Project CIP Costs' }], {
     skipHeader: true,
@@ -125,8 +222,15 @@ export const handleExcelExport = (state: any) => {
   });
   utils.sheet_add_json(cipPage, cipColumnHeaders, { skipHeader: true, origin: -1 });
   utils.sheet_add_json(cipPage, getRows('existing'), { skipHeader: true, origin: -1 });
-  utils.sheet_add_json(cipPage, [componentSubtotals('existing')], { skipHeader: true, origin: -1 });
-
+  utils.sheet_add_json(cipPage, [componentSubtotalsRow('existing')], {
+    skipHeader: true,
+    origin: -1
+  });
+  cipCellMerges = [
+    ...cipCellMerges,
+    //EXISTING subtotals
+    { s: { r: -1, c: 1 }, e: { r: -1, c: 5 } } //page title
+  ];
   //NEW COMPONENTS TABLE
   utils.sheet_add_json(cipPage, [emptyRow], { skipHeader: true, origin: -1 });
   utils.sheet_add_json(cipPage, [{ A: 'NEW Project CIP Costs' }], {
@@ -134,7 +238,7 @@ export const handleExcelExport = (state: any) => {
     origin: -1
   });
   utils.sheet_add_json(cipPage, getRows('new'), { skipHeader: true, origin: -1 });
-  utils.sheet_add_json(cipPage, [componentSubtotals('new')], { skipHeader: true, origin: -1 });
+  utils.sheet_add_json(cipPage, [componentSubtotalsRow('new')], { skipHeader: true, origin: -1 });
 
   //NEW AND EXISTING TOTALS
   utils.sheet_add_json(cipPage, [emptyRow], { skipHeader: true, origin: -1 });
@@ -145,6 +249,17 @@ export const handleExcelExport = (state: any) => {
 
   // utils.book_append_sheet(workbook, guidelinesPage, 'GUIDELINES');
   // utils.book_append_sheet(workbook, budgetPage, '5-Year Budget');
+
+  const row = [
+    { v: 'Courier: 24', t: 's', s: { font: { name: 'Courier', sz: 24 } } },
+    { v: 'bold & color', t: 's', s: { font: { bold: true, color: { rgb: 'FF0000' } } } },
+    { v: 'fill: color', t: 's', s: { fill: { fgColor: { rgb: 'E9E9E9' } } } },
+    { v: 'line\nbreak', t: 's', s: { alignment: { wrapText: true } } }
+  ];
+
+  // STEP 3: Create worksheet with rows; Add worksheet to workbook
+  const guidelinesPage = utils.aoa_to_sheet([row]);
+  utils.book_append_sheet(workbook, guidelinesPage, 'readme demo');
 
   //CREATE EXCEL FILE
   writeFile(workbook, 'test_excel.xlsx');
