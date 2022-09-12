@@ -315,5 +315,11 @@ export const getSystemComponentValues = ({
     avgLife: 20,
     uid: Math.random()
   });
+
+  systemComponents.forEach((component) => {
+    component.annualReserve = component.unitCost / component.avgLife;
+    component.monthlyReserve = component.unitCost / component.avgLife / 12;
+  });
+
   return systemComponents;
 };
