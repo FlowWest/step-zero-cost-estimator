@@ -30,8 +30,22 @@ export const handleExcelExport = (state: any) => {
   };
 
   const workbook = utils.book_new();
+
+  //=============================================
+  //GUIDELINES - SHEET 1
+  //=============================================
   //const guidelinesPage = utils.json_to_sheet([]);
+  // utils.book_append_sheet(workbook, guidelinesPage, 'GUIDELINES');
+
+  //=============================================
+  //5-YEAR BUDGET - SHEET 2
+  //=============================================
   // const budgetPage = utils.json_to_sheet([]);
+  // utils.book_append_sheet(workbook, budgetPage, '5-Year Budget');
+
+  //=============================================
+  //CIP - SHEET 3
+  //=============================================
   const cipPage = utils.json_to_sheet([]);
   utils.book_append_sheet(workbook, cipPage, 'CIP');
 
@@ -65,7 +79,6 @@ export const handleExcelExport = (state: any) => {
   const cipColumnHeaders = [
     [
       { v: 'QTY' },
-      { v: '' },
       { v: 'COMPONENT' },
       { v: '' },
       { v: '' },
@@ -89,7 +102,6 @@ export const handleExcelExport = (state: any) => {
     if (state[`${type}Components`].length) {
       return state[`${type}Components`].map((component: any) => [
         { v: '1', s: { ...styles.fillYellow, ...styles.thinBorder } },
-        { v: '' },
         { v: component.component, s: { ...styles.fillYellow, ...styles.thinBorder } },
         { v: '' },
         { v: '' },
@@ -158,7 +170,6 @@ export const handleExcelExport = (state: any) => {
 
   const totalExistingAndNew = () => {
     const totalCostValues = [...state.existingComponents, ...state.newComponents];
-    console.log('🚀 ~ totalExistingAndNew ~ totalCostValues', totalCostValues);
     const updatedCostValues = totalCostValues.reduce(
       (previousValue, currentValue) => {
         return {
@@ -176,7 +187,6 @@ export const handleExcelExport = (state: any) => {
         monthlyReservePerCustomer: 0
       }
     );
-    console.log('🚀 ~ totalExistingAndNew ~ updatedCostValues', updatedCostValues);
 
     if (totalCostValues.length) {
       return {
@@ -192,10 +202,6 @@ export const handleExcelExport = (state: any) => {
     }
     return null;
   };
-
-  //=============================================
-  //CIP - SHEET 3
-  //=============================================
 
   //WATER SYSTEM DETAILS
   utils.sheet_add_json(cipPage, [{ A: 'SIMPLIFIED CAPITAL IMPROVEMENT PLAN (CIP)' }], {
@@ -231,6 +237,7 @@ export const handleExcelExport = (state: any) => {
     //EXISTING subtotals
     { s: { r: -1, c: 1 }, e: { r: -1, c: 5 } } //page title
   ];
+
   //NEW COMPONENTS TABLE
   utils.sheet_add_json(cipPage, [emptyRow], { skipHeader: true, origin: -1 });
   utils.sheet_add_json(cipPage, [{ A: 'NEW Project CIP Costs' }], {
@@ -247,13 +254,14 @@ export const handleExcelExport = (state: any) => {
     origin: -1
   });
 
-  // utils.book_append_sheet(workbook, guidelinesPage, 'GUIDELINES');
-  // utils.book_append_sheet(workbook, budgetPage, '5-Year Budget');
-
   const row = [
     { v: 'Courier: 24', t: 's', s: { font: { name: 'Courier', sz: 24 } } },
     { v: 'bold & color', t: 's', s: { font: { bold: true, color: { rgb: 'FF0000' } } } },
-    { v: 'fill: color', t: 's', s: { fill: { fgColor: { rgb: 'E9E9E9' } } } },
+    {
+      v: 'fill: color in advamce long sentence',
+      t: 'z',
+      s: { fill: { fgColor: { rgb: 'E9E9E9' } } }
+    },
     { v: 'line\nbreak', t: 's', s: { alignment: { wrapText: true } } }
   ];
 
