@@ -5,6 +5,9 @@ import { formatToUSD } from '../../../util';
 export const handleExcelExport = (state: any) => {
   const styles = {
     boldText: { font: { bold: true } },
+    smallText: { font: { sz: 8 } },
+    defaultText: { font: { sz: 12 } },
+    largeText: { font: { sz: 18 } },
     fillYellow: {
       fill: { fgColor: { rgb: 'fafa6b' } }
     },
@@ -52,43 +55,54 @@ export const handleExcelExport = (state: any) => {
   const emptyRow = { A: '' };
   const cipSystemName = [
     [
-      { v: 'System Name' },
-      { v: state.currentWaterSystem.joinSystemName, s: { ...styles.fillYellow } }
+      { v: 'System Name', s: styles.defaultText },
+      {
+        v: state.currentWaterSystem.joinSystemName,
+        s: { ...styles.fillYellow, ...styles.defaultText }
+      }
     ]
   ];
   const cipSystemDetails = [
     [
       { v: 'Date:' },
-      { v: new Date().toLocaleString(), s: { ...styles.fillYellow, ...styles.thinBorder } }
+      {
+        v: new Date().toLocaleString(),
+        s: {
+          ...styles.fillYellow,
+          ...styles.thinBorder,
+          ...styles.defaultText,
+          ...styles.defaultText
+        }
+      }
     ],
     [
       { v: 'System ID No.:' },
       {
         v: state.currentWaterSystem.joinSystemPWSID,
-        s: { ...styles.fillYellow, ...styles.thinBorder }
+        s: { ...styles.fillYellow, ...styles.thinBorder, ...styles.defaultText }
       }
     ],
     [
       { v: 'Connections:' },
       {
         v: state.consolidationCostParams.connections,
-        s: { ...styles.fillYellow, ...styles.thinBorder }
+        s: { ...styles.fillYellow, ...styles.thinBorder, ...styles.defaultText }
       }
     ]
   ];
   const cipColumnHeaders = [
     [
-      { v: 'QTY' },
-      { v: 'COMPONENT' },
-      { v: '' },
-      { v: '' },
-      { v: '' },
-      { v: 'UNIT COST' },
-      { v: 'INSTALLED COST' },
-      { v: 'AVG LIFE (YEARS)' },
-      { v: 'ANNUAL RESERVE' },
-      { v: 'MONTHLY RESERVE' },
-      { v: 'MONTHLY RESERVE PER CUSTOMER' }
+      { v: 'QTY', s: { ...styles.defaultText } },
+      { v: 'COMPONENT', s: { ...styles.defaultText } },
+      { v: '', s: { ...styles.defaultText } },
+      { v: '', s: { ...styles.defaultText } },
+      { v: '', s: { ...styles.defaultText } },
+      { v: 'UNIT COST', s: { ...styles.defaultText } },
+      { v: 'INSTALLED COST', s: { ...styles.defaultText } },
+      { v: 'AVG LIFE (YEARS)', s: { ...styles.defaultText } },
+      { v: 'ANNUAL RESERVE', s: { ...styles.defaultText } },
+      { v: 'MONTHLY RESERVE', s: { ...styles.defaultText } },
+      { v: 'MONTHLY RESERVE PER CUSTOMER', s: { ...styles.defaultText } }
     ]
   ];
 
@@ -101,31 +115,37 @@ export const handleExcelExport = (state: any) => {
   const getRows = (type: 'new' | 'existing') => {
     if (state[`${type}Components`].length) {
       return state[`${type}Components`].map((component: any) => [
-        { v: '1', s: { ...styles.fillYellow, ...styles.thinBorder } },
-        { v: component.component, s: { ...styles.fillYellow, ...styles.thinBorder } },
+        { v: '1', s: { ...styles.fillYellow, ...styles.thinBorder, ...styles.defaultText } },
+        {
+          v: component.component,
+          s: { ...styles.fillYellow, ...styles.thinBorder, ...styles.defaultText }
+        },
         { v: '' },
         { v: '' },
         { v: '' },
         {
           v: formatToUSD(component.unitCost),
-          s: { ...styles.fillYellow, ...styles.thinBorder }
+          s: { ...styles.fillYellow, ...styles.thinBorder, ...styles.defaultText }
         },
         {
           v: formatToUSD(component.unitCost * 1),
-          s: { ...styles.thinBorder }
+          s: { ...styles.thinBorder, ...styles.defaultText }
         },
         {
           v: component.avgLife,
-          s: { ...styles.fillYellow, ...styles.thinBorder }
+          s: { ...styles.fillYellow, ...styles.thinBorder, ...styles.defaultText }
         },
         {
           v: formatToUSD(component.annualReserve),
-          s: { ...styles.thinBorder }
+          s: { ...styles.thinBorder, ...styles.defaultText }
         },
-        { v: formatToUSD(component.monthlyReserve), s: { ...styles.thinBorder } },
+        {
+          v: formatToUSD(component.monthlyReserve),
+          s: { ...styles.thinBorder, ...styles.defaultText }
+        },
         {
           v: formatToUSD(component.monthlyReserve / state.consolidationCostParams.connections),
-          s: { ...styles.thinBorder }
+          s: { ...styles.thinBorder, ...styles.defaultText }
         }
       ]);
     }
@@ -140,7 +160,6 @@ export const handleExcelExport = (state: any) => {
         v: `SUBTOTAL ${startCase(type)} CIP Costs`,
         s: { ...styles.thickBorder, ...styles.boldText }
       },
-      { v: '', s: { ...styles.thickBorder } },
       { v: '', s: { ...styles.thickBorder } },
       { v: '', s: { ...styles.thickBorder } },
       { v: '', s: { ...styles.thickBorder } },
@@ -189,25 +208,52 @@ export const handleExcelExport = (state: any) => {
     );
 
     if (totalCostValues.length) {
-      return {
-        A: '',
-        B: `TOTAL Existing and New Project CIP:`,
-        C: '',
-        D: formatToUSD(updatedCostValues.installedCost),
-        E: '',
-        F: formatToUSD(updatedCostValues.annualReserve),
-        G: formatToUSD(updatedCostValues.monthlyReserve),
-        H: formatToUSD(updatedCostValues.monthlyReservePerCustomer)
-      };
+      return [
+        { v: '', s: { ...styles.thickBorder } },
+        {
+          v: `TOTAL Existing and New Project CIv:`,
+          s: { ...styles.thickBorder, ...styles.defaultText }
+        },
+        { v: '' },
+        { v: '' },
+        { v: '' },
+        { v: '' },
+        {
+          v: formatToUSD(updatedCostValues.installedCost),
+          s: { ...styles.thickBorder, ...styles.defaultText }
+        },
+        { v: '' },
+        {
+          v: formatToUSD(updatedCostValues.annualReserve),
+          s: { ...styles.thickBorder, ...styles.defaultText }
+        },
+        {
+          v: formatToUSD(updatedCostValues.monthlyReserve),
+          s: { ...styles.thickBorder, ...styles.defaultText }
+        },
+        {
+          v: formatToUSD(updatedCostValues.monthlyReservePerCustomer),
+          s: { ...styles.thickBorder, ...styles.defaultText }
+        }
+      ];
     }
-    return null;
+    return [{ A: 'No Data' }];
   };
 
   //WATER SYSTEM DETAILS
-  utils.sheet_add_json(cipPage, [{ A: 'SIMPLIFIED CAPITAL IMPROVEMENT PLAN (CIP)' }], {
-    skipHeader: true,
-    origin: 'B2'
-  });
+  utils.sheet_add_json(
+    cipPage,
+    [
+      {
+        v: 'SIMPLIFIED CAPITAL IMPROVEMENT PLAN (CIP)',
+        s: { ...styles.largeText, ...styles.fillOrange }
+      }
+    ],
+    {
+      skipHeader: true,
+      origin: 'B2'
+    }
+  );
   utils.sheet_add_json(cipPage, cipSystemName, { skipHeader: true, origin: 'B5' });
   utils.sheet_add_json(cipPage, cipSystemDetails, { skipHeader: true, origin: 'G3' });
 
