@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text } from '@react-pdf/renderer';
-import { formatToUSD } from '../../util';
+import { formatToUSD } from '../../../util';
 
 import { sortBy } from 'lodash';
 

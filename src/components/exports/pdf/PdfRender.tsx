@@ -5,7 +5,7 @@ import Header from './Header';
 import WaterSystemDetailsPdf from './WaterSystemDetailsPdf';
 import ComponentsTable from './ComponentsTable';
 import FeesTable from './FeesTable';
-import { getConsolidationCostDetails } from '../../util/costUtil';
+import { getConsolidationCostDetails } from '../../../util/costUtil';
 // Create styles
 const styles = StyleSheet.create({
   page: {
