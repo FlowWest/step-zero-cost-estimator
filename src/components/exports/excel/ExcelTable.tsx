@@ -82,9 +82,9 @@ export const ExcelTable = (state: any) => {
   function renderSignatureAndNotes() {
     return (
       <>
-        <tr>
+        <tr id="lookAtMe">
           <td></td>
-          <td colSpan={7}>
+          <td colSpan={7} className="bold" style={{ backgroundColor: 'blue', color: 'white' }}>
             Report Prepared by (Title):
             _________________________________________________________________
           </td>
@@ -93,14 +93,14 @@ export const ExcelTable = (state: any) => {
         </tr>
         <tr>
           {renderEmptyData(2, 'cell')}
-          <td colSpan={7}>
+          <td colSpan={9}>
             NOTE: Installed costs are averages and include all materials and contracted labor and
             equipment.
           </td>
         </tr>
         {renderEmptyData(1, 'row')}
         <tr>
-          <td colSpan={13} rowSpan={5}>
+          <td colSpan={12} rowSpan={5}>
             NOTES:
           </td>
         </tr>
@@ -120,22 +120,23 @@ export const ExcelTable = (state: any) => {
           <th colSpan={4}>CAPITAL IMPROVEMENT PLAN (CIP)</th>
         </tr>
         <tr>
-          {renderEmptyData(7, 'cell')}
+          {renderEmptyData(8, 'cell')}
           <td colSpan={2}>Date:</td>
-          <td>{new Date().toLocaleString()}</td>
+          <td colSpan={2}>{new Date().toLocaleString()}</td>
         </tr>
         <tr>
-          {renderEmptyData(7, 'cell')}
+          {renderEmptyData(8, 'cell')}
           <td colSpan={2}>System ID No.:</td>
-          <td>{state?.currentWaterSystem?.joinSystemPWSID}</td>
+          <td colSpan={2}>{state?.currentWaterSystem?.joinSystemPWSID}</td>
         </tr>
         <tr>
           <td></td>
           <td colSpan={2}>System Name:</td>
-          <td colSpan={4}>{state?.currentWaterSystem?.joinSystemName}</td>
+          <td colSpan={5}>{state?.currentWaterSystem?.joinSystemName}</td>
           <td colSpan={2}>Service Connections:</td>
-          <td>{connections}</td>
+          <td colSpan={2}>{connections}</td>
         </tr>
+        {renderEmptyData(1, 'row')}
         <tr>
           {renderEmptyData(11, 'cell')}
           <td>MONTHLY</td>

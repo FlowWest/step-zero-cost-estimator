@@ -2,6 +2,38 @@ import { utils, writeFile, read } from 'xlsx-js-style';
 import axios from 'axios';
 import { ExcelTable, generateHtmlString } from './ExcelTable';
 
+const excludedKeys = ['!cols', '!ref', '!fullref', '!merges', '!rows'];
+const highlightedColumns = ['A', 'B', 'C', 'D', 'E', 'F', 'I'];
+const wsDetails = ['K2', 'K3', 'K4'];
+const excludedValues = [
+  'CAPITAL IMPROVEMENT PLAN (CIP)',
+  'System Name:',
+  'Date:',
+  'System ID No.:',
+  'Service Connections:',
+  'QTY',
+  'COMPONENT',
+  'AVG',
+  'LIFE,',
+  'YEARS',
+  'ANNUAL',
+  'RESERVE',
+  'Report Prepared by (Title): _________________________________________________________________',
+  'Date: ________________________________',
+  'NOTE: Installed costs are averages and include all materials and contracted labor and equipment.',
+  'SUBTOTAL Existing CIP Costs',
+  'SUBTOTAL New CIP Costs',
+  'TOTAL Existing and New Project CIP',
+  'NOTES:'
+];
+const defaultFont = {
+  font: {
+    color: { rgb: '000000' },
+    family: 2,
+    name: 'Arial',
+    sz: 12
+  }
+};
 export const handleExcelExport = async (state: any, templateFileNode: any) => {
   const htmlString = generateHtmlString(ExcelTable(state));
   console.log('🚀 ~ handleExcelExportV2 ~ htmlString', htmlString);
@@ -31,29 +63,54 @@ export const handleExcelExport = async (state: any, templateFileNode: any) => {
     document.body.removeChild(elt);
 
     const cipSheet = workbook.Sheets.CIP as Record<string, any>;
+    console.log('🚀 ~ handleExcelExport ~ cipSheet', cipSheet);
 
-    // cipSheet['!merges'] = [
-    //   {
-    //     s: { c: 1, r: 3 },
-    //     e: { c: 2, r: 3 }
-    //   },
-    //   {
-    //     s: { c: 3, r: 3 },
-    //     e: { c: 6, r: 3 }
-    //   }
-    // ];
+    const applyDefaultStyles = (sheet: Record<string, any>) => {
+      for (const key in sheet) {
+        if (!excludedKeys.includes(key)) {
+          sheet[key].s = defaultFont;
+        }
 
-    cipSheet.B1.s = {
-      ...cipSheet.B1.s,
-      font: {
-        color: { rgb: '000000' },
-        family: 2,
-        name: 'Arial',
-        sz: 14
+        if (
+          (highlightedColumns.includes(key.split('')[0]) &&
+            !excludedValues.includes(sheet[key].v) &&
+            sheet[key].t !== 'z') ||
+          wsDetails.includes(key)
+        ) {
+          sheet[key].s = {
+            ...defaultFont,
+            fill: addHighlight()
+            //border: addBorder()
+          };
+        }
+
+        if (
+          key.split('')[0] === 'J' &&
+          !excludedValues.includes(sheet[key].v) &&
+          sheet[key.replace('J', 'I')].t === 'z' &&
+          sheet[key.replace('J', 'B')].v !== 'TOTAL Existing and New Project CIP'
+        ) {
+          sheet[key].s = {
+            ...defaultFont,
+            fill: addHighlight('orange'),
+            border: addBorder()
+          };
+        }
+
+        if (key.split('')[0] === 'A' && sheet[key].v === 'NOTES:') {
+          sheet[key].s = {
+            ...defaultFont,
+            //border: addBorder(),
+            alignment: {
+              vertical: 'top',
+              horizontal: 'left'
+            }
+          };
+        }
       }
     };
-    console.log('wb', workbook);
-    addSystemNameStyling(cipSheet);
+    applyDefaultStyles(cipSheet);
+
     console.log('wb', workbook);
     writeFile(workbook, `swsbudgetcalculator_${new Date().toLocaleDateString()}.xlsx`);
   } catch (error) {
@@ -61,38 +118,26 @@ export const handleExcelExport = async (state: any, templateFileNode: any) => {
   }
 };
 
-const addHighlight = () => {
+function addHighlight(color: 'orange' | 'yellow' = 'yellow') {
+  if (color === 'orange') {
+    return {
+      bgColor: { rgb: 'FFBB99' },
+      fgColor: { rgb: 'FFBB00' },
+      patternType: 'solid'
+    };
+  }
   return {
     bgColor: { rgb: 'FFFF99' },
     fgColor: { rgb: 'FFFF00' },
     patternType: 'solid'
   };
-};
+}
 
-const addBorder = () => {
+function addBorder() {
   return {
     top: { style: 'thin' },
     bottom: { style: 'thin' },
     left: { style: 'thin' },
     right: { style: 'thin' }
   };
-};
-
-const addSystemNameStyling = (cipSheet: any) => {
-  const cells = ['D4', 'E4', 'F4', 'G4'];
-  cells.forEach((cell) => {
-    if (cipSheet[cell]) {
-      cipSheet[cell].s = {
-        fill: addHighlight(),
-        border: addBorder()
-      };
-    } else {
-      cipSheet[cell] = {
-        s: {
-          fill: addHighlight(),
-          border: addBorder()
-        }
-      };
-    }
-  });
-};
+}
