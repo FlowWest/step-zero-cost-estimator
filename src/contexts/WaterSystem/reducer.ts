@@ -29,7 +29,7 @@ export const initialState = {
     total: 0
   },
   systemComponents: []
-};
+} as any;
 
 export const reducer = (state: WaterSystemState, action: WaterSystemAction): WaterSystemState => {
   switch (action.type) {

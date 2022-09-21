@@ -68,14 +68,16 @@ const CostComparisonSummary = ({
 
   const consolidationCostsArray = [
     consolidationCostDetails.total,
-    consolidationCostDetails.totalCostPerConnection
+    consolidationCostDetails.totalCostPerConnection,
+    0
   ];
 
   const cipCostsArray = [
     cipCostData.total,
-    cipCostData.total / consolidationCostParams.connections
+    cipCostData.total / consolidationCostParams.connections,
+    0
   ];
-  const categoriesArray = ['Total', 'Cost per Connection'];
+  const categoriesArray = ['Total', 'Cost per Connection', 'Water Rates'];
 
   return (
     <>

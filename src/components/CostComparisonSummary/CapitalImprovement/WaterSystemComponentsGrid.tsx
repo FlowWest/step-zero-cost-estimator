@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Grid, Typography, Divider } from '@mui/material';
-import ComponentDataGrid from './ComponentDataGrid';
-import TotalCIPDataGrid from './TotalCIPDataGrid';
+import ComponentDataGrid from './SystemComponents/ComponentDataGrid';
+import TotalCIPDataGrid from './SystemComponents/TotalCIPDataGrid';
 import WarningMessage from '../../uiComponents/WarningMessage';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import ExportButtonGroup from '../../uiComponents/ExportButtonGroup';

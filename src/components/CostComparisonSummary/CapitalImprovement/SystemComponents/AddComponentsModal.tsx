@@ -14,9 +14,9 @@ import { Close } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import TransferList from './TransferList';
 import ModalAutocomplete from './ModalAutocomplete';
-import { WaterSystemContext } from '../../../contexts/WaterSystem';
-import { updateComponents } from '../../../contexts/WaterSystem/actions';
-import { getSystemComponentValues } from '../../../util/costUtil';
+import { WaterSystemContext } from '../../../../contexts/WaterSystem';
+import { updateComponents } from '../../../../contexts/WaterSystem/actions';
+import { getSystemComponentValues } from '../../../../util/costUtil';
 
 const useStyles = makeStyles((theme: Theme) => ({
   modal: {
