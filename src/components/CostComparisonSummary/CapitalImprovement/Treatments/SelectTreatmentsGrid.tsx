@@ -7,35 +7,13 @@ const columns: GridColDef[] = [
   { field: 'contaminant', headerName: 'Contaminant/Violation', flex: 1 }
 ];
 
-export const treatmentOptions = [
-  {
-    id: 1,
-    code: 'GAC',
-    treatment: 'Granular Activated Carbon',
-    contaminant: 'Organic Contaminants, Total Organic Carbon'
-  },
-  { id: 2, code: 'AX', treatment: 'Anion Exchange', contaminant: 'Nitrate' },
-  { id: 3, code: 'CX', treatment: 'Cation Exchange', contaminant: 'Radium' },
-  {
-    id: 4,
-    code: 'IX',
-    treatment: 'Ion Exchange',
-    contaminant: ' Uranium, Gross Alpha as a result of Uranium, and Perchlorate'
-  },
-  { id: 5, code: 'AD', treatment: 'Adsorption', contaminant: 'Arsenic' },
-  { id: 6, code: 'CF', treatment: 'Coagulation Filtration', contaminant: 'Arsenic' },
-  { id: 7, code: 'F', treatment: 'Filtration', contaminant: 'Iron and Manganese' },
-  { id: 8, code: 'AA', treatment: 'Activated Alumina', contaminant: 'Fluoride' },
-  {
-    id: 9,
-    code: 'SWPP',
-    treatment: 'Surface Water Package Plant',
-    contaminant: null
-  },
-  { id: 10, code: '4LVI', treatment: '4-Log Virus Inactivation', contaminant: null }
-] as Array<any>;
-
-const SelectTreatmentsGrid = ({ setSelectedTreatments }: { setSelectedTreatments: any }) => {
+const SelectTreatmentsGrid = ({
+  treatmentOptions,
+  setSelectedTreatments
+}: {
+  treatmentOptions: Array<any>;
+  setSelectedTreatments: any;
+}) => {
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
 
   const handleRowSelectionChange = (newSelectionModel: GridSelectionModel) => {
@@ -53,6 +31,7 @@ const SelectTreatmentsGrid = ({ setSelectedTreatments }: { setSelectedTreatments
     <div style={{ height: 400 }}>
       <DataGrid
         rows={treatmentOptions}
+        getRowId={(row) => row.uid}
         columns={columns}
         checkboxSelection
         hideFooter

@@ -1,5 +1,6 @@
 import { ConsolidationCostDetails } from './interfaces';
 import { WaterSystem } from './interfaces';
+import { inRange } from 'lodash';
 
 const setCostVariables = {
   distanceBuffer: 1000,
@@ -195,6 +196,10 @@ export const getConsolidationCostDetails = ({
   return costBreakdown;
 };
 
+export const getMDD = (joinPopulation: any) => {
+  return (parseInt(joinPopulation) * 150 * 2.25) / 1440;
+};
+
 export const getComponentAdjustedCost = (basePrice: number, multipliers: Array<number>) => {
   // iterate over all multipliers
   // start at base price and add adjustment cost for each multiplier
@@ -253,7 +258,7 @@ export const getSystemComponentValues = ({
 
   // (population * 150gpd * 2.25peaking factor) / 1440 minutes
   // gpm
-  const maximumDailyDemand = (parseInt(joinPopulation) * 150 * 2.25) / 1440;
+  const maximumDailyDemand = getMDD(joinPopulation);
   const {
     sounderBaseCost,
     generatorBaseCost,
@@ -322,4 +327,211 @@ export const getSystemComponentValues = ({
   });
 
   return systemComponents;
+};
+
+export const getTreatmentOptionsValues = ({
+  waterSystemDetails,
+  consolidationCostParams
+}: {
+  waterSystemDetails: any;
+  consolidationCostParams: any;
+}) => {
+  if (!waterSystemDetails) {
+    return [];
+  }
+  const { joinCounty, joinPopulation } = waterSystemDetails || {};
+  const { connections } = consolidationCostParams || {};
+  // (population * 150gpd * 2.25peaking factor) / 1440 minutes
+  // gpm
+  const maximumDailyDemand = getMDD(joinPopulation);
+  let treatmentOptions = [] as Array<any>;
+
+  //GAC
+  //The vendor-supplied estimates were averaged by vessel size
+  //and translated to an installed cost using an engineering multiplier of approximately 2.36x equipment cost.
+  let gacEquipmentCost = 0;
+  if (maximumDailyDemand <= 250) {
+    gacEquipmentCost = 437000;
+  } else if (maximumDailyDemand <= 425) {
+    gacEquipmentCost = 536000;
+  } else if (maximumDailyDemand <= 875) {
+    gacEquipmentCost = 745000;
+  } else if (maximumDailyDemand <= 1750) {
+    gacEquipmentCost = 1490000;
+  }
+  gacEquipmentCost *= 2.36;
+
+  treatmentOptions.push({
+    uid: 1,
+    code: 'GAC',
+    treatment: 'Granular Activated Carbon',
+    contaminant: 'Organic Contaminants, Total Organic Carbon',
+    capitalCost: gacEquipmentCost,
+    operationalCost: (38000 / 1000) * 0.28 // These costs were normalized to a standard production cost equivalent to $0.28/1,000 gallons of water produced.
+  });
+
+  let axEquipmentCost = 0;
+  if (maximumDailyDemand <= 125) {
+    axEquipmentCost = 764000;
+  } else if (maximumDailyDemand <= 275) {
+    axEquipmentCost = 1118000;
+  } else if (maximumDailyDemand <= 400) {
+    axEquipmentCost = 1370000;
+  } else if (maximumDailyDemand <= 550) {
+    axEquipmentCost = 1656000;
+  } else if (maximumDailyDemand <= 700) {
+    axEquipmentCost = 2045000;
+  } else if (maximumDailyDemand <= 850) {
+    axEquipmentCost = 2753000;
+  } else if (maximumDailyDemand <= 1000) {
+    axEquipmentCost = 2972000;
+  }
+
+  treatmentOptions.push({
+    uid: 2,
+    code: 'AX',
+    treatment: 'Anion Exchange',
+    contaminant: 'Nitrate',
+    capitalCost: axEquipmentCost,
+    operationalCost: undefined
+  });
+
+  treatmentOptions.push({
+    uid: 3,
+    code: 'CX',
+    treatment: 'Cation Exchange',
+    contaminant: 'Radium',
+    capitalCost: axEquipmentCost,
+    operationalCost: undefined
+  });
+
+  let ixEquipmentCost = 0;
+  if (maximumDailyDemand <= 101) {
+    ixEquipmentCost = 357000;
+  } else if (maximumDailyDemand <= 225) {
+    ixEquipmentCost = 538000;
+  } else if (maximumDailyDemand <= 401) {
+    ixEquipmentCost = 713000;
+  } else if (maximumDailyDemand <= 627) {
+    ixEquipmentCost = 926000;
+  } else if (maximumDailyDemand <= 1256) {
+    ixEquipmentCost = 1852000;
+  }
+
+  treatmentOptions.push({
+    uid: 4,
+    code: 'IX',
+    treatment: 'Ion Exchange',
+    contaminant: 'Uranium, Gross Alpha as a result of Uranium, and Perchlorate',
+    capitalCost: ixEquipmentCost,
+    operationalCost: (100000 / 1000) * 0.56 // . A review of service supplier cost estimates for these services resulted in a unit cost of $0.56/kgal of water produced for uranium and $0.10/kgal for perchlorate, with the primary difference being the disposal and handling of the uranium laden waste This unit cost assumes a throughput of approximately 100,000 BV prior to replacement resin and reflects the cost for replacement, disposal, and associated services
+  });
+
+  let adEquipmentCost = 0;
+  if (maximumDailyDemand <= 250) {
+    adEquipmentCost = 437000;
+  } else if (maximumDailyDemand <= 425) {
+    adEquipmentCost = 536000;
+  } else if (maximumDailyDemand <= 875) {
+    adEquipmentCost = 745000;
+  }
+
+  treatmentOptions.push({
+    uid: 5,
+    code: 'AD',
+    treatment: 'Adsorption',
+    contaminant: 'Arsenic',
+    capitalCost: adEquipmentCost,
+    operationalCost: undefined
+  });
+
+  // Figure C3.3 ~= 1,000,000 + (gpm*1000)
+  let cfEquipmentCost = 1000000 + maximumDailyDemand * 1000;
+
+  treatmentOptions.push({
+    uid: 6,
+    code: 'CF',
+    treatment: 'Coagulation Filtration',
+    contaminant: 'Arsenic',
+    capitalCost: cfEquipmentCost,
+    operationalCost: undefined
+  });
+
+  // Figure C3.4 ~= 1,000,000 + (gpm*1000)
+  let filtrationEquipmentCost = 1000000 + maximumDailyDemand * 1000;
+
+  treatmentOptions.push({
+    uid: 7,
+    code: 'F',
+    treatment: 'Filtration',
+    contaminant: 'Iron and Manganese',
+    capitalCost: filtrationEquipmentCost,
+    operationalCost: undefined
+  });
+
+  let aaEquipmentCost = 0;
+  if (maximumDailyDemand <= 250) {
+    aaEquipmentCost = 833000;
+  } else if (maximumDailyDemand <= 425) {
+    aaEquipmentCost = 949000;
+  } else if (maximumDailyDemand <= 675) {
+    aaEquipmentCost = 1029000;
+  } else if (maximumDailyDemand <= 900) {
+    aaEquipmentCost = 1199000;
+  }
+
+  treatmentOptions.push({
+    uid: 8,
+    code: 'AA',
+    treatment: 'Activated Alumina',
+    contaminant: 'Fluoride',
+    capitalCost: aaEquipmentCost,
+    operationalCost: undefined
+  });
+
+  let swppEquipmentCost = 0;
+  if (maximumDailyDemand <= 175) {
+    swppEquipmentCost = 703000;
+  } else if (maximumDailyDemand <= 300) {
+    swppEquipmentCost = 983000;
+  } else if (maximumDailyDemand <= 700) {
+    swppEquipmentCost = 1461000;
+  } else if (maximumDailyDemand <= 1400) {
+    swppEquipmentCost = 1951000;
+  } else if (maximumDailyDemand <= 2100) {
+    swppEquipmentCost = 3012000;
+  }
+
+  treatmentOptions.push({
+    uid: 9,
+    code: 'SWPP',
+    treatment: 'Surface Water Package Plant',
+    contaminant: null,
+    capitalCost: swppEquipmentCost,
+    operationalCost: undefined
+  });
+
+  let fourLVIEquipmentCost = 0;
+  if (maximumDailyDemand <= 175) {
+    fourLVIEquipmentCost = 23000;
+  } else if (maximumDailyDemand <= 300) {
+    fourLVIEquipmentCost = 38000;
+  } else if (maximumDailyDemand <= 700) {
+    fourLVIEquipmentCost = 196000;
+  } else if (maximumDailyDemand <= 1400) {
+    fourLVIEquipmentCost = 416000;
+  } else if (maximumDailyDemand <= 2100) {
+    fourLVIEquipmentCost = 627000;
+  }
+
+  treatmentOptions.push({
+    uid: 10,
+    code: '4LVI',
+    treatment: '4-Log Virus Inactivation',
+    contaminant: null,
+    capitalCost: fourLVIEquipmentCost,
+    operationalCost: undefined
+  });
+
+  return treatmentOptions;
 };

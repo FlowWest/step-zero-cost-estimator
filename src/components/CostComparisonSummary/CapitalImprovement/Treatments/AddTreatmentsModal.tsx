@@ -14,6 +14,7 @@ import { Close } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import { WaterSystemContext } from '../../../../contexts/WaterSystem';
 import SelectTreatmentsGrid from './SelectTreatmentsGrid';
+import { getTreatmentOptionsValues } from '../../../../util/costUtil';
 
 const useStyles = makeStyles((theme: Theme) => ({
   modal: {
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    // width: '850px',
+    width: '950px',
     padding: '0 2rem 2rem 2rem',
     background: theme.palette.background.default,
     display: 'flex',
@@ -52,10 +53,21 @@ const useStyles = makeStyles((theme: Theme) => ({
 const AddTreatmentsModal = ({ open, handleClose }: { open: boolean; handleClose: Function }) => {
   const classes = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext) as Array<any>;
-  const [selectedTreatments, setSelectedTreatments] = useState([]);
+  const [treatmentOptions, setTreatmentOptions] = useState([] as Array<any>);
+  const [selectedTreatments, setSelectedTreatments] = useState([] as Array<any>);
+
+  useEffect(() => {
+    const treatmentOptionsValues = getTreatmentOptionsValues({
+      waterSystemDetails: state.currentWaterSystem,
+      consolidationCostParams: state.consolidationCostParams
+    });
+    console.log('tov', treatmentOptionsValues);
+    setTreatmentOptions(treatmentOptionsValues);
+  }, [state]);
 
   const handleSubmit = () => {
     console.log('st', selectedTreatments);
+    console.log('state', state);
     handleClose();
   };
 
@@ -95,7 +107,10 @@ const AddTreatmentsModal = ({ open, handleClose }: { open: boolean; handleClose:
         </DialogTitle>
         <Divider style={{ width: '100%' }} />
         <Box className={classes.treatmentGridContainer}>
-          <SelectTreatmentsGrid setSelectedTreatments={setSelectedTreatments} />
+          <SelectTreatmentsGrid
+            treatmentOptions={treatmentOptions}
+            setSelectedTreatments={setSelectedTreatments}
+          />
         </Box>
         <Stack direction="row" spacing={2}>
           <Button
