@@ -15,6 +15,7 @@ import { makeStyles } from '@mui/styles';
 import { WaterSystemContext } from '../../../../contexts/WaterSystem';
 import SelectTreatmentsGrid from './SelectTreatmentsGrid';
 import { getTreatmentOptionsValues } from '../../../../util/costUtil';
+import { updateSelectedTreatments } from '../../../../contexts/WaterSystem/actions';
 
 const useStyles = makeStyles((theme: Theme) => ({
   modal: {
@@ -61,13 +62,11 @@ const AddTreatmentsModal = ({ open, handleClose }: { open: boolean; handleClose:
       waterSystemDetails: state.currentWaterSystem,
       consolidationCostParams: state.consolidationCostParams
     });
-    console.log('tov', treatmentOptionsValues);
     setTreatmentOptions(treatmentOptionsValues);
   }, [state]);
 
   const handleSubmit = () => {
-    console.log('st', selectedTreatments);
-    console.log('state', state);
+    dispatch(updateSelectedTreatments(selectedTreatments));
     handleClose();
   };
 

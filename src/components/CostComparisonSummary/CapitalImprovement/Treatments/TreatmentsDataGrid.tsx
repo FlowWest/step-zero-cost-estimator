@@ -73,55 +73,52 @@ const sortComparator = (
     return sort === 'asc' ? -1 : 1;
   }
 
-  if (typeof v1 === 'string') {
+  if (typeof v1 === 'string' || v1 === undefined || v1 === null) {
     return gridStringOrNumberComparator(v1, v2, params1, params2);
   }
 
-  if (typeof v1 === 'number') {
+  if (typeof v1 === 'number' || v1 === undefined || v1 === null) {
     return gridNumberComparator(v1, v2, params1, params2);
   }
 
   return v1 - v2;
 };
 
-const ComponentDataGrid = ({
+const TreatmentsDataGrid = ({
   rows,
-  openAddComponents,
-  connections,
-  setTotalCostValues
+  openAddTreatments
 }: {
   rows: Array<any>;
-  openAddComponents: Function;
-  connections: number;
-  setTotalCostValues: Function;
+  openAddTreatments: Function;
 }) => {
+  console.log('rows', rows);
   const classes = useStyles();
   const columns: GridColDef[] = [
     {
-      field: 'quantity',
-      headerName: 'Quantity',
+      field: 'contaminant',
+      headerName: 'Contaminant',
       editable: true,
       flex: 1,
-      type: 'number',
       headerAlign: 'right',
       sortComparator: sortComparator,
       valueGetter: (params) => {
         if (params.getValue(params.id, 'component') === 'Total') {
-          return null;
+          return 'Total';
         }
-        return params.value || 1;
+        return params.value;
       }
     },
     {
-      field: 'component',
-      headerName: 'Component',
-      flex: 3,
-      cellClassName: classes.nonEditableCell,
+      field: 'treatment',
+      headerName: 'Treatment',
+      editable: true,
+      flex: 1,
+      headerAlign: 'right',
       sortComparator: sortComparator
     },
     {
-      field: 'unitCost',
-      headerName: 'Unit Cost',
+      field: 'capitalCost',
+      headerName: 'Capital Cost',
       editable: true,
       flex: 1.5,
       type: 'number',
@@ -129,8 +126,15 @@ const ComponentDataGrid = ({
       sortComparator: sortComparator,
       valueGetter: (params) => {
         if (params.getValue(params.id, 'component') === 'Total') {
-          return null;
+          const allRowIds = params.api.getAllRowIds();
+          const treatmentRows = allRowIds.slice(0, allRowIds.length - 1);
+
+          const total = treatmentRows.reduce((currentTotal: number, rowId: number) => {
+            return (currentTotal += params.getValue(rowId, 'capitalCost') || 0);
+          }, 0);
+          return total;
         }
+
         return params.value;
       },
       valueFormatter: (params) => {
@@ -140,98 +144,31 @@ const ComponentDataGrid = ({
       }
     },
     {
-      field: 'installedCost',
-      headerName: 'Installed Cost',
-      flex: 1.5,
-      type: 'number',
-      headerAlign: 'right',
-      cellClassName: classes.nonEditableCell,
-      sortComparator: sortComparator,
-      valueGetter: (params) => {
-        if (params.getValue(params.id, 'component') === 'Total') {
-          const allRowIds = params.api.getAllRowIds();
-          const componentRows = allRowIds.slice(0, allRowIds.length - 1);
-          const total = componentRows.reduce((currentTotal: number, rowId: number) => {
-            return (currentTotal += params.getValue(rowId, 'installedCost'));
-          }, 0);
-          return total;
-        }
-
-        const { id, getValue, row } = params;
-        const quantity = getValue(id, 'quantity');
-        const installedCost = quantity * row.unitCost;
-
-        return installedCost;
-      },
-      valueFormatter: (params) => {
-        return `$${formatter.format(params.value)}`;
-      }
-    },
-    {
-      field: 'avgLife',
-      headerName: 'Average Life (Years)',
+      field: 'operationalCost',
+      headerName: 'Operational Cost',
       editable: true,
       flex: 1.5,
       type: 'number',
       headerAlign: 'right',
-      sortComparator: sortComparator
-    },
-    {
-      field: 'annualReserve',
-      headerName: 'Annual Reserve',
-      flex: 1.5,
-      type: 'number',
-      headerAlign: 'right',
-      cellClassName: classes.nonEditableCell,
+      sortComparator: sortComparator,
       valueGetter: (params) => {
         if (params.getValue(params.id, 'component') === 'Total') {
           const allRowIds = params.api.getAllRowIds();
-          const componentRows = allRowIds.slice(0, allRowIds.length - 1);
-          const total = componentRows.reduce((currentTotal: number, rowId: number) => {
-            return (currentTotal += params.getValue(rowId, 'annualReserve'));
+          const treatmentRows = allRowIds.slice(0, allRowIds.length - 1);
+
+          const total = treatmentRows.reduce((currentTotal: number, rowId: number) => {
+            return (currentTotal += params.getValue(rowId, 'operationalCost') || 0);
           }, 0);
           return total;
         }
-        const installedCost = params.getValue(params.id, 'installedCost');
-        return installedCost / params.row.avgLife;
+
+        return params.value;
       },
       valueFormatter: (params) => {
-        return `$${formatter.format(params.value)}`;
-      },
-      sortComparator: sortComparator
-    },
-    {
-      field: 'monthlyReserve',
-      headerName: 'Monthly Reserve',
-      flex: 1.5,
-      type: 'number',
-      headerAlign: 'right',
-      cellClassName: classes.nonEditableCell,
-      valueGetter: (params) => {
-        const annualReserve = params.getValue(params.id, 'annualReserve');
-        return annualReserve / 12;
-      },
-      valueFormatter: (params) => {
-        return `$${formatter.format(params.value)}`;
-      },
-      sortComparator: sortComparator
-    },
-    {
-      field: 'monthlyReservePerCustomer',
-      headerName: 'Monthly Reserve Per Customer',
-      // width: 225,
-      flex: 1.5,
-      type: 'number',
-      headerAlign: 'right',
-      cellClassName: classes.nonEditableCell,
-      valueGetter: (params) => {
-        const monthlyReserve = params.getValue(params.id, 'monthlyReserve');
-        return monthlyReserve / connections;
-      },
-      valueFormatter: (params) => {
-        return `$${formatter.format(params.value)}`;
-      },
-      sortComparator: sortComparator
+        if (params.value) {
+          return `$${formatter.format(params.value)}`;
+        }
+      }
     }
   ];
 
@@ -243,10 +180,10 @@ const ComponentDataGrid = ({
       >
         <Button
           onClick={() => {
-            openAddComponents();
+            openAddTreatments();
           }}
         >
-          Add Components
+          Add Treatments
         </Button>
       </div>
     );
@@ -289,18 +226,6 @@ const ComponentDataGrid = ({
             }
             return '';
           }}
-          onCellEditCommit={(cell: any) => {
-            setTotalCostValues((prevState: Array<any>) => {
-              const { id, field, value } = cell;
-              const newState = prevState.map((row) => {
-                if (row.uid === id) {
-                  row[field] = value;
-                }
-                return row;
-              });
-              return newState;
-            });
-          }}
           components={{
             NoRowsOverlay: renderNoRowsOverlay,
             Footer: renderFooter
@@ -312,4 +237,4 @@ const ComponentDataGrid = ({
   );
 };
 
-export default ComponentDataGrid;
+export default TreatmentsDataGrid;

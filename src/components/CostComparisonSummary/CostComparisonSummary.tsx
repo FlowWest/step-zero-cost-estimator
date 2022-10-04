@@ -42,7 +42,6 @@ const CostComparisonSummary = ({
     waterSystemDetails: selectedWaterSystem,
     consolidationCostParams: consolidationCostParams
   });
-  console.log('cipCostData', consolidationCostParams);
 
   const renderColumn = (arr: any[], className: string) => {
     return (

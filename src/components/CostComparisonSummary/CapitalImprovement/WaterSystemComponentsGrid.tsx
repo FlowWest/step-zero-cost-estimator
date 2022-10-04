@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const WaterSystemComponentsGrid = ({ openAddComponents }: { openAddComponents: Function }) => {
-  const [state, dispatch] = useContext(WaterSystemContext);
+  const [state, dispatch] = useContext(WaterSystemContext) as any;
 
   const [totalCostValues, setTotalCostValues] = useState([] as Array<any>);
   const classes = useStyles();
