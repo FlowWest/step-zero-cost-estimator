@@ -145,7 +145,7 @@ const TreatmentsDataGrid = ({
     },
     {
       field: 'operationalCost',
-      headerName: 'Operational Cost',
+      headerName: 'Annual Operational Cost',
       editable: true,
       flex: 1.5,
       type: 'number',

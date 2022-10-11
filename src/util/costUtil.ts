@@ -196,6 +196,11 @@ export const getConsolidationCostDetails = ({
   return costBreakdown;
 };
 
+export const getADD = (joinPopulation: any) => {
+  console.log('ADD', parseInt(joinPopulation) * 150);
+  return parseInt(joinPopulation) * 150;
+};
+
 export const getMDD = (joinPopulation: any) => {
   return (parseInt(joinPopulation) * 150 * 2.25) / 1440;
 };
@@ -367,7 +372,8 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Granular Activated Carbon',
     contaminant: 'Organic Contaminants, Total Organic Carbon',
     capitalCost: gacEquipmentCost,
-    operationalCost: (38000 / 1000) * 0.28 // These costs were normalized to a standard production cost equivalent to $0.28/1,000 gallons of water produced.
+    operationalCost: (getADD(joinPopulation) / 1000) * 0.28 * 365, // These costs were normalized to a standard production cost equivalent to $0.28/1,000 gallons of water produced.
+    category: 'groundWater'
   });
 
   let axEquipmentCost = 0;
@@ -393,7 +399,8 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Anion Exchange',
     contaminant: 'Nitrate',
     capitalCost: axEquipmentCost,
-    operationalCost: undefined
+    operationalCost: undefined,
+    category: 'groundWater'
   });
 
   treatmentOptions.push({
@@ -402,7 +409,8 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Cation Exchange',
     contaminant: 'Radium',
     capitalCost: axEquipmentCost,
-    operationalCost: undefined
+    operationalCost: undefined,
+    category: 'groundWater'
   });
 
   let ixEquipmentCost = 0;
@@ -424,7 +432,8 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Ion Exchange',
     contaminant: 'Uranium, Gross Alpha as a result of Uranium, and Perchlorate',
     capitalCost: ixEquipmentCost,
-    operationalCost: (100000 / 1000) * 0.56 // . A review of service supplier cost estimates for these services resulted in a unit cost of $0.56/kgal of water produced for uranium and $0.10/kgal for perchlorate, with the primary difference being the disposal and handling of the uranium laden waste This unit cost assumes a throughput of approximately 100,000 BV prior to replacement resin and reflects the cost for replacement, disposal, and associated services
+    operationalCost: (100000 / 1000) * 0.56, // . A review of service supplier cost estimates for these services resulted in a unit cost of $0.56/kgal of water produced for uranium and $0.10/kgal for perchlorate, with the primary difference being the disposal and handling of the uranium laden waste This unit cost assumes a throughput of approximately 100,000 BV prior to replacement resin and reflects the cost for replacement, disposal, and associated services
+    category: 'groundWater'
   });
 
   let adEquipmentCost = 0;
@@ -442,7 +451,8 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Adsorption',
     contaminant: 'Arsenic',
     capitalCost: adEquipmentCost,
-    operationalCost: undefined
+    operationalCost: undefined,
+    category: 'groundWater'
   });
 
   // Figure C3.3 ~= 1,000,000 + (gpm*1000)
@@ -454,7 +464,8 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Coagulation Filtration',
     contaminant: 'Arsenic',
     capitalCost: cfEquipmentCost,
-    operationalCost: undefined
+    operationalCost: undefined,
+    category: 'groundWater'
   });
 
   // Figure C3.4 ~= 1,000,000 + (gpm*1000)
@@ -466,7 +477,8 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Filtration',
     contaminant: 'Iron and Manganese',
     capitalCost: filtrationEquipmentCost,
-    operationalCost: undefined
+    operationalCost: undefined,
+    category: 'groundWater'
   });
 
   let aaEquipmentCost = 0;
@@ -486,7 +498,8 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Activated Alumina',
     contaminant: 'Fluoride',
     capitalCost: aaEquipmentCost,
-    operationalCost: undefined
+    operationalCost: undefined,
+    category: 'groundWater'
   });
 
   let swppEquipmentCost = 0;
@@ -508,7 +521,8 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Surface Water Package Plant',
     contaminant: null,
     capitalCost: swppEquipmentCost,
-    operationalCost: undefined
+    operationalCost: undefined,
+    category: 'surfaceWater'
   });
 
   let fourLVIEquipmentCost = 0;
@@ -530,7 +544,8 @@ export const getTreatmentOptionsValues = ({
     treatment: '4-Log Virus Inactivation',
     contaminant: null,
     capitalCost: fourLVIEquipmentCost,
-    operationalCost: undefined
+    operationalCost: undefined,
+    category: 'surfaceWater'
   });
 
   return treatmentOptions;

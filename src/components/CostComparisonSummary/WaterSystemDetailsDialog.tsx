@@ -17,7 +17,7 @@ import { startCase } from 'lodash';
 import { Close } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme: Theme) => ({
-  accordionContainer: {
+  dialogContainer: {
     background: theme.palette.background.content
   },
   systemsContent: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-export const WaterSystemDetailsAccordion = ({
+export const WaterSystemDetailsDialog = ({
   state,
   systemsDetailsDialogIsOpen,
   handleCloseSystemsDetailsDialog
@@ -39,7 +39,7 @@ export const WaterSystemDetailsAccordion = ({
     <Dialog
       open={systemsDetailsDialogIsOpen}
       onClose={handleCloseSystemsDetailsDialog}
-      classes={{ paper: styles.accordionContainer }}
+      classes={{ paper: styles.dialogContainer }}
       maxWidth="md"
     >
       <DialogTitle>
@@ -133,4 +133,4 @@ export const WaterSystemDetailsAccordion = ({
   );
 };
 
-export default WaterSystemDetailsAccordion;
+export default WaterSystemDetailsDialog;
