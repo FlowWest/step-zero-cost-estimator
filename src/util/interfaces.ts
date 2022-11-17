@@ -106,3 +106,13 @@ export interface ResourceObject {
   link: string;
   category: string;
 }
+
+export interface TransformedSystemComponent {
+  annualReserve: number;
+  avgLife: number;
+  component: string;
+  monthlyReserve: number;
+  quantity: number;
+  uid: number;
+  unitCost: number;
+}

@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { Grid, Button } from '@mui/material';
 import PreviewModal from '../exports/pdf/PreviewModal';
-// import { handleExcelExport } from '../exports/excel/excelUtil';
 import { handleExcelExport } from '../exports/excel/excelUtility';
 import { useStaticQuery, graphql } from 'gatsby';
 
 const ExportButtonGroup = ({ state }: { state: any }) => {
-  console.log('🚀 ~ ExportButtonGroup ~ state', state);
   const [previewIsOpen, setPreviewIsOpen] = useState(false as boolean);
 
   const queryResponse = useStaticQuery(

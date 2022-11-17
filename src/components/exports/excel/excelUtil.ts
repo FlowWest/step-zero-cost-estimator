@@ -5,6 +5,9 @@ import { formatToUSD } from '../../../util';
 export const handleExcelExport = (state: any) => {
   const styles = {
     boldText: { font: { bold: true } },
+    smallText: { font: { sz: 8 } },
+    defaultText: { font: { sz: 12 } },
+    largeText: { font: { sz: 18 } },
     fillYellow: {
       fill: { fgColor: { rgb: 'fafa6b' } }
     },
@@ -30,52 +33,76 @@ export const handleExcelExport = (state: any) => {
   };
 
   const workbook = utils.book_new();
+
+  //=============================================
+  //GUIDELINES - SHEET 1
+  //=============================================
   //const guidelinesPage = utils.json_to_sheet([]);
+  // utils.book_append_sheet(workbook, guidelinesPage, 'GUIDELINES');
+
+  //=============================================
+  //5-YEAR BUDGET - SHEET 2
+  //=============================================
   // const budgetPage = utils.json_to_sheet([]);
+  // utils.book_append_sheet(workbook, budgetPage, '5-Year Budget');
+
+  //=============================================
+  //CIP - SHEET 3
+  //=============================================
   const cipPage = utils.json_to_sheet([]);
   utils.book_append_sheet(workbook, cipPage, 'CIP');
 
   const emptyRow = { A: '' };
   const cipSystemName = [
     [
-      { v: 'System Name' },
-      { v: state.currentWaterSystem.joinSystemName, s: { ...styles.fillYellow } }
+      { v: 'System Name', s: styles.defaultText },
+      {
+        v: state.currentWaterSystem.joinSystemName,
+        s: { ...styles.fillYellow, ...styles.defaultText }
+      }
     ]
   ];
   const cipSystemDetails = [
     [
       { v: 'Date:' },
-      { v: new Date().toLocaleString(), s: { ...styles.fillYellow, ...styles.thinBorder } }
+      {
+        v: new Date().toLocaleString(),
+        s: {
+          ...styles.fillYellow,
+          ...styles.thinBorder,
+          ...styles.defaultText,
+          ...styles.defaultText
+        }
+      }
     ],
     [
       { v: 'System ID No.:' },
       {
         v: state.currentWaterSystem.joinSystemPWSID,
-        s: { ...styles.fillYellow, ...styles.thinBorder }
+        s: { ...styles.fillYellow, ...styles.thinBorder, ...styles.defaultText }
       }
     ],
     [
       { v: 'Connections:' },
       {
         v: state.consolidationCostParams.connections,
-        s: { ...styles.fillYellow, ...styles.thinBorder }
+        s: { ...styles.fillYellow, ...styles.thinBorder, ...styles.defaultText }
       }
     ]
   ];
   const cipColumnHeaders = [
     [
-      { v: 'QTY' },
-      { v: '' },
-      { v: 'COMPONENT' },
-      { v: '' },
-      { v: '' },
-      { v: '' },
-      { v: 'UNIT COST' },
-      { v: 'INSTALLED COST' },
-      { v: 'AVG LIFE (YEARS)' },
-      { v: 'ANNUAL RESERVE' },
-      { v: 'MONTHLY RESERVE' },
-      { v: 'MONTHLY RESERVE PER CUSTOMER' }
+      { v: 'QTY', s: { ...styles.defaultText } },
+      { v: 'COMPONENT', s: { ...styles.defaultText } },
+      { v: '', s: { ...styles.defaultText } },
+      { v: '', s: { ...styles.defaultText } },
+      { v: '', s: { ...styles.defaultText } },
+      { v: 'UNIT COST', s: { ...styles.defaultText } },
+      { v: 'INSTALLED COST', s: { ...styles.defaultText } },
+      { v: 'AVG LIFE (YEARS)', s: { ...styles.defaultText } },
+      { v: 'ANNUAL RESERVE', s: { ...styles.defaultText } },
+      { v: 'MONTHLY RESERVE', s: { ...styles.defaultText } },
+      { v: 'MONTHLY RESERVE PER CUSTOMER', s: { ...styles.defaultText } }
     ]
   ];
 
@@ -88,32 +115,37 @@ export const handleExcelExport = (state: any) => {
   const getRows = (type: 'new' | 'existing') => {
     if (state[`${type}Components`].length) {
       return state[`${type}Components`].map((component: any) => [
-        { v: '1', s: { ...styles.fillYellow, ...styles.thinBorder } },
-        { v: '' },
-        { v: component.component, s: { ...styles.fillYellow, ...styles.thinBorder } },
+        { v: '1', s: { ...styles.fillYellow, ...styles.thinBorder, ...styles.defaultText } },
+        {
+          v: component.component,
+          s: { ...styles.fillYellow, ...styles.thinBorder, ...styles.defaultText }
+        },
         { v: '' },
         { v: '' },
         { v: '' },
         {
           v: formatToUSD(component.unitCost),
-          s: { ...styles.fillYellow, ...styles.thinBorder }
+          s: { ...styles.fillYellow, ...styles.thinBorder, ...styles.defaultText }
         },
         {
           v: formatToUSD(component.unitCost * 1),
-          s: { ...styles.thinBorder }
+          s: { ...styles.thinBorder, ...styles.defaultText }
         },
         {
           v: component.avgLife,
-          s: { ...styles.fillYellow, ...styles.thinBorder }
+          s: { ...styles.fillYellow, ...styles.thinBorder, ...styles.defaultText }
         },
         {
           v: formatToUSD(component.annualReserve),
-          s: { ...styles.thinBorder }
+          s: { ...styles.thinBorder, ...styles.defaultText }
         },
-        { v: formatToUSD(component.monthlyReserve), s: { ...styles.thinBorder } },
+        {
+          v: formatToUSD(component.monthlyReserve),
+          s: { ...styles.thinBorder, ...styles.defaultText }
+        },
         {
           v: formatToUSD(component.monthlyReserve / state.consolidationCostParams.connections),
-          s: { ...styles.thinBorder }
+          s: { ...styles.thinBorder, ...styles.defaultText }
         }
       ]);
     }
@@ -128,7 +160,6 @@ export const handleExcelExport = (state: any) => {
         v: `SUBTOTAL ${startCase(type)} CIP Costs`,
         s: { ...styles.thickBorder, ...styles.boldText }
       },
-      { v: '', s: { ...styles.thickBorder } },
       { v: '', s: { ...styles.thickBorder } },
       { v: '', s: { ...styles.thickBorder } },
       { v: '', s: { ...styles.thickBorder } },
@@ -158,7 +189,6 @@ export const handleExcelExport = (state: any) => {
 
   const totalExistingAndNew = () => {
     const totalCostValues = [...state.existingComponents, ...state.newComponents];
-    console.log('🚀 ~ totalExistingAndNew ~ totalCostValues', totalCostValues);
     const updatedCostValues = totalCostValues.reduce(
       (previousValue, currentValue) => {
         return {
@@ -176,32 +206,54 @@ export const handleExcelExport = (state: any) => {
         monthlyReservePerCustomer: 0
       }
     );
-    console.log('🚀 ~ totalExistingAndNew ~ updatedCostValues', updatedCostValues);
 
     if (totalCostValues.length) {
-      return {
-        A: '',
-        B: `TOTAL Existing and New Project CIP:`,
-        C: '',
-        D: formatToUSD(updatedCostValues.installedCost),
-        E: '',
-        F: formatToUSD(updatedCostValues.annualReserve),
-        G: formatToUSD(updatedCostValues.monthlyReserve),
-        H: formatToUSD(updatedCostValues.monthlyReservePerCustomer)
-      };
+      return [
+        { v: '', s: { ...styles.thickBorder } },
+        {
+          v: `TOTAL Existing and New Project CIv:`,
+          s: { ...styles.thickBorder, ...styles.defaultText }
+        },
+        { v: '' },
+        { v: '' },
+        { v: '' },
+        { v: '' },
+        {
+          v: formatToUSD(updatedCostValues.installedCost),
+          s: { ...styles.thickBorder, ...styles.defaultText }
+        },
+        { v: '' },
+        {
+          v: formatToUSD(updatedCostValues.annualReserve),
+          s: { ...styles.thickBorder, ...styles.defaultText }
+        },
+        {
+          v: formatToUSD(updatedCostValues.monthlyReserve),
+          s: { ...styles.thickBorder, ...styles.defaultText }
+        },
+        {
+          v: formatToUSD(updatedCostValues.monthlyReservePerCustomer),
+          s: { ...styles.thickBorder, ...styles.defaultText }
+        }
+      ];
     }
-    return null;
+    return [{ A: 'No Data' }];
   };
 
-  //=============================================
-  //CIP - SHEET 3
-  //=============================================
-
   //WATER SYSTEM DETAILS
-  utils.sheet_add_json(cipPage, [{ A: 'SIMPLIFIED CAPITAL IMPROVEMENT PLAN (CIP)' }], {
-    skipHeader: true,
-    origin: 'B2'
-  });
+  utils.sheet_add_json(
+    cipPage,
+    [
+      {
+        v: 'SIMPLIFIED CAPITAL IMPROVEMENT PLAN (CIP)',
+        s: { ...styles.largeText, ...styles.fillOrange }
+      }
+    ],
+    {
+      skipHeader: true,
+      origin: 'B2'
+    }
+  );
   utils.sheet_add_json(cipPage, cipSystemName, { skipHeader: true, origin: 'B5' });
   utils.sheet_add_json(cipPage, cipSystemDetails, { skipHeader: true, origin: 'G3' });
 
@@ -231,6 +283,7 @@ export const handleExcelExport = (state: any) => {
     //EXISTING subtotals
     { s: { r: -1, c: 1 }, e: { r: -1, c: 5 } } //page title
   ];
+
   //NEW COMPONENTS TABLE
   utils.sheet_add_json(cipPage, [emptyRow], { skipHeader: true, origin: -1 });
   utils.sheet_add_json(cipPage, [{ A: 'NEW Project CIP Costs' }], {
@@ -247,13 +300,14 @@ export const handleExcelExport = (state: any) => {
     origin: -1
   });
 
-  // utils.book_append_sheet(workbook, guidelinesPage, 'GUIDELINES');
-  // utils.book_append_sheet(workbook, budgetPage, '5-Year Budget');
-
   const row = [
     { v: 'Courier: 24', t: 's', s: { font: { name: 'Courier', sz: 24 } } },
     { v: 'bold & color', t: 's', s: { font: { bold: true, color: { rgb: 'FF0000' } } } },
-    { v: 'fill: color', t: 's', s: { fill: { fgColor: { rgb: 'E9E9E9' } } } },
+    {
+      v: 'fill: color in advamce long sentence',
+      t: 'z',
+      s: { fill: { fgColor: { rgb: 'E9E9E9' } } }
+    },
     { v: 'line\nbreak', t: 's', s: { alignment: { wrapText: true } } }
   ];
 
