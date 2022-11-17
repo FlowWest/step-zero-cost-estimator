@@ -5,7 +5,7 @@ import ConsolidationCalculator from './Consolidation/ConsolidationCalculator';
 import CapitalImprovementCalculator from './CapitalImprovement/CapitalImprovementCalculator';
 
 const CostComparisonWrapper = () => {
-  const [value, setValue] = useState('1');
+  const [value, setValue] = useState('consolidation' as string);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -16,14 +16,14 @@ const CostComparisonWrapper = () => {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Consolidation" value="1" />
-            <Tab label="Capital Improvement" value="2" />
+            <Tab label="Consolidation" value="consolidation" />
+            <Tab label="Capital Improvement" value="capitalImprovement" />
           </TabList>
         </Box>
-        <TabPanel value="1">
+        <TabPanel value="consolidation">
           <ConsolidationCalculator />
         </TabPanel>
-        <TabPanel value="2">
+        <TabPanel value="capitalImprovement">
           <CapitalImprovementCalculator />
         </TabPanel>
       </TabContext>

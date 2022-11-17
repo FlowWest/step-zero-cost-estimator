@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Resources: FC = () => {
   const classes = useStyles();
-  const [currentTab, setCurrentTab] = useState('technicalAssistance');
+  const [currentTab, setCurrentTab] = useState('waterRates');
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
@@ -53,6 +53,7 @@ const Resources: FC = () => {
               centered
               aria-label="resource categories"
             >
+              <Tab label="Water Rates" value="waterRates" />
               <Tab label="Technical Assistance" value="technicalAssistance" />
               <Tab label="Governance" value="governance" />
               <Tab label="Funding" value="funding" />

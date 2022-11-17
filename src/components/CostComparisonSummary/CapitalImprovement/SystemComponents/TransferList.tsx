@@ -17,7 +17,7 @@ import {
   KeyboardArrowRight as ArrowRightIcon
 } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
-import { ComponentProperties } from '../../../util/interfaces';
+import { ComponentProperties } from '../../../../util/interfaces';
 
 const useStyles = makeStyles((theme: Theme) => ({
   transferListContainer: {
