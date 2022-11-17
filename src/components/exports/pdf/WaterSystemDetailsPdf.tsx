@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text } from '@react-pdf/renderer';
 
-import { formatToUSD } from '../../util';
+import { formatToUSD } from '../../../util';
 const styles = StyleSheet.create({
   bold: {
     fontWeight: 'bold'

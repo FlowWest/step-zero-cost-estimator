@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image } from '@react-pdf/renderer';
-import Logo from '../../images/step-zero-logo3-dark.png';
+import Logo from '../../../images/step-zero-logo3-dark.png';
 import Divider from './Divider';
 
 const styles = StyleSheet.create({

@@ -3,8 +3,6 @@ import {
   DataGrid,
   GridColDef,
   GridFooterContainer,
-  GridSortModel,
-  GridCallbackDetails,
   gridStringOrNumberComparator,
   gridNumberComparator,
   GridSortCellParams
@@ -122,6 +120,15 @@ const ComponentDataGrid = ({
       sortComparator: sortComparator
     },
     {
+      field: 'measurement',
+      headerName: 'Measurement',
+      editable: true,
+      flex: 1.5,
+      type: 'number',
+      headerAlign: 'right',
+      sortComparator: sortComparator
+    },
+    {
       field: 'unitCost',
       headerName: 'Unit Cost',
       editable: true,
@@ -161,7 +168,8 @@ const ComponentDataGrid = ({
 
         const { id, getValue, row } = params;
         const quantity = getValue(id, 'quantity');
-        const installedCost = quantity * row.unitCost;
+        const measurement = getValue(id, 'measurement') || 1;
+        const installedCost = quantity * row.unitCost * measurement;
 
         return installedCost;
       },
@@ -308,6 +316,9 @@ const ComponentDataGrid = ({
             Footer: renderFooter
           }}
           disableSelectionOnClick
+          isCellEditable={(params) => {
+            return params?.row?.requiresMeasurement;
+          }}
         />
       </div>
     </div>

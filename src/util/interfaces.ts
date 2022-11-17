@@ -38,6 +38,7 @@ export interface WaterSystemState {
     existing: Record<string, unknown>;
   };
   systemComponents: Array<any>;
+  selectedTreatments: Array<any>;
 }
 
 export interface ConsolidationCostDetails {
@@ -104,4 +105,14 @@ export interface ResourceObject {
   title: string;
   link: string;
   category: string;
+}
+
+export interface TransformedSystemComponent {
+  annualReserve: number;
+  avgLife: number;
+  component: string;
+  monthlyReserve: number;
+  quantity: number;
+  uid: number;
+  unitCost: number;
 }

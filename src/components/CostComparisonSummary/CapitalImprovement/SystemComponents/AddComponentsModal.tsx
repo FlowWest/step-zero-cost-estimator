@@ -14,9 +14,8 @@ import { Close } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import TransferList from './TransferList';
 import ModalAutocomplete from './ModalAutocomplete';
-import { WaterSystemContext } from '../../../contexts/WaterSystem';
-import { updateComponents } from '../../../contexts/WaterSystem/actions';
-import { getSystemComponentValues } from '../../../util/costUtil';
+import { WaterSystemContext } from '../../../../contexts/WaterSystem';
+import { updateComponents } from '../../../../contexts/WaterSystem/actions';
 
 const useStyles = makeStyles((theme: Theme) => ({
   modal: {
@@ -50,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const AddComponentsModal = ({ open, handleClose }: { open: boolean; handleClose: Function }) => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(WaterSystemContext);
+  const [state, dispatch] = useContext(WaterSystemContext) as Array<any>;
   const [existingCpnts, setExistingCpnts] = useState(state?.existingComponents);
   const [newCpnts, setNewCpnts] = useState(state?.newComponents);
 
