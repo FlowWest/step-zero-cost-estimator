@@ -66,14 +66,14 @@ const CostComparisonSummary = ({
   const formatArray = (arr: any[]) => arr.map((cost) => formatToUSD(cost));
 
   const consolidationCostsArray = [
-    consolidationCostDetails.total,
-    consolidationCostDetails.totalCostPerConnection,
+    consolidationCostDetails ? consolidationCostDetails.total : 0,
+    consolidationCostDetails ? consolidationCostDetails.totalCostPerConnection : 0,
     0
   ];
 
   const cipCostsArray = [
-    cipCostData.total,
-    cipCostData.total / consolidationCostParams.connections,
+    cipCostData?.total ? cipCostData?.total : 0,
+    cipCostData?.total ? cipCostData?.total / consolidationCostParams?.connections : 0,
     0
   ];
   const categoriesArray = ['Total', 'Cost per Connection', 'Water Rates'];
