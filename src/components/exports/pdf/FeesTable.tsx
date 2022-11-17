@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text } from '@react-pdf/renderer';
-import { formatToUSD, formatSubItemText } from '../../util';
-import { getConsolidationCostDetails } from '../../util/costUtil';
+import { formatToUSD, formatSubItemText } from '../../../util';
+import { getConsolidationCostDetails } from '../../../util/costUtil';
 
 const styles = StyleSheet.create({
   defaultText: { fontSize: 10 },

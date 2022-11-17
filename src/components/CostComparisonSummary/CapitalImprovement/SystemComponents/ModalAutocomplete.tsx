@@ -10,12 +10,12 @@ import {
 } from '@mui/material';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { WaterSystemContext } from '../../../contexts/WaterSystem';
+import { WaterSystemContext } from '../../../../contexts/WaterSystem';
 import { makeStyles } from '@mui/styles';
-import { ComponentProperties } from '../../../util/interfaces';
+import { ComponentProperties } from '../../../../util/interfaces';
 import AddCustomComponentDialog from './AddCustomComponentDialog';
 import { unionBy, sortBy } from 'lodash';
-import { updateAutocompleteOptions } from '../../../contexts/WaterSystem/actions';
+import { updateAutocompleteOptions } from '../../../../contexts/WaterSystem/actions';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -51,7 +51,7 @@ const ModalAutocomplete = ({
   setNewCpnts: React.Dispatch<any>;
 }) => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(WaterSystemContext);
+  const [state, dispatch] = useContext(WaterSystemContext) as Array<any>;
   const [value, setValue] = React.useState([] as Array<any>);
   const [waterSystemCpnts, setWaterSystemCpnts] = React.useState(
     !state?.autocompleteOptions.length ? state.systemComponents : state.autocompleteOptions

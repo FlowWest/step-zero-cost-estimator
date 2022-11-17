@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Grid, Typography, Divider } from '@mui/material';
-import ComponentDataGrid from './ComponentDataGrid';
-import TotalCIPDataGrid from './TotalCIPDataGrid';
+import ComponentDataGrid from './SystemComponents/ComponentDataGrid';
+import TotalCIPDataGrid from './SystemComponents/TotalCIPDataGrid';
 import WarningMessage from '../../uiComponents/WarningMessage';
 import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import ExportButtonGroup from '../../uiComponents/ExportButtonGroup';
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const WaterSystemComponentsGrid = ({ openAddComponents }: { openAddComponents: Function }) => {
-  const [state, dispatch] = useContext(WaterSystemContext);
+  const [state, dispatch] = useContext(WaterSystemContext) as any;
 
   const [totalCostValues, setTotalCostValues] = useState([] as Array<any>);
   const classes = useStyles();

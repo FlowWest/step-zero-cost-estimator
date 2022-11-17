@@ -56,3 +56,10 @@ export const updateCIPCostData = (cipType: string, cipCostData: number) => {
     }
   };
 };
+
+export const updateSelectedTreatments = (selectedTreatments: Array<any>) => {
+  return {
+    type: ACTIONS.UPDATE_SELECTED_TREATMENTS,
+    payload: selectedTreatments
+  };
+};

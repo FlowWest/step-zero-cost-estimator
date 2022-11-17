@@ -51,6 +51,14 @@ export const formatSubItemText = (subItem: any) => {
 
 export const resourceDataObjects: ResourceObject[] = [
   {
+    logo: 'https://upload.wikimedia.org/wikipedia/en/7/7f/SWRCB_Logo1.jpg',
+    description:
+      'The California Small Water Systems Rates Dashboard (dashboard) is an online informationsharing resource with an interactive interface that allows users to compare or benchmark residential rates, financial, and system performance data of community water systems serving between 500 and 3,300 connections',
+    title: 'California Small Water Systems Rates Dashboard',
+    link: 'https://dashboards.efc.sog.unc.edu/ca',
+    category: 'waterRates'
+  },
+  {
     logo: 'http://sourcewaterpa-archive.prwa.com/wp-content/uploads/2014/12/SDWA-40-Anniv-Logo-JPEG-279x300.jpg',
     description:
       'The Drinking Water State Revolving Fund (DWRSF) program assists public water systems in financing the cost of drinking water infrastructure projects needed to achieve or maintain compliance with Safe Drinking Water Act (SDWA) requirements.',
