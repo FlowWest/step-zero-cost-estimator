@@ -62,7 +62,8 @@ const ComponentsTable = ({
       (previousValue, currentValue) => {
         const newValue = { ...previousValue };
         const quantity = currentValue.quantity || 1;
-        const installedCost = quantity * currentValue.unitCost;
+        const measurement = currentValue.measurement || 1;
+        const installedCost = quantity * currentValue.unitCost * measurement;
         newValue.installedCost += installedCost;
         newValue.annualReserve += installedCost / currentValue.avgLife;
 
