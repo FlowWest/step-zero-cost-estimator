@@ -197,7 +197,6 @@ export const getConsolidationCostDetails = ({
 };
 
 export const getADD = (joinPopulation: any) => {
-  console.log('ADD', parseInt(joinPopulation) * 150);
   return parseInt(joinPopulation) * 150;
 };
 
@@ -499,7 +498,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Granular Activated Carbon',
     contaminant: 'Organic Contaminants, Total Organic Carbon',
     capitalCost: gacEquipmentCost,
-    operationalCost: (getADD(joinPopulation) / 1000) * 0.28 * 365, // These costs were normalized to a standard production cost equivalent to $0.28/1,000 gallons of water produced.
+    operationalCost: (getADD(joinPopulation) / 1000) * 365 * 0.28, // These costs were normalized to a standard production cost equivalent to $0.28/1,000 gallons of water produced.
     category: 'groundWater'
   });
 
@@ -526,7 +525,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Anion Exchange',
     contaminant: 'Nitrate',
     capitalCost: axEquipmentCost,
-    operationalCost: undefined,
+    operationalCost: getMDD(joinPopulation) * 4000, // figure C8 linear model
     category: 'groundWater'
   });
 
@@ -536,7 +535,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Cation Exchange',
     contaminant: 'Radium',
     capitalCost: axEquipmentCost,
-    operationalCost: undefined,
+    operationalCost: getMDD(joinPopulation) * 4000, // For this instance, the costs for nitrate disposal were applied
     category: 'groundWater'
   });
 
@@ -578,7 +577,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Adsorption',
     contaminant: 'Arsenic',
     capitalCost: adEquipmentCost,
-    operationalCost: undefined,
+    operationalCost: (getADD(joinPopulation) / 1000) * 365 * 1.54, // Coagulation Filtration $1.07/kgal,
     category: 'groundWater'
   });
 
@@ -591,7 +590,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Coagulation Filtration',
     contaminant: 'Arsenic',
     capitalCost: cfEquipmentCost,
-    operationalCost: undefined,
+    operationalCost: (getADD(joinPopulation) / 1000) * 365 * 1.07, // Coagulation Filtration $1.07/kgal
     category: 'groundWater'
   });
 
@@ -625,7 +624,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Activated Alumina',
     contaminant: 'Fluoride',
     capitalCost: aaEquipmentCost,
-    operationalCost: undefined,
+    operationalCost: 295 * connections,
     category: 'groundWater'
   });
 

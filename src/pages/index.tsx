@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const IndexPage: FC = (props: any) => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(WaterSystemContext);
+  const [state, dispatch] = useContext(WaterSystemContext) as any;
   const [systemsDetailsDialogIsOpen, setSystemsDetailsDialogIsOpen] = useState(false as boolean);
 
   const allWaterSystems = props.data.allWaterSystemDetailsCsv.nodes;

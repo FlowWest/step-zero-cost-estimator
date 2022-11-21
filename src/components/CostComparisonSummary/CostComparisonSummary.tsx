@@ -68,15 +68,25 @@ const CostComparisonSummary = ({
   const consolidationCostsArray = [
     consolidationCostDetails ? consolidationCostDetails.total : 0,
     consolidationCostDetails ? consolidationCostDetails.totalCostPerConnection : 0,
+    0,
     0
   ];
 
+  let cipTotal = 0;
+
+  if (cipCostData?.total) {
+    cipTotal += cipCostData?.total;
+  }
+  if (cipCostData?.treatmentCapital) {
+    cipTotal += cipCostData?.treatmentCapital;
+  }
   const cipCostsArray = [
-    cipCostData?.total ? cipCostData?.total : 0,
-    cipCostData?.total ? cipCostData?.total / consolidationCostParams?.connections : 0,
+    cipTotal,
+    cipTotal / consolidationCostParams?.connections,
+    cipCostData?.operational ? cipCostData?.operational : 0,
     0
   ];
-  const categoriesArray = ['Total', 'Cost per Connection', 'Water Rates'];
+  const categoriesArray = ['Total', 'Cost per Connection', 'Annual O&M Costs', 'Water Rates'];
 
   return (
     <>
