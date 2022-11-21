@@ -83,7 +83,7 @@ const CostComparisonSummary = ({
   const cipCostsArray = [
     cipTotal,
     cipTotal / consolidationCostParams?.connections,
-    cipCostData?.operational ? cipCostData?.operational : 0,
+    cipCostData?.treatmentOperational ? cipCostData?.treatmentOperational : 0,
     0
   ];
   const categoriesArray = ['Total', 'Cost per Connection', 'Annual O&M Costs', 'Water Rates'];
