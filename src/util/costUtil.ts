@@ -558,7 +558,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Ion Exchange',
     contaminant: 'Uranium, Gross Alpha as a result of Uranium, and Perchlorate',
     capitalCost: ixEquipmentCost,
-    operationalCost: (100000 / 1000) * 0.56, // . A review of service supplier cost estimates for these services resulted in a unit cost of $0.56/kgal of water produced for uranium and $0.10/kgal for perchlorate, with the primary difference being the disposal and handling of the uranium laden waste This unit cost assumes a throughput of approximately 100,000 BV prior to replacement resin and reflects the cost for replacement, disposal, and associated services
+    operationalCost: (getADD(joinPopulation) / 1000) * 365 * 0.56, // . A review of service supplier cost estimates for these services resulted in a unit cost of $0.56/kgal of water produced for uranium and $0.10/kgal for perchlorate, with the primary difference being the disposal and handling of the uranium laden waste This unit cost assumes a throughput of approximately 100,000 BV prior to replacement resin and reflects the cost for replacement, disposal, and associated services
     category: 'groundWater'
   });
 
@@ -603,7 +603,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Filtration',
     contaminant: 'Iron and Manganese',
     capitalCost: filtrationEquipmentCost,
-    operationalCost: undefined,
+    operationalCost: (getADD(joinPopulation) / 1000) * 365 * 1.07, // The operational costs for iron and manganese removal use arsenic removal with coagulation filtration as a surrogate which are anticipated to be a conservative estimate.
     category: 'groundWater'
   });
 
@@ -624,7 +624,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Activated Alumina',
     contaminant: 'Fluoride',
     capitalCost: aaEquipmentCost,
-    operationalCost: 295 * connections,
+    operationalCost: 295 * connections, // Table 26 : $295 - average OM cost per conn
     category: 'groundWater'
   });
 
@@ -647,7 +647,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Surface Water Package Plant',
     contaminant: null,
     capitalCost: swppEquipmentCost,
-    operationalCost: undefined,
+    operationalCost: 41000, // Table C12:  Annual Operator Labor Cost Estimate
     category: 'surfaceWater'
   });
 
@@ -670,7 +670,7 @@ export const getTreatmentOptionsValues = ({
     treatment: '4-Log Virus Inactivation',
     contaminant: null,
     capitalCost: fourLVIEquipmentCost,
-    operationalCost: undefined,
+    operationalCost: 41000, // Table C12:  Annual Operator Labor Cost Estimate
     category: 'surfaceWater'
   });
 
