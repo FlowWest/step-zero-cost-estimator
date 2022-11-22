@@ -69,11 +69,11 @@ const Header: FC<HeaderProps> = (props) => {
             </Button>
           </Grid>
         </Grid>
-        <Tooltip title="switch theme">
+        {/* <Tooltip title="switch theme">
           <Button onClick={onSwitch}>
             {darkModeOn ? <BsToggleOn size="40" /> : <BsToggleOff size="40" />}
           </Button>
-        </Tooltip>
+        </Tooltip> */}
       </Toolbar>
     </AppBar>
   );

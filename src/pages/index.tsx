@@ -11,6 +11,7 @@ import { graphql } from 'gatsby';
 import { WaterSystem } from '../util/interfaces';
 import { Seo } from '../components';
 import WaterSystemDetailsDialog from '../components/CostComparisonSummary/WaterSystemDetailsDialog';
+import { MethodologyExplanation } from '../components/CostComparisonSummary/MethodologyExplanation/MethodologyExplanation';
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
@@ -141,7 +142,9 @@ const IndexPage: FC = (props: any) => {
           </ContentWrapper>
         </Grid>
         <Grid item xs={12} className={classes.gridItemContainer}>
-          <ContentWrapper title="Calculation Methodology Explanation"></ContentWrapper>
+          <ContentWrapper title="Calculation Methodology Explanation">
+            <MethodologyExplanation />
+          </ContentWrapper>
         </Grid>
       </Grid>
     </Grid>

@@ -5,7 +5,7 @@ import { inRange } from 'lodash';
 const setCostVariables = {
   distanceBuffer: 1000,
   serviceLineFee: 5000,
-  propertyCostLot: 150000,
+  lotPropertyCost: 150000,
   boosterStation: 75000,
   urbanAdjustment: 0.32,
   suburbanAdjustment: 0.3,
@@ -126,8 +126,13 @@ export const getConsolidationCostDetails = ({
     contingency
   } = consolidationCostParams || {};
 
-  const { distanceBuffer, boosterStation, inflationAdjustment, planningAndConstructionAdjustment } =
-    setCostVariables;
+  const {
+    distanceBuffer,
+    boosterStation,
+    inflationAdjustment,
+    planningAndConstructionAdjustment,
+    lotPropertyCost
+  } = setCostVariables;
   // if connections > 0, use connections, else use 8
   const calcConnections = connections || 8;
   const totalConnectionCosts = calcConnections * feeCostPerConnection;
@@ -143,7 +148,10 @@ export const getConsolidationCostDetails = ({
   const totalAdminFees = adminLegalCEQACosts;
 
   const needsElevationAdjustment = getElevationAdjustmentRequirement(waterSystemDetails);
-  const elevationAdjustmentCost = needsElevationAdjustment ? boosterStation * 2 : 0;
+
+  const elevationAdjustmentCost = needsElevationAdjustment
+    ? boosterStation * 2 + lotPropertyCost
+    : 0;
 
   const subtotal = totalMaterialCosts + totalAdminFees + elevationAdjustmentCost;
 
