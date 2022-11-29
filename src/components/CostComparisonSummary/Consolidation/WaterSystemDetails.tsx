@@ -4,7 +4,7 @@ import { WaterSystemContext } from '../../../contexts/WaterSystem';
 import { updateConsolidationCostParams } from '../../../contexts/WaterSystem/actions';
 
 const WaterSystemDetails = () => {
-  const [state, dispatch] = useContext(WaterSystemContext);
+  const [state, dispatch] = useContext(WaterSystemContext) as any;
 
   const updateWaterSystemDetails = (inputProperty: string, value: any) => {
     dispatch(

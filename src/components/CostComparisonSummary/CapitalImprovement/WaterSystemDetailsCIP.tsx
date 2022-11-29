@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const WaterSystemDetailsCIP = () => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(WaterSystemContext);
+  const [state, dispatch] = useContext(WaterSystemContext) as any;
 
   const handleConnectionsChange = (event: any) => {
     dispatch(
