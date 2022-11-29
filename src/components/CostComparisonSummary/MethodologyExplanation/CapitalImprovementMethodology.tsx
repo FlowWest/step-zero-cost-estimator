@@ -39,6 +39,11 @@ const CapitalImprovementMethodology = () => {
       <Typography className={classes.subSectionHeader} variant="h6">
         System Components Data
       </Typography>
+      <Typography paragraph>
+        The application has prepopulated a list of common water system components to allow for
+        quicker data entry. The costs and lifespans associated with each water system component is a
+        high level estimate.
+      </Typography>
     </div>
   );
 };

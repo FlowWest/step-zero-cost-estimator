@@ -445,7 +445,7 @@ export const getSystemComponentValues = ({
       regionalAdjustment,
       inflationAdjustment
     ]),
-    avgLife: 20,
+    avgLife: 25,
     uid: Math.random()
   });
 
@@ -456,7 +456,7 @@ export const getSystemComponentValues = ({
   systemComponents.push({
     component: 'Meters (all connections)',
     unitCost: getComponentAdjustedCost(metersCost, [regionalAdjustment, inflationAdjustment]),
-    avgLife: 20,
+    avgLife: 10,
     uid: Math.random()
   });
 
