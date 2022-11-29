@@ -13,7 +13,7 @@ import {
 import { Close } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import { WaterSystemContext } from '../../../../contexts/WaterSystem';
-import SelectTreatmentsGrid from './SelectTreatmentsGrid';
+import SelectTreatmentsList from './SelectTreatmentsList';
 import { getTreatmentOptionsValues } from '../../../../util/costUtil';
 import { updateSelectedTreatments } from '../../../../contexts/WaterSystem/actions';
 
@@ -55,7 +55,7 @@ const AddTreatmentsModal = ({ open, handleClose }: { open: boolean; handleClose:
   const classes = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext) as Array<any>;
   const [treatmentOptions, setTreatmentOptions] = useState([] as Array<any>);
-  const [selectedTreatments, setSelectedTreatments] = useState([] as Array<any>);
+  const [checkedTreatments, setCheckedTreatments] = useState([] as Array<any>);
 
   useEffect(() => {
     const treatmentOptionsValues = getTreatmentOptionsValues({
@@ -66,7 +66,7 @@ const AddTreatmentsModal = ({ open, handleClose }: { open: boolean; handleClose:
   }, [state]);
 
   const handleSubmit = () => {
-    dispatch(updateSelectedTreatments(selectedTreatments));
+    dispatch(updateSelectedTreatments(checkedTreatments));
     handleClose();
   };
 
@@ -106,9 +106,9 @@ const AddTreatmentsModal = ({ open, handleClose }: { open: boolean; handleClose:
         </DialogTitle>
         <Divider style={{ width: '100%' }} />
         <Box className={classes.treatmentGridContainer}>
-          <SelectTreatmentsGrid
+          <SelectTreatmentsList
             treatmentOptions={treatmentOptions}
-            setSelectedTreatments={setSelectedTreatments}
+            setCheckedTreatments={setCheckedTreatments}
           />
         </Box>
         <Stack direction="row" spacing={2}>

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
+import React, { useState, useEffect, useContext } from 'react';
+import { GridColDef } from '@mui/x-data-grid';
 import {
   Typography,
   Checkbox,
@@ -16,7 +16,8 @@ import {
 } from '@mui/material';
 import { ExpandMore } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
-import { partition, filter } from 'lodash';
+import { partition, filter, findIndex } from 'lodash';
+import { WaterSystemContext } from '../../../../contexts/WaterSystem';
 
 const useStyles = makeStyles((theme: Theme) => ({
   accordionContainer: {
@@ -30,17 +31,18 @@ const columns: GridColDef[] = [
   { field: 'treatment', headerName: 'Treatment', flex: 1 }
 ];
 
-const SelectTreatmentsGrid = ({
+const SelectTreatmentsList = ({
   treatmentOptions,
-  setSelectedTreatments
+  setCheckedTreatments
 }: {
   treatmentOptions: Array<any>;
-  setSelectedTreatments: any;
+  setCheckedTreatments: any;
 }) => {
   const styles = useStyles();
   const [groundWaterOptions, setGroundWaterOptions] = useState<Array<any>>([]);
   const [surfaceWaterOptions, setSurfaceWaterOptions] = useState<Array<any>>([]);
   const [currentlySelectedOptions, setCurrentlySelectedOptions] = useState<Array<any>>([]);
+  const [state, dispatch] = useContext(WaterSystemContext) as Array<any>;
 
   useEffect(() => {
     const [groundWaterArray, surfaceWaterArray] = partition(treatmentOptions, {
@@ -71,7 +73,7 @@ const SelectTreatmentsGrid = ({
     } else {
       setCurrentlySelectedOptions((prevState: Array<any>) => {
         const newState = prevState.filter((option) => {
-          option.code !== selectedTreatmentOption.code;
+          return option.code !== selectedTreatmentOption.code;
         });
         return newState;
       });
@@ -79,8 +81,14 @@ const SelectTreatmentsGrid = ({
   };
 
   useEffect(() => {
-    setSelectedTreatments(currentlySelectedOptions);
+    setCheckedTreatments(currentlySelectedOptions);
   }, [currentlySelectedOptions]);
+
+  useEffect(() => {
+    if (state.selectedTreatments.length) {
+      setCurrentlySelectedOptions(state.selectedTreatments);
+    }
+  }, [state.selectedTreatments]);
 
   return (
     <div>
@@ -100,7 +108,12 @@ const SelectTreatmentsGrid = ({
               return (
                 <div>
                   <FormControlLabel
-                    control={<Checkbox onChange={handleChange} />}
+                    control={
+                      <Checkbox
+                        onChange={handleChange}
+                        checked={findIndex(currentlySelectedOptions, { code: option.code }) >= 0}
+                      />
+                    }
                     value={JSON.stringify(option)}
                     label={`${option.treatment} (${option.contaminant})`}
                   />
@@ -124,7 +137,11 @@ const SelectTreatmentsGrid = ({
                   <div>
                     <FormControlLabel
                       value={JSON.stringify(option)}
-                      control={<Radio />}
+                      control={
+                        <Radio
+                          checked={findIndex(currentlySelectedOptions, { code: option.code }) >= 0}
+                        />
+                      }
                       label={`${option.treatment}`}
                     />
                   </div>
@@ -148,7 +165,12 @@ const SelectTreatmentsGrid = ({
               return (
                 <FormControlLabel
                   value={JSON.stringify(option)}
-                  control={<Checkbox onChange={handleChange} />}
+                  control={
+                    <Checkbox
+                      onChange={handleChange}
+                      checked={findIndex(currentlySelectedOptions, { code: option.code }) >= 0}
+                    />
+                  }
                   label={option.treatment}
                 />
               );
@@ -160,4 +182,4 @@ const SelectTreatmentsGrid = ({
   );
 };
 
-export default SelectTreatmentsGrid;
+export default SelectTreatmentsList;

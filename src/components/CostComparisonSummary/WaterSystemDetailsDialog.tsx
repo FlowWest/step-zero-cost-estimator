@@ -59,9 +59,8 @@ export const WaterSystemDetailsDialog = ({
       </DialogTitle>
       <DialogContent>
         <Typography variant="subtitle1">
-          Values are sourced from the Consolidation Analysis report. These values are meant to be a
-          starting point for your calculations and estimates. You may adjust those values using the
-          consolidation calculator.
+          These values are meant to be a starting point for your calculations and estimates. You may
+          adjust those values using the consolidation calculator.
         </Typography>
         <Grid container className={styles.systemsContent} spacing={1}>
           <Grid item xs={6}>
