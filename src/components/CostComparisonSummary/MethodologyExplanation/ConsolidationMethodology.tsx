@@ -7,8 +7,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
-  Paper
+  TableRow
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
@@ -135,11 +134,11 @@ const systemCalculations = [
   }
 ];
 
-export const ConsolidationMethodology = () => {
+const ConsolidationMethodology = () => {
   const classes = useStyles();
   return (
     <div>
-      <Typography className={classes.sectionHeader} variant="h4">
+      <Typography className={classes.sectionHeader} variant="h5">
         Consolidation Methodology
       </Typography>
       <Typography paragraph>
@@ -149,7 +148,7 @@ export const ConsolidationMethodology = () => {
         California Drinking Water System Mergers study, which was completed for the Water
         Foundation.
       </Typography>
-      <Typography className={classes.subSectionHeader} variant="h5">
+      <Typography className={classes.subSectionHeader} variant="h6">
         Water System Data
       </Typography>
       <Typography paragraph>
@@ -162,7 +161,7 @@ export const ConsolidationMethodology = () => {
         These cost variable values for the selected water system were sourced from the Cost Analysis
         study.
       </Typography>
-      <Typography className={classes.subSectionHeader} variant="h5">
+      <Typography className={classes.subSectionHeader} variant="h6">
         Cost Variables
       </Typography>
       <Typography paragraph>
@@ -194,7 +193,7 @@ export const ConsolidationMethodology = () => {
         These cost variable values were sourced from the Cost Analysis study and both the 2021 and
         2022 Drinking Water Needs Assessment.
       </Typography>
-      <Typography className={classes.subSectionHeader} variant="h5">
+      <Typography className={classes.subSectionHeader} variant="h6">
         Formulas
       </Typography>
       <Typography paragraph>
@@ -229,3 +228,5 @@ export const ConsolidationMethodology = () => {
     </div>
   );
 };
+
+export default ConsolidationMethodology;

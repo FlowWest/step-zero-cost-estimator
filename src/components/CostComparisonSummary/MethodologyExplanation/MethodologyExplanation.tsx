@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
-import { Grid, Theme, List, ListItem, Link } from '@mui/material';
+import { Grid, Theme, List, ListItem, Link, Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import useHeadsObserver from '../../../hooks/useHeadsObserver';
-import { ConsolidationMethodology } from './ConsolidationMethodology';
-import { CapitalImprovementMethodology } from './CapitalImprovementMethodology';
+import ConsolidationMethodology from './ConsolidationMethodology';
+import CapitalImprovementMethodology from './CapitalImprovementMethodology';
 
 const useStyles = makeStyles((theme: Theme) => ({
   nav: {
@@ -58,24 +58,16 @@ export const MethodologyExplanation = () => {
               <ListItem>
                 <LinkComponent id="capital-improvement-explanation" text="Capital Improvement" />
               </ListItem>
-              <ListItem>
-                <LinkComponent id="miscellaneous-explanation" text="Miscellaneous" />
-              </ListItem>
             </List>
           </nav>
         </Grid>
         <Grid item md={9}>
-          <div style={{ marginBottom: '2rem' }} id="consolidation-explanation">
+          <div style={{ marginBottom: '1.5rem' }} id="consolidation-explanation">
             <ConsolidationMethodology />
           </div>
-          <div
-            style={{ marginBottom: '2rem', height: '1000px' }}
-            id="capital-improvement-explanation"
-          >
+          <Divider style={{ width: '100%' }} />
+          <div style={{ margin: '1.5rem 0' }} id="capital-improvement-explanation">
             <CapitalImprovementMethodology />
-          </div>
-          <div style={{ marginBottom: '2rem', height: '1000px' }} id="miscellaneous-explanation">
-            Miscellaneous
           </div>
         </Grid>
       </Grid>

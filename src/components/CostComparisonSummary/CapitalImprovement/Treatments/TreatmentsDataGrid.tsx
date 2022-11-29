@@ -181,7 +181,8 @@ const TreatmentsDataGrid = ({
       >
         <Button
           onClick={() => {
-            openAddTreatments();
+            console.log('click');
+            openAddTreatments(true);
           }}
         >
           Add Treatments

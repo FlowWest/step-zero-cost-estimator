@@ -19,8 +19,7 @@ const useHeadsObserver = () => {
 
     const elements = [
       document?.querySelector(`#consolidation-explanation`),
-      document?.querySelector(`#capital-improvement-explanation`),
-      document?.querySelector(`#miscellaneous-explanation`)
+      document?.querySelector(`#capital-improvement-explanation`)
     ];
     elements.forEach((elem: any) => observer?.current?.observe(elem));
     return () => observer.current?.disconnect();

@@ -237,134 +237,134 @@ export const getSystemComponentValues = ({
     {
       component: 'Drilled Well, 6", steel casing',
       unitCost: 80,
-      avgLife: 20,
+      avgLife: 25,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Drilled Well, 8", steel casing',
       unitCost: 130,
-      avgLife: 20,
+      avgLife: 25,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Drilled Well, 12", steel casing',
       unitCost: 200,
-      avgLife: 20,
+      avgLife: 25,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Wellhead Electrical Controls',
       unitCost: 700,
-      avgLife: 20,
+      avgLife: 25,
       uid: Math.random()
     },
-    { component: 'Submersible Pump, 20 HP', unitCost: 9000, avgLife: 20, uid: Math.random() },
-    { component: 'Submersible Pump, 3 HP', unitCost: 2000, avgLife: 20, uid: Math.random() },
+    { component: 'Submersible Pump, 20 HP', unitCost: 9000, avgLife: 7, uid: Math.random() },
+    { component: 'Submersible Pump, 3 HP', unitCost: 2000, avgLife: 7, uid: Math.random() },
     {
       component: 'Submersible Pump, 5 HP',
       unitCost: 3500,
-      avgLife: 20,
+      avgLife: 7,
       uid: Math.random()
     },
     {
       component: 'Booster Pump Station, 25 HP, complete',
       unitCost: 14000,
-      avgLife: 20,
+      avgLife: 5,
       uid: Math.random()
     },
     {
       component: 'Booster Pump Station Electrical Controls',
       unitCost: 900,
-      avgLife: 20,
+      avgLife: 5,
       uid: Math.random()
     },
     {
       component: 'Pressure Tank',
       unitCost: 1.5,
-      avgLife: 20,
+      avgLife: 10,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Storage Tank, Plastic',
       unitCost: 0.5,
-      avgLife: 20,
+      avgLife: 10,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Storage Tank, Steel',
       unitCost: 1.2,
-      avgLife: 20,
+      avgLife: 50,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Storage Tank, Concrete',
       unitCost: 1.5,
-      avgLife: 20,
+      avgLife: 80,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Master Meter, 2"',
       unitCost: 450,
-      avgLife: 20,
+      avgLife: 10,
       uid: Math.random()
     },
     {
       component: 'Master Meter, 3"',
       unitCost: 800,
-      avgLife: 20,
+      avgLife: 10,
       uid: Math.random()
     },
     {
       component: 'Master Meter, 4"',
       unitCost: 2500,
-      avgLife: 20,
+      avgLife: 10,
       uid: Math.random()
     },
     {
       component: 'Hypochlorinator w/ Tank & Pump, Complete',
       unitCost: 800,
-      avgLife: 20,
+      avgLife: 10,
       uid: Math.random()
     },
     {
       component: 'Pipe w/ sand bedding, 1"',
       unitCost: 20,
-      avgLife: 20,
+      avgLife: 50,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Pipe w/ sand bedding, 2"',
       unitCost: 25,
-      avgLife: 20,
+      avgLife: 50,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Pipe w/ sand bedding, 3"',
       unitCost: 30,
-      avgLife: 20,
+      avgLife: 50,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Pipe w/ sand bedding, 4"',
       unitCost: 35,
-      avgLife: 20,
+      avgLife: 50,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Pipe w/ sand bedding, 6"',
       unitCost: 50,
-      avgLife: 20,
+      avgLife: 50,
       uid: Math.random(),
       requiresMeasurement: true
     },
@@ -381,8 +381,8 @@ export const getSystemComponentValues = ({
       avgLife: 20,
       uid: Math.random()
     },
-    { component: 'Distribution Valve, 2"', unitCost: 150, avgLife: 20, uid: Math.random() },
-    { component: 'Distribution Valve, 3"', unitCost: 250, avgLife: 20, uid: Math.random() },
+    { component: 'Distribution Valve, 2"', unitCost: 150, avgLife: 10, uid: Math.random() },
+    { component: 'Distribution Valve, 3"', unitCost: 250, avgLife: 10, uid: Math.random() },
     { component: 'Distribution Valve, 4"', unitCost: 600, avgLife: 20, uid: Math.random() },
     { component: 'Distribution Valve, 6"', unitCost: 850, avgLife: 20, uid: Math.random() },
     {
