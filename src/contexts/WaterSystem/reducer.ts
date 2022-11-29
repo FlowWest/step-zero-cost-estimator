@@ -27,7 +27,9 @@ export const initialState = {
   cipCostData: {
     existing: 0,
     new: 0,
-    total: 0
+    total: 0,
+    treatmentCapital: 0,
+    treatmentOperational: 0
   },
   systemComponents: [],
   selectedTreatments: []

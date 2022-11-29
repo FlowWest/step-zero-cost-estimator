@@ -86,12 +86,13 @@ const sortComparator = (
 
 const TreatmentsDataGrid = ({
   rows,
-  openAddTreatments
+  openAddTreatments,
+  setTotalCostValues
 }: {
   rows: Array<any>;
   openAddTreatments: Function;
+  setTotalCostValues: Function;
 }) => {
-  console.log('rows', rows);
   const classes = useStyles();
   const columns: GridColDef[] = [
     {
@@ -180,7 +181,8 @@ const TreatmentsDataGrid = ({
       >
         <Button
           onClick={() => {
-            openAddTreatments();
+            console.log('click');
+            openAddTreatments(true);
           }}
         >
           Add Treatments
@@ -231,6 +233,18 @@ const TreatmentsDataGrid = ({
             Footer: renderFooter
           }}
           disableSelectionOnClick
+          onCellEditCommit={(cell: any) => {
+            setTotalCostValues((prevState: Array<any>) => {
+              const { id, field, value } = cell;
+              const newState = prevState.map((row) => {
+                if (row.uid === id) {
+                  row[field] = value;
+                }
+                return row;
+              });
+              return newState;
+            });
+          }}
         />
       </div>
     </div>

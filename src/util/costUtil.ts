@@ -5,7 +5,7 @@ import { inRange } from 'lodash';
 const setCostVariables = {
   distanceBuffer: 1000,
   serviceLineFee: 5000,
-  propertyCostLot: 150000,
+  lotPropertyCost: 150000,
   boosterStation: 75000,
   urbanAdjustment: 0.32,
   suburbanAdjustment: 0.3,
@@ -126,8 +126,13 @@ export const getConsolidationCostDetails = ({
     contingency
   } = consolidationCostParams || {};
 
-  const { distanceBuffer, boosterStation, inflationAdjustment, planningAndConstructionAdjustment } =
-    setCostVariables;
+  const {
+    distanceBuffer,
+    boosterStation,
+    inflationAdjustment,
+    planningAndConstructionAdjustment,
+    lotPropertyCost
+  } = setCostVariables;
   // if connections > 0, use connections, else use 8
   const calcConnections = connections || 8;
   const totalConnectionCosts = calcConnections * feeCostPerConnection;
@@ -143,7 +148,10 @@ export const getConsolidationCostDetails = ({
   const totalAdminFees = adminLegalCEQACosts;
 
   const needsElevationAdjustment = getElevationAdjustmentRequirement(waterSystemDetails);
-  const elevationAdjustmentCost = needsElevationAdjustment ? boosterStation * 2 : 0;
+
+  const elevationAdjustmentCost = needsElevationAdjustment
+    ? boosterStation * 2 + lotPropertyCost
+    : 0;
 
   const subtotal = totalMaterialCosts + totalAdminFees + elevationAdjustmentCost;
 
@@ -197,7 +205,6 @@ export const getConsolidationCostDetails = ({
 };
 
 export const getADD = (joinPopulation: any) => {
-  console.log('ADD', parseInt(joinPopulation) * 150);
   return parseInt(joinPopulation) * 150;
 };
 
@@ -230,134 +237,134 @@ export const getSystemComponentValues = ({
     {
       component: 'Drilled Well, 6", steel casing',
       unitCost: 80,
-      avgLife: 20,
+      avgLife: 25,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Drilled Well, 8", steel casing',
       unitCost: 130,
-      avgLife: 20,
+      avgLife: 25,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Drilled Well, 12", steel casing',
       unitCost: 200,
-      avgLife: 20,
+      avgLife: 25,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Wellhead Electrical Controls',
       unitCost: 700,
-      avgLife: 20,
+      avgLife: 25,
       uid: Math.random()
     },
-    { component: 'Submersible Pump, 20 HP', unitCost: 9000, avgLife: 20, uid: Math.random() },
-    { component: 'Submersible Pump, 3 HP', unitCost: 2000, avgLife: 20, uid: Math.random() },
+    { component: 'Submersible Pump, 20 HP', unitCost: 9000, avgLife: 7, uid: Math.random() },
+    { component: 'Submersible Pump, 3 HP', unitCost: 2000, avgLife: 7, uid: Math.random() },
     {
       component: 'Submersible Pump, 5 HP',
       unitCost: 3500,
-      avgLife: 20,
+      avgLife: 7,
       uid: Math.random()
     },
     {
       component: 'Booster Pump Station, 25 HP, complete',
       unitCost: 14000,
-      avgLife: 20,
+      avgLife: 5,
       uid: Math.random()
     },
     {
       component: 'Booster Pump Station Electrical Controls',
       unitCost: 900,
-      avgLife: 20,
+      avgLife: 5,
       uid: Math.random()
     },
     {
       component: 'Pressure Tank',
       unitCost: 1.5,
-      avgLife: 20,
+      avgLife: 10,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Storage Tank, Plastic',
       unitCost: 0.5,
-      avgLife: 20,
+      avgLife: 10,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Storage Tank, Steel',
       unitCost: 1.2,
-      avgLife: 20,
+      avgLife: 50,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Storage Tank, Concrete',
       unitCost: 1.5,
-      avgLife: 20,
+      avgLife: 80,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Master Meter, 2"',
       unitCost: 450,
-      avgLife: 20,
+      avgLife: 10,
       uid: Math.random()
     },
     {
       component: 'Master Meter, 3"',
       unitCost: 800,
-      avgLife: 20,
+      avgLife: 10,
       uid: Math.random()
     },
     {
       component: 'Master Meter, 4"',
       unitCost: 2500,
-      avgLife: 20,
+      avgLife: 10,
       uid: Math.random()
     },
     {
       component: 'Hypochlorinator w/ Tank & Pump, Complete',
       unitCost: 800,
-      avgLife: 20,
+      avgLife: 10,
       uid: Math.random()
     },
     {
       component: 'Pipe w/ sand bedding, 1"',
       unitCost: 20,
-      avgLife: 20,
+      avgLife: 50,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Pipe w/ sand bedding, 2"',
       unitCost: 25,
-      avgLife: 20,
+      avgLife: 50,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Pipe w/ sand bedding, 3"',
       unitCost: 30,
-      avgLife: 20,
+      avgLife: 50,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Pipe w/ sand bedding, 4"',
       unitCost: 35,
-      avgLife: 20,
+      avgLife: 50,
       uid: Math.random(),
       requiresMeasurement: true
     },
     {
       component: 'Pipe w/ sand bedding, 6"',
       unitCost: 50,
-      avgLife: 20,
+      avgLife: 50,
       uid: Math.random(),
       requiresMeasurement: true
     },
@@ -374,8 +381,8 @@ export const getSystemComponentValues = ({
       avgLife: 20,
       uid: Math.random()
     },
-    { component: 'Distribution Valve, 2"', unitCost: 150, avgLife: 20, uid: Math.random() },
-    { component: 'Distribution Valve, 3"', unitCost: 250, avgLife: 20, uid: Math.random() },
+    { component: 'Distribution Valve, 2"', unitCost: 150, avgLife: 10, uid: Math.random() },
+    { component: 'Distribution Valve, 3"', unitCost: 250, avgLife: 10, uid: Math.random() },
     { component: 'Distribution Valve, 4"', unitCost: 600, avgLife: 20, uid: Math.random() },
     { component: 'Distribution Valve, 6"', unitCost: 850, avgLife: 20, uid: Math.random() },
     {
@@ -438,7 +445,7 @@ export const getSystemComponentValues = ({
       regionalAdjustment,
       inflationAdjustment
     ]),
-    avgLife: 20,
+    avgLife: 25,
     uid: Math.random()
   });
 
@@ -449,7 +456,7 @@ export const getSystemComponentValues = ({
   systemComponents.push({
     component: 'Meters (all connections)',
     unitCost: getComponentAdjustedCost(metersCost, [regionalAdjustment, inflationAdjustment]),
-    avgLife: 20,
+    avgLife: 10,
     uid: Math.random()
   });
 
@@ -499,7 +506,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Granular Activated Carbon',
     contaminant: 'Organic Contaminants, Total Organic Carbon',
     capitalCost: gacEquipmentCost,
-    operationalCost: (getADD(joinPopulation) / 1000) * 0.28 * 365, // These costs were normalized to a standard production cost equivalent to $0.28/1,000 gallons of water produced.
+    operationalCost: (getADD(joinPopulation) / 1000) * 365 * 0.28, // These costs were normalized to a standard production cost equivalent to $0.28/1,000 gallons of water produced.
     category: 'groundWater'
   });
 
@@ -526,7 +533,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Anion Exchange',
     contaminant: 'Nitrate',
     capitalCost: axEquipmentCost,
-    operationalCost: undefined,
+    operationalCost: getMDD(joinPopulation) * 4000, // figure C8 linear model
     category: 'groundWater'
   });
 
@@ -536,7 +543,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Cation Exchange',
     contaminant: 'Radium',
     capitalCost: axEquipmentCost,
-    operationalCost: undefined,
+    operationalCost: getMDD(joinPopulation) * 4000, // For this instance, the costs for nitrate disposal were applied
     category: 'groundWater'
   });
 
@@ -559,7 +566,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Ion Exchange',
     contaminant: 'Uranium, Gross Alpha as a result of Uranium, and Perchlorate',
     capitalCost: ixEquipmentCost,
-    operationalCost: (100000 / 1000) * 0.56, // . A review of service supplier cost estimates for these services resulted in a unit cost of $0.56/kgal of water produced for uranium and $0.10/kgal for perchlorate, with the primary difference being the disposal and handling of the uranium laden waste This unit cost assumes a throughput of approximately 100,000 BV prior to replacement resin and reflects the cost for replacement, disposal, and associated services
+    operationalCost: (getADD(joinPopulation) / 1000) * 365 * 0.56, // . A review of service supplier cost estimates for these services resulted in a unit cost of $0.56/kgal of water produced for uranium and $0.10/kgal for perchlorate, with the primary difference being the disposal and handling of the uranium laden waste This unit cost assumes a throughput of approximately 100,000 BV prior to replacement resin and reflects the cost for replacement, disposal, and associated services
     category: 'groundWater'
   });
 
@@ -578,7 +585,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Adsorption',
     contaminant: 'Arsenic',
     capitalCost: adEquipmentCost,
-    operationalCost: undefined,
+    operationalCost: (getADD(joinPopulation) / 1000) * 365 * 1.54, // Coagulation Filtration $1.07/kgal,
     category: 'groundWater'
   });
 
@@ -591,7 +598,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Coagulation Filtration',
     contaminant: 'Arsenic',
     capitalCost: cfEquipmentCost,
-    operationalCost: undefined,
+    operationalCost: (getADD(joinPopulation) / 1000) * 365 * 1.07, // Coagulation Filtration $1.07/kgal
     category: 'groundWater'
   });
 
@@ -604,7 +611,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Filtration',
     contaminant: 'Iron and Manganese',
     capitalCost: filtrationEquipmentCost,
-    operationalCost: undefined,
+    operationalCost: (getADD(joinPopulation) / 1000) * 365 * 1.07, // The operational costs for iron and manganese removal use arsenic removal with coagulation filtration as a surrogate which are anticipated to be a conservative estimate.
     category: 'groundWater'
   });
 
@@ -625,7 +632,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Activated Alumina',
     contaminant: 'Fluoride',
     capitalCost: aaEquipmentCost,
-    operationalCost: undefined,
+    operationalCost: 295 * connections, // Table 26 : $295 - average OM cost per conn
     category: 'groundWater'
   });
 
@@ -648,7 +655,7 @@ export const getTreatmentOptionsValues = ({
     treatment: 'Surface Water Package Plant',
     contaminant: null,
     capitalCost: swppEquipmentCost,
-    operationalCost: undefined,
+    operationalCost: 41000, // Table C12:  Annual Operator Labor Cost Estimate
     category: 'surfaceWater'
   });
 
@@ -671,7 +678,7 @@ export const getTreatmentOptionsValues = ({
     treatment: '4-Log Virus Inactivation',
     contaminant: null,
     capitalCost: fourLVIEquipmentCost,
-    operationalCost: undefined,
+    operationalCost: 41000, // Table C12:  Annual Operator Labor Cost Estimate
     category: 'surfaceWater'
   });
 
