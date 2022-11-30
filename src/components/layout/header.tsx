@@ -53,8 +53,8 @@ const Header: FC<HeaderProps> = (props) => {
           <Grid item className={classes.logo}>
             <Link to="/" component={GatsbyLink} color="#fff" className={classes.link}>
               <StaticImage
-                src="../../../static/images/step-zero-logo3.png"
-                alt="FlowWest Logo"
+                src="../../images/step-zero-logo3.png"
+                alt="Step Zero Logo"
                 placeholder="blurred"
                 height={65}
               />
