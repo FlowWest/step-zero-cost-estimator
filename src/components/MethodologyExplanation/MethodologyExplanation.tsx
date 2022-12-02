@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Grid, Theme, List, ListItem, Link, Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import useHeadsObserver from '../../../hooks/useHeadsObserver';
+import useHeadsObserver from '../../hooks/useHeadsObserver';
 import ConsolidationMethodology from './ConsolidationMethodology';
 import CapitalImprovementMethodology from './CapitalImprovementMethodology';
 

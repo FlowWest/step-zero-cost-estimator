@@ -209,7 +209,7 @@ export const getADD = (joinPopulation: any) => {
 };
 
 export const getMDD = (joinPopulation: any) => {
-  return (parseInt(joinPopulation) * 150 * 2.25) / 1440;
+  return (getADD(joinPopulation) * 2.25) / 1440;
 };
 
 export const getComponentAdjustedCost = (basePrice: number, multipliers: Array<number>) => {
