@@ -215,7 +215,7 @@ const ConsolidationMethodology = () => {
         >
           2022
         </Link>{' '}
-        Drinking Water Needs Assessment
+        Drinking Water Needs Assessment.
       </Typography>
       <Typography className={classes.subSectionHeader} variant="h6">
         Formulas

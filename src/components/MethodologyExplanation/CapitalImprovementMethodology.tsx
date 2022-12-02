@@ -131,27 +131,45 @@ const CapitalImprovementMethodology = () => {
           2022 Drinking Water Needs Assessment
         </Link>
         , which are detailed below. Cost variables from the above section are referenced.
-      </Typography>
-      <TableContainer>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell className={classes.tableColumnHeader}>Component Name</TableCell>
-              <TableCell className={classes.tableColumnHeader}>Formula</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {systemCalculations.map((row) => (
-              <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell>{row.formula}</TableCell>
+        <TableContainer>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell className={classes.tableColumnHeader}>Component Name</TableCell>
+                <TableCell className={classes.tableColumnHeader}>Formula</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {systemCalculations.map((row) => (
+                <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <TableCell component="th" scope="row">
+                    {row.name}
+                  </TableCell>
+                  <TableCell>{row.formula}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        The remaining system component costs are preset to an estimated cost, but are able to be
+        adjusted within the application by the user.
+      </Typography>
+      <Typography className={classes.subSectionHeader} variant="h6">
+        Treatment Costs
+      </Typography>
+      <Typography paragraph>
+        In addition to water system components, the application also allows the user to add cost
+        estimates for various treatment types, based on the contaminant and treatment. The costs for
+        these were based on formulas detailed in the 2021 Needs Assessment, specifically{' '}
+        <Link
+          href="https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/documents/needs/c3.pdf"
+          target="_blank"
+        >
+          Attachment C3: Treatment Cost Methodology Details
+        </Link>
+        . The formulas for treatment capital and operational costs mostly relied on the water
+        system's MDD Flow Rates to calculate the estimated cost.
+      </Typography>
     </div>
   );
 };
