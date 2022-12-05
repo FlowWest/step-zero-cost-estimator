@@ -46,7 +46,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     pointerEvents: 'none',
     borderTop: '1px solid black'
   },
-  footer: { width: '100%', textAlign: 'right', marginRight: 10 }
+  footer: { width: '100%', textAlign: 'right', marginRight: 10 },
+  infoIcon: {
+    padding: '.4rem',
+    marginLeft: '.5rem',
+    transform: 'translateY(-.1rem)'
+  }
 }));
 
 const formatter = new Intl.NumberFormat('en-US', {
@@ -122,11 +127,19 @@ const ComponentDataGrid = ({
     {
       field: 'measurement',
       headerName: 'Measurement',
+      description:
+        'The measurement value is the amount of material that makes up 1 unit. (ex: For a Storage Tank, the measurement value could be 200,000 to represent the gallon size of a tank. Or for a Drilled Well, the measurement value would be for the depth of the well in feet',
       editable: true,
       flex: 1.5,
       type: 'number',
       headerAlign: 'right',
-      sortComparator: sortComparator
+      sortComparator: sortComparator,
+      cellClassName: (params) => {
+        if (!params.row.requiresMeasurement) {
+          return classes.nonEditableCell;
+        }
+        return '';
+      }
     },
     {
       field: 'unitCost',

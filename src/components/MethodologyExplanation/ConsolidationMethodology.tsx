@@ -7,7 +7,8 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  Link
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
@@ -30,15 +31,23 @@ const costVariables = [
   { name: 'Distance Buffer', value: '1,000 ft', adjustable: false },
   { name: 'Pipe Cost Per Foot', value: '$155', adjustable: true },
   { name: 'Service Line Fee', value: '$5,000', adjustable: false },
-  { name: 'Admin, Legal, and CEQA', value: '$285,000', adjustable: true },
+  { name: 'Admin and Legal', value: '$200,000', adjustable: true },
+  { name: 'CEQA', value: '$85,000', adjustable: false },
+  { name: 'SCADA', value: '$100,000', adjustable: false },
   { name: 'Lot Cost for Booster Stations (100x100ft lot)', value: '$150,000', adjustable: false },
   { name: 'Booster Station', value: '$75,000', adjustable: false },
+  { name: 'Sounder Base Cost', value: '$1,700', adjustable: false },
+  { name: 'Generator Base Cost', value: '$30,134', adjustable: false },
+  { name: 'Well Drilling Cost', value: '$1,200,000', adjustable: false },
+  { name: 'Meter Base Cost', value: '$1,200', adjustable: false },
+  { name: 'Meter Software Cost', value: '$29,000', adjustable: false },
   { name: 'Contingency Adjustment Percentage', value: '20%', adjustable: true },
   { name: 'Urban Adjustment Percentage', value: '32%', adjustable: false },
   { name: 'Suburban Adjustment Percentage', value: '30%', adjustable: false },
   { name: 'Rural Adjustment Percentage', value: '0%', adjustable: false },
   { name: 'Planning and Construction Adjustment Percentage', value: '25%', adjustable: false },
-  { name: 'Inflation Adjustment Percentage', value: '4.7%', adjustable: false }
+  { name: 'Inflation Adjustment Percentage', value: '4.7%', adjustable: false },
+  { name: 'Air Polution Permitting Fees Adjustment Percentage', value: '5%', adjustable: false }
 ];
 
 const systemCalculations = [
@@ -144,9 +153,11 @@ const ConsolidationMethodology = () => {
       <Typography paragraph>
         The methodology for calculating consolidation cost estimates builds upon work and data from
         the California State Water Resources Control Board for their annual Drinking Water Needs
-        Assessment report, as well as Corona Environmental Consulting, from their Cost Analysis of
-        California Drinking Water System Mergers study, which was completed for the Water
-        Foundation.
+        Assessment report, as well as Corona Environmental Consulting, from their{' '}
+        <Link href="https://waterfdn.org/wp-content/uploads/2019/08/COSTAN1.pdf" target="_blank">
+          Cost Analysis of California Drinking Water System Mergers
+        </Link>{' '}
+        study, which was completed for the Water Foundation.
       </Typography>
       <Typography className={classes.subSectionHeader} variant="h6">
         Water System Data
@@ -190,8 +201,21 @@ const ConsolidationMethodology = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        These cost variable values were sourced from the Cost Analysis study and both the 2021 and
-        2022 Drinking Water Needs Assessment.
+        These cost variable values were sourced from the Cost Analysis study and both the{' '}
+        <Link
+          href="https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/documents/needs/2021_needs_assessment.pdf"
+          target="_blank"
+        >
+          2021
+        </Link>{' '}
+        and{' '}
+        <Link
+          href="https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/documents/needs/2022needsassessment.pdf"
+          target="_blank"
+        >
+          2022
+        </Link>{' '}
+        Drinking Water Needs Assessment.
       </Typography>
       <Typography className={classes.subSectionHeader} variant="h6">
         Formulas
@@ -222,7 +246,21 @@ const ConsolidationMethodology = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        These cost variable values were derived from the Cost Analysis study, both the 2021 and 2022
+        These cost variable values were derived from the Cost Analysis study, both the These cost
+        variable values were sourced from the Cost Analysis study and both the{' '}
+        <Link
+          href="https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/documents/needs/2021_needs_assessment.pdf"
+          target="_blank"
+        >
+          2021
+        </Link>{' '}
+        and{' '}
+        <Link
+          href="https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/documents/needs/2022needsassessment.pdf"
+          target="_blank"
+        >
+          2022
+        </Link>{' '}
         Drinking Water Needs Assessment, and user research discussions.
       </Typography>
     </div>
