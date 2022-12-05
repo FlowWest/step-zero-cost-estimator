@@ -1,5 +1,6 @@
 import React from 'react';
-import { Theme, Typography, Grid } from '@mui/material';
+import { Theme, Typography, Grid, Link } from '@mui/material';
+import { Link as GatsbyLink } from 'gatsby';
 import { makeStyles } from '@mui/styles';
 import CostComparisonWrapper from './CostComparisonWrapper';
 import { WaterSystem } from '../../util/interfaces';
@@ -112,6 +113,23 @@ const CostComparisonSummary = ({
               {renderColumn(categoriesArray, classes.middleColumn)}
               {renderColumn(formatArray(cipCostsArray), classes.rightColumn)}
             </Grid>
+            <Typography paragraph fontWeight="bold">
+              Water rates may be affected by costs associated with Capital Improvement, as well as
+              undertaking Consolidation projects.
+            </Typography>
+            <Typography paragraph fontWeight="bold">
+              You may visit the{' '}
+              <Link to="/resources" component={GatsbyLink}>
+                Resources Page
+              </Link>{' '}
+              of this application to view additional tools that assist in estimating and examining
+              changes in water rates based on a variety of factors.
+            </Typography>
+            <Typography paragraph fontWeight="bold">
+              The cost estimates calculated and resources linked in this application are meant for a
+              step zero analysis and is intended for exploratory purposes only. The calculations are
+              not a replacement for a full feasibility analysis.
+            </Typography>
           </Grid>
           <CostComparisonWrapper />
         </>
