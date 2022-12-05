@@ -59,6 +59,13 @@ export const resourceDataObjects: ResourceObject[] = [
     category: 'waterRates'
   },
   {
+    logo: 'https://dashboards.efc.sog.unc.edu/efc_logo_new.png',
+    description: `Tool to help set water and/or wastewater rates next year by projecting the utility's expenses, revenues from rates, and fund balance.`,
+    title: 'Water And Wastewater Rates Analysis Model',
+    link: 'https://efc.sog.unc.edu/resource/water-and-wastewater-rates-analysis-model/',
+    category: 'waterRates'
+  },
+  {
     logo: 'http://sourcewaterpa-archive.prwa.com/wp-content/uploads/2014/12/SDWA-40-Anniv-Logo-JPEG-279x300.jpg',
     description:
       'The Drinking Water State Revolving Fund (DWRSF) program assists public water systems in financing the cost of drinking water infrastructure projects needed to achieve or maintain compliance with Safe Drinking Water Act (SDWA) requirements.',

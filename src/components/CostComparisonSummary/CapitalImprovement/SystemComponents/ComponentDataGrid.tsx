@@ -5,12 +5,9 @@ import {
   GridFooterContainer,
   gridStringOrNumberComparator,
   gridNumberComparator,
-  GridSortCellParams,
-  GridCellParams,
-  GridCellClassNamePropType
+  GridSortCellParams
 } from '@mui/x-data-grid';
-import { Theme, Button, Tooltip, TooltipProps, IconButton } from '@mui/material';
-import { InfoOutlined } from '@mui/icons-material';
+import { Theme, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
