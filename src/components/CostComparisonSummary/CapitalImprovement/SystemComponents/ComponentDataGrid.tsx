@@ -6,7 +6,8 @@ import {
   gridStringOrNumberComparator,
   gridNumberComparator,
   GridSortCellParams,
-  GridColumnHeaderParams
+  GridCellParams,
+  GridCellClassNamePropType
 } from '@mui/x-data-grid';
 import { Theme, Button, Tooltip, TooltipProps, IconButton } from '@mui/material';
 import { InfoOutlined } from '@mui/icons-material';
@@ -135,7 +136,13 @@ const ComponentDataGrid = ({
       flex: 1.5,
       type: 'number',
       headerAlign: 'right',
-      sortComparator: sortComparator
+      sortComparator: sortComparator,
+      cellClassName: (params) => {
+        if (!params.row.requiresMeasurement) {
+          return classes.nonEditableCell;
+        }
+        return '';
+      }
     },
     {
       field: 'unitCost',
