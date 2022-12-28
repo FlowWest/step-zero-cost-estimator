@@ -54,7 +54,7 @@ const Header: FC<HeaderProps> = (props) => {
             <Link to="/" component={GatsbyLink} color="#fff" className={classes.link}>
               <StaticImage
                 src="../../images/step-zero-logo3.png"
-                alt="FlowWest Logo"
+                alt="Step Zero Logo"
                 placeholder="blurred"
                 height={65}
               />
@@ -69,11 +69,11 @@ const Header: FC<HeaderProps> = (props) => {
             </Button>
           </Grid>
         </Grid>
-        <Tooltip title="switch theme">
+        {/* <Tooltip title="switch theme">
           <Button onClick={onSwitch}>
             {darkModeOn ? <BsToggleOn size="40" /> : <BsToggleOff size="40" />}
           </Button>
-        </Tooltip>
+        </Tooltip> */}
       </Toolbar>
     </AppBar>
   );

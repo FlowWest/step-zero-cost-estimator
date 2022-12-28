@@ -11,6 +11,7 @@ import { graphql } from 'gatsby';
 import { WaterSystem } from '../util/interfaces';
 import { Seo } from '../components';
 import WaterSystemDetailsDialog from '../components/CostComparisonSummary/WaterSystemDetailsDialog';
+import { MethodologyExplanation } from '../components/MethodologyExplanation/MethodologyExplanation';
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const IndexPage: FC = (props: any) => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(WaterSystemContext);
+  const [state, dispatch] = useContext(WaterSystemContext) as Array<any>;
   const [systemsDetailsDialogIsOpen, setSystemsDetailsDialogIsOpen] = useState(false as boolean);
 
   const allWaterSystems = props.data.allWaterSystemDetailsCsv.nodes;
@@ -141,7 +142,9 @@ const IndexPage: FC = (props: any) => {
           </ContentWrapper>
         </Grid>
         <Grid item xs={12} className={classes.gridItemContainer}>
-          <ContentWrapper title="Calculation Methodology Explanation"></ContentWrapper>
+          <ContentWrapper title="Calculation Methodology Explanation">
+            <MethodologyExplanation />
+          </ContentWrapper>
         </Grid>
       </Grid>
     </Grid>

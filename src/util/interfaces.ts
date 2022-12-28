@@ -38,6 +38,7 @@ export interface WaterSystemState {
     existing: Record<string, unknown>;
   };
   systemComponents: Array<any>;
+  selectedTreatments: Array<any>;
 }
 
 export interface ConsolidationCostDetails {

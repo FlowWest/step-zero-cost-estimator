@@ -17,7 +17,7 @@ import { startCase } from 'lodash';
 import { Close } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme: Theme) => ({
-  accordionContainer: {
+  dialogContainer: {
     background: theme.palette.background.content
   },
   systemsContent: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-export const WaterSystemDetailsAccordion = ({
+export const WaterSystemDetailsDialog = ({
   state,
   systemsDetailsDialogIsOpen,
   handleCloseSystemsDetailsDialog
@@ -39,7 +39,7 @@ export const WaterSystemDetailsAccordion = ({
     <Dialog
       open={systemsDetailsDialogIsOpen}
       onClose={handleCloseSystemsDetailsDialog}
-      classes={{ paper: styles.accordionContainer }}
+      classes={{ paper: styles.dialogContainer }}
       maxWidth="md"
     >
       <DialogTitle>
@@ -59,9 +59,8 @@ export const WaterSystemDetailsAccordion = ({
       </DialogTitle>
       <DialogContent>
         <Typography variant="subtitle1">
-          Values are sourced from the Consolidation Analysis report. These values are meant to be a
-          starting point for your calculations and estimates. You may adjust those values using the
-          consolidation calculator.
+          These values are meant to be a starting point for your calculations and estimates. You may
+          adjust those values using the consolidation calculator.
         </Typography>
         <Grid container className={styles.systemsContent} spacing={1}>
           <Grid item xs={6}>
@@ -133,4 +132,4 @@ export const WaterSystemDetailsAccordion = ({
   );
 };
 
-export default WaterSystemDetailsAccordion;
+export default WaterSystemDetailsDialog;
