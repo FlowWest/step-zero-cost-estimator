@@ -108,6 +108,8 @@ export const handleExcelExport = async (state: any, templateFileNode: any) => {
           };
         }
       }
+
+      // cipSheet.J11.f = 'J10 + 1000';
     };
     applyDefaultStyles(cipSheet);
 
