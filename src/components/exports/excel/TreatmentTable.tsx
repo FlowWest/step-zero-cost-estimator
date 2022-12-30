@@ -19,8 +19,7 @@ const TreatmentTable = (state: WaterSystemState) => {
           <td colSpan={6}>{treatment?.contaminant || 'N/A'}</td>
           <td colSpan={3}>{treatment?.treatment}</td>
           <td colSpan={2}>{treatment?.capitalCost}</td>
-          {renderEmptyData(1, 'cell')}
-          <td colSpan={2}>{treatment?.operationalCost}</td>
+          <td colSpan={3}>{treatment?.operationalCost}</td>
         </tr>
       );
     });
@@ -42,8 +41,7 @@ const TreatmentTable = (state: WaterSystemState) => {
         <td colSpan={6}>TOTAL Treatment Costs</td>
         {renderEmptyData(3, 'cell')}
         <td colSpan={2}>{totals.capitalCost}</td>
-        {renderEmptyData(1, 'cell')}
-        <td colSpan={2}>{totals.operationalCost}</td>
+        <td colSpan={3}>{totals.operationalCost}</td>
       </tr>
     );
   }

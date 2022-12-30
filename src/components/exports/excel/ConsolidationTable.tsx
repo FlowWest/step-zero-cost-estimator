@@ -16,7 +16,7 @@ const ConsolidationTable = (state: any) => {
     currentWaterSystem,
     consolidationCostParams
   }: WaterSystemState) {
-    const { adjustments, adminFees, materialCosts } = getConsolidationCostDetails({
+    const { adjustments, adminFees, materialCosts, total } = getConsolidationCostDetails({
       waterSystemDetails: currentWaterSystem,
       consolidationCostParams
     });
@@ -85,6 +85,12 @@ const ConsolidationTable = (state: any) => {
           <td colSpan={3}>TOTAL Adjustments </td>
           {renderEmptyData(5, 'cell')}
           <td colSpan={2}>{adjustments.total}</td>
+        </tr>
+        {renderEmptyData(1, 'row')}
+        <tr>
+          <td colSpan={3}>TOTAL Consolidation Costs</td>
+          {renderEmptyData(6, 'cell')}
+          <td colSpan={2}>{total}</td>
         </tr>
       </>
     );

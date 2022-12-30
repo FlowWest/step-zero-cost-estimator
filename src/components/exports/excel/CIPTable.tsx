@@ -178,7 +178,7 @@ const CIPTable = (state: any): JSX.Element => {
           {renderEmptyData(1, 'row')}
           {generateSubtotals('all')}
           {renderEmptyData(2, 'row')}
-          {/* {renderSignatureAndNotes()} */}
+          {renderSignatureAndNotes()}
         </tbody>
       </table>
     </>

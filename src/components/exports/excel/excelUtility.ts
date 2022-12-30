@@ -8,7 +8,7 @@ import ConsolidationTable from './ConsolidationTable';
 export const generateHtmlString = (element: any) => ReactDOMServer.renderToStaticMarkup(element);
 
 const excludedKeys = ['!cols', '!ref', '!fullref', '!merges', '!rows'];
-const highlightedColumns = ['A', 'B', 'C', 'D', 'E', 'F', 'I'];
+const highlightedColumns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'I'];
 const wsDetails = ['K2', 'K3', 'K4'];
 const excludedValues = [
   'CAPITAL IMPROVEMENT PLAN (CIP)',
@@ -18,10 +18,13 @@ const excludedValues = [
   'Service Connections:',
   'QTY',
   'COMPONENT',
+  'UNIT',
+  'COST',
   'AVG',
   'LIFE,',
   'YEARS',
   'ANNUAL',
+  'MONTHLY',
   'RESERVE',
   'Report Prepared by (Title): _________________________________________________________________',
   'Date: ________________________________',
@@ -39,6 +42,7 @@ const excludedValues = [
   'TOTAL Material Cost',
   'TOTAL Administrative Fees',
   'TOTAL Adjustments',
+  'TOTAL Consolidation Costs',
   'CATEGORY'
 ];
 const defaultFont = {
@@ -65,37 +69,37 @@ export const handleExcelExport = async (state: any, templateFileNode: any): Prom
   const workbookTest = read(data, { type: 'array', cellStyles: true, cellNF: true }) as any;
 
   try {
-    const elt1 = document.createElement('div');
-    elt1.innerHTML = cipString;
-    document.body.appendChild(elt1);
-    const elt2 = document.createElement('div');
-    elt2.innerHTML = treatmentString;
-    document.body.appendChild(elt2);
-    const elt3 = document.createElement('div');
-    elt3.innerHTML = consolidationString;
-    document.body.appendChild(elt3);
+    const cipElement = document.createElement('div');
+    cipElement.innerHTML = cipString;
+    document.body.appendChild(cipElement);
+    const treatmentElement = document.createElement('div');
+    treatmentElement.innerHTML = treatmentString;
+    document.body.appendChild(treatmentElement);
+    const consolidationElement = document.createElement('div');
+    consolidationElement.innerHTML = consolidationString;
+    document.body.appendChild(consolidationElement);
 
     /* generate worksheet */
     //const workbook = utils.table_to_book(elt, { sheet: 'CIP' });
     const workbook = utils.book_new();
-    const sheet1 = utils.table_to_sheet(elt1, { sheet: 'CIP' });
-    const sheet2 = utils.table_to_sheet(elt2, { sheet: 'Treatments' });
-    const sheet3 = utils.table_to_sheet(elt3, { sheet: 'Consolidation' });
+    const sheet1 = utils.table_to_sheet(cipElement, { sheet: 'CIP' });
+    const sheet2 = utils.table_to_sheet(treatmentElement, { sheet: 'Treatments' });
+    const sheet3 = utils.table_to_sheet(consolidationElement, { sheet: 'Consolidation' });
 
     utils.book_append_sheet(workbook, sheet1, 'CIP');
     utils.book_append_sheet(workbook, sheet2, 'Treatments');
     utils.book_append_sheet(workbook, sheet3, 'Consolidation');
     /* remove element */
-    document.body.removeChild(elt1);
-    document.body.removeChild(elt2);
-    document.body.removeChild(elt3);
+    document.body.removeChild(cipElement);
+    document.body.removeChild(treatmentElement);
+    document.body.removeChild(consolidationElement);
 
     const cipSheet = workbook.Sheets.CIP as Record<string, any>;
     const consolidationSheet = workbook.Sheets.Consolidation as Record<string, any>;
     const treatmentsSheet = workbook.Sheets.Treatments as Record<string, any>;
     //console.log('🚀 ~ handleExcelExport ~ cipSheet', cipSheet);
 
-    const applyDefaultStyles = (sheet: Record<string, any>) => {
+    const applyCIPStyles = (sheet: Record<string, any>) => {
       console.log('🚀 ~ applyDefaultStyles ~ sheet', sheet);
       for (const key in sheet) {
         if (!excludedKeys.includes(key)) {
@@ -110,23 +114,105 @@ export const handleExcelExport = async (state: any, templateFileNode: any): Prom
         ) {
           sheet[key].s = {
             ...defaultFont,
-            fill: addHighlight()
-            //border: addBorder()
+            fill: addHighlight(),
+            border: addBorder()
           };
         }
 
         if (
-          (['J', 'M'].includes(key.split('')[0]) &&
+          key.split('')[0] === 'J' &&
+          !excludedValues.includes(sheet[key].v) &&
+          sheet[key.replace('J', 'I')]?.t === 'z' &&
+          [
+            'TOTAL Existing and New Project CIP',
+            'TOTAL Material Cost',
+            'TOTAL Administrative Fees',
+            'TOTAL Adjustments',
+            'SUBTOTAL Existing CIP Costs',
+            'SUBTOTAL New CIP Costs'
+          ].includes(sheet[key.replace('J', 'B')]?.v)
+        ) {
+          sheet[key].s = {
+            ...defaultFont,
+            fill: addHighlight('orange'),
+            border: addBorder()
+          };
+        }
+
+        if (key.split('')[0] === 'A' && sheet[key].v === 'NOTES:') {
+          sheet[key].s = {
+            ...defaultFont,
+            border: addBorder(),
+            alignment: {
+              vertical: 'top',
+              horizontal: 'left'
+            }
+          };
+        }
+      }
+
+      // cipSheet.J11.f = 'J10 + 1000';
+    };
+    const applyTreatmentStyles = (sheet: Record<string, any>) => {
+      console.log('🚀 ~ applyDefaultStyles ~ sheet', sheet);
+      for (const key in sheet) {
+        if (!excludedKeys.includes(key)) {
+          sheet[key].s = defaultFont;
+        }
+
+        if (
+          (['J', 'L'].includes(key.split('')[0]) &&
             !excludedValues.includes(sheet[key].v) &&
-            sheet[key.replace('J', 'I')]?.t === 'z' &&
-            [
-              'TOTAL Existing and New Project CIP',
-              'TOTAL Material Cost',
-              'TOTAL Administrative Fees',
-              'TOTAL Adjustments'
-            ].includes(sheet[key.replace('J', 'B')]?.v)) ||
-          (sheet[key.replace('M', 'L')]?.t === 'z' &&
-            sheet[key.replace('M', 'A')]?.v === 'TOTAL Treatment Costs')
+            sheet[key].t !== 'z') ||
+          wsDetails.includes(key)
+        ) {
+          sheet[key].s = {
+            ...defaultFont,
+            fill: addHighlight(),
+            border: addBorder()
+          };
+        }
+
+        if (
+          !excludedValues.includes(sheet[key].v) &&
+          (sheet[key.replace('J', 'A')]?.v === 'TOTAL Treatment Costs' ||
+            sheet[key.replace('L', 'A')]?.v === 'TOTAL Treatment Costs')
+        ) {
+          sheet[key].s = {
+            ...defaultFont,
+            fill: addHighlight('orange'),
+            border: addBorder()
+          };
+        }
+      }
+
+      // cipSheet.J11.f = 'J10 + 1000';
+    };
+    const applyConsolidationStyles = (sheet: Record<string, any>) => {
+      console.log('🚀 ~ applyDefaultStyles ~ sheet', sheet);
+      for (const key in sheet) {
+        if (!excludedKeys.includes(key)) {
+          sheet[key].s = defaultFont;
+        }
+
+        // if (
+        //   (highlightedColumns.includes(key.split('')[0]) &&
+        //     !excludedValues.includes(sheet[key].v) &&
+        //     sheet[key].t !== 'z') ||
+        //   wsDetails.includes(key)
+        // ) {
+        //   sheet[key].s = {
+        //     ...defaultFont,
+        //     fill: addHighlight(),
+        //     border: addBorder()
+        //   };
+        // }
+
+        if (
+          key.split('')[0] === 'J' &&
+          !excludedValues.includes(sheet[key].v) &&
+          (excludedValues.includes(sheet[key.replace('J', 'B')]?.v) ||
+            sheet[key.replace('J', 'A')]?.v === 'TOTAL Consolidation Costs')
         ) {
           sheet[key].s = {
             ...defaultFont,
@@ -149,7 +235,9 @@ export const handleExcelExport = async (state: any, templateFileNode: any): Prom
 
       // cipSheet.J11.f = 'J10 + 1000';
     };
-    applyDefaultStyles(cipSheet);
+    applyCIPStyles(cipSheet);
+    applyTreatmentStyles(treatmentsSheet);
+    applyConsolidationStyles(consolidationSheet);
 
     console.log('wb', workbook);
     writeFile(workbook, `swsbudgetcalculator_${new Date().toLocaleDateString()}.xlsx`);
