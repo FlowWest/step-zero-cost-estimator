@@ -1,6 +1,11 @@
+import ReactDOMServer from 'react-dom/server';
 import { utils, writeFile, read } from 'xlsx-js-style';
 import axios from 'axios';
-import { ExcelTable, generateHtmlString } from './ExcelTable';
+import CIPTable from './CIPTable';
+import TreatmentTable from './TreatmentTable';
+import ConsolidationTable from './ConsolidationTable';
+
+export const generateHtmlString = (element: any) => ReactDOMServer.renderToStaticMarkup(element);
 
 const excludedKeys = ['!cols', '!ref', '!fullref', '!merges', '!rows'];
 const highlightedColumns = ['A', 'B', 'C', 'D', 'E', 'F', 'I'];
@@ -24,7 +29,17 @@ const excludedValues = [
   'SUBTOTAL Existing CIP Costs',
   'SUBTOTAL New CIP Costs',
   'TOTAL Existing and New Project CIP',
-  'NOTES:'
+  'NOTES:',
+  'CONTAMINANT',
+  'TREATMENT',
+  'CAPITAL COST',
+  'ANNUAL OPERATIONAL COST',
+  'TOTAL Treatment Costs',
+  'CONSOLIDATION COSTS',
+  'TOTAL Material Cost',
+  'TOTAL Administrative Fees',
+  'TOTAL Adjustments',
+  'CATEGORY'
 ];
 const defaultFont = {
   font: {
@@ -34,10 +49,10 @@ const defaultFont = {
     sz: 12
   }
 };
-export const handleExcelExport = async (state: any, templateFileNode: any) => {
-  const htmlString = generateHtmlString(ExcelTable(state));
-  console.log('🚀 ~ handleExcelExportV2 ~ htmlString', htmlString);
-  console.log('🚀 ~ handleExcelExportV2 ~ state', state);
+export const handleExcelExport = async (state: any, templateFileNode: any): Promise<void> => {
+  const cipString = generateHtmlString(CIPTable(state));
+  const treatmentString = generateHtmlString(TreatmentTable(state));
+  const consolidationString = generateHtmlString(ConsolidationTable(state));
 
   const url = templateFileNode.publicURL as string;
 
@@ -49,23 +64,39 @@ export const handleExcelExport = async (state: any, templateFileNode: any) => {
   const data = new Uint8Array(test.data);
   const workbookTest = read(data, { type: 'array', cellStyles: true, cellNF: true }) as any;
 
-  console.log('wbt', workbookTest);
-
   try {
-    const elt = document.createElement('div');
-    elt.innerHTML = htmlString;
-    document.body.appendChild(elt);
+    const elt1 = document.createElement('div');
+    elt1.innerHTML = cipString;
+    document.body.appendChild(elt1);
+    const elt2 = document.createElement('div');
+    elt2.innerHTML = treatmentString;
+    document.body.appendChild(elt2);
+    const elt3 = document.createElement('div');
+    elt3.innerHTML = consolidationString;
+    document.body.appendChild(elt3);
 
     /* generate worksheet */
-    const workbook = utils.table_to_book(elt, { sheet: 'CIP' });
+    //const workbook = utils.table_to_book(elt, { sheet: 'CIP' });
+    const workbook = utils.book_new();
+    const sheet1 = utils.table_to_sheet(elt1, { sheet: 'CIP' });
+    const sheet2 = utils.table_to_sheet(elt2, { sheet: 'Treatments' });
+    const sheet3 = utils.table_to_sheet(elt3, { sheet: 'Consolidation' });
 
+    utils.book_append_sheet(workbook, sheet1, 'CIP');
+    utils.book_append_sheet(workbook, sheet2, 'Treatments');
+    utils.book_append_sheet(workbook, sheet3, 'Consolidation');
     /* remove element */
-    document.body.removeChild(elt);
+    document.body.removeChild(elt1);
+    document.body.removeChild(elt2);
+    document.body.removeChild(elt3);
 
     const cipSheet = workbook.Sheets.CIP as Record<string, any>;
-    console.log('🚀 ~ handleExcelExport ~ cipSheet', cipSheet);
+    const consolidationSheet = workbook.Sheets.Consolidation as Record<string, any>;
+    const treatmentsSheet = workbook.Sheets.Treatments as Record<string, any>;
+    //console.log('🚀 ~ handleExcelExport ~ cipSheet', cipSheet);
 
     const applyDefaultStyles = (sheet: Record<string, any>) => {
+      console.log('🚀 ~ applyDefaultStyles ~ sheet', sheet);
       for (const key in sheet) {
         if (!excludedKeys.includes(key)) {
           sheet[key].s = defaultFont;
@@ -85,10 +116,17 @@ export const handleExcelExport = async (state: any, templateFileNode: any) => {
         }
 
         if (
-          key.split('')[0] === 'J' &&
-          !excludedValues.includes(sheet[key].v) &&
-          sheet[key.replace('J', 'I')].t === 'z' &&
-          sheet[key.replace('J', 'B')].v !== 'TOTAL Existing and New Project CIP'
+          (['J', 'M'].includes(key.split('')[0]) &&
+            !excludedValues.includes(sheet[key].v) &&
+            sheet[key.replace('J', 'I')]?.t === 'z' &&
+            [
+              'TOTAL Existing and New Project CIP',
+              'TOTAL Material Cost',
+              'TOTAL Administrative Fees',
+              'TOTAL Adjustments'
+            ].includes(sheet[key.replace('J', 'B')]?.v)) ||
+          (sheet[key.replace('M', 'L')]?.t === 'z' &&
+            sheet[key.replace('M', 'A')]?.v === 'TOTAL Treatment Costs')
         ) {
           sheet[key].s = {
             ...defaultFont,
