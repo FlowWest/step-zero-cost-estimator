@@ -66,6 +66,18 @@ const TotalCIPDataGrid = ({
       headerClassName: classes.hideRightSeparator
     },
     {
+      field: 'measurement',
+      headerName: '',
+      flex: 1.5,
+      headerClassName: classes.hideRightSeparator
+    },
+    {
+      field: 'measurementUnit',
+      headerName: '',
+      flex: 1.5,
+      headerClassName: classes.hideRightSeparator
+    },
+    {
       field: 'unitCost',
       headerName: '',
       editable: false,
