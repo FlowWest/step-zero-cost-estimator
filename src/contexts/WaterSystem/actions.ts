@@ -1,13 +1,6 @@
 import { ACTIONS } from './reducer';
 import { WaterSystem, ComponentProperties } from '../../util/interfaces';
 
-export const updateWaterSystem = (newWaterSystem: WaterSystem) => {
-  return {
-    type: ACTIONS.UPDATE_WATER_SYSTEM,
-    payload: newWaterSystem
-  };
-};
-
 export const updateConsolidationCostParams = (updatedParam: Record<string, unknown>) => {
   return {
     type: ACTIONS.UPDATE_CONSOLIDATION_COST_PARAMS,

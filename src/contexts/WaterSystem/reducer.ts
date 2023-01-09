@@ -2,7 +2,7 @@ import { WaterSystemState, WaterSystemAction } from '../../util/interfaces';
 import { getSystemComponentValues } from '../../util/costUtil';
 
 export const ACTIONS = {
-  UPDATE_WATER_SYSTEM: 'update_water_system',
+  RESET_WATER_SYSTEM: 'reset_water_system',
   UPDATE_CONSOLIDATION_COST_PARAMS: 'update_consolidation_cost_params',
   UPDATE_WATER_SYSTEM_AND_PARAMS: 'update_water_system_and_params',
   UPDATE_COMPONENTS: 'update_components',
@@ -37,13 +37,9 @@ export const initialState = {
 
 export const reducer = (state: WaterSystemState, action: WaterSystemAction): WaterSystemState => {
   switch (action.type) {
-    case ACTIONS.UPDATE_WATER_SYSTEM:
+    case ACTIONS.RESET_WATER_SYSTEM:
       return {
-        ...state,
-        currentWaterSystem: action.payload,
-        existingComponents: [],
-        newComponents: [],
-        autocompleteOptions: []
+        ...initialState
       };
     case ACTIONS.UPDATE_CONSOLIDATION_COST_PARAMS: {
       const updatedParams = { ...state.consolidationCostParams, ...action.payload };
