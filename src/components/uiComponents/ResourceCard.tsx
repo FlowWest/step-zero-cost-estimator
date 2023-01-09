@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { ResourceObject } from '../../util/interfaces';
+import { useStaticQuery, graphql } from 'gatsby';
 
 const useStyles = makeStyles((theme: Theme) => ({
   resourceLogo: {

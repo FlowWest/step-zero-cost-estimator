@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Button, Grid, Theme, Typography } from '@mui/material';
+import { Button, Grid, Theme, Typography, InputLabel } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { FC } from '../util';
 import Autocomplete from '../components/uiComponents/Autocomplete';
@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   accordionContainer: {
     background: theme.palette.background.content
+  },
+  resetButton: {
+    color: theme.palette.error.main
   }
 }));
 
@@ -92,7 +95,18 @@ const IndexPage: FC = (props: any) => {
         </Typography>
       </Grid>
       <Grid container item xs={12}>
-        <Grid item xs={8} md={5}>
+        <Grid item xs={12}>
+          <Typography variant="h5" fontWeight={'bold'}>
+            Select Water System
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="subtitle2">
+            If your desired water system is not in the dropdown list, you may type in the name of
+            it, and the application will use default values to begin the calculation.
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={6}>
           <Autocomplete
             dropdownLabel={'Water System'}
             dropdownPlaceholder={'Select or type in your water system'}
@@ -101,24 +115,26 @@ const IndexPage: FC = (props: any) => {
             setSelectedObject={handleWaterSystemChange}
           />
         </Grid>
+        <Grid item xs={12}></Grid>
         {state && Object.keys(state?.currentWaterSystem).length > 0 && (
           <>
-            <Grid item xs={12} md={4} className={classes.buttonContainer}>
-              <Button
-                onClick={() => {
-                  dispatch({ type: 'update_water_system', payload: {} });
-                }}
-              >
-                Select a new water system
-              </Button>
-            </Grid>
             {state.currentWaterSystem?.joinSystemPWSID && (
-              <Grid item xs={12} md={4}>
-                <Button variant="outlined" onClick={handleOpenSystemsDetailsDialog}>
+              <Grid item xs={12} md={12}>
+                <Button onClick={handleOpenSystemsDetailsDialog}>
                   View additional water systems information
                 </Button>
               </Grid>
             )}
+            <Grid item xs={12} md={12}>
+              <Button
+                className={classes.resetButton}
+                onClick={() => {
+                  dispatch({ type: 'update_water_system', payload: {} });
+                }}
+              >
+                Select a new water system and start over
+              </Button>
+            </Grid>
             <WaterSystemDetailsDialog
               state={state}
               systemsDetailsDialogIsOpen={systemsDetailsDialogIsOpen}

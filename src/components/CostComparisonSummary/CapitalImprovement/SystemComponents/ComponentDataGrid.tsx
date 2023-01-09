@@ -142,6 +142,16 @@ const ComponentDataGrid = ({
       }
     },
     {
+      field: 'measurementUnit',
+      headerName: 'Unit',
+      editable: false,
+      flex: 1.5,
+      type: 'number',
+      headerAlign: 'right',
+      sortComparator: sortComparator,
+      cellClassName: classes.nonEditableCell
+    },
+    {
       field: 'unitCost',
       headerName: 'Unit Cost',
       editable: true,

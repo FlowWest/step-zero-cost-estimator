@@ -87,11 +87,12 @@ const AddComponentsModal = ({ open, handleClose }: { open: boolean; handleClose:
             Add water system components to best model the current inventory and future needs of your
             water system to provide safe drinking water.
           </Typography>
-          {/* <Typography variant="subtitle2" align="left" gutterBottom>
-            Then use the transfer list to move components between the Existing and New sides to
-            indicate which components are currently in use in your water system, as well as
-            components needing to be acquired.
-          </Typography> */}
+          <Typography variant="subtitle2" align="left" gutterBottom>
+            If your desired water system component is not in the dropdown list, you may type in the
+            name of it, click "+ Add" and the application will prompt you to enter a unit cost and
+            average life for your custom component.
+          </Typography>
+
           <IconButton
             aria-label="close"
             onClick={() => handleCloseClick(null)}

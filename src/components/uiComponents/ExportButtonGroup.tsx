@@ -40,11 +40,6 @@ const ExportButtonGroup = ({ state }: { state: any }) => {
         </Button>
       </Grid>
       <Grid item xs={12} md={4} lg={2}>
-        <Button variant="contained" fullWidth>
-          Export CSV
-        </Button>
-      </Grid>
-      <Grid item xs={12} md={4} lg={2}>
         <Button
           variant="contained"
           fullWidth
