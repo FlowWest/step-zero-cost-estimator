@@ -106,7 +106,7 @@ const IndexPage: FC = (props: any) => {
             it, and the application will use default values to begin the calculation.
           </Typography>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={5}>
           <Autocomplete
             dropdownLabel={'Water System'}
             dropdownPlaceholder={'Select or type in your water system'}

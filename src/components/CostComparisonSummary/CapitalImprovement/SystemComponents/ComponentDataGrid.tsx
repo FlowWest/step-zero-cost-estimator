@@ -340,7 +340,7 @@ const ComponentDataGrid = ({
           }}
           disableSelectionOnClick
           isCellEditable={(params) => {
-            return params?.row?.requiresMeasurement;
+            return params.field === 'measurement' ? params?.row?.requiresMeasurement : true;
           }}
         />
       </div>

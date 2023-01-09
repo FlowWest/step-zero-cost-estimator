@@ -19,11 +19,18 @@ const CIPTable = (state: any): JSX.Element => {
 
   function getDataRows(componentAge: 'new' | 'existing') {
     return state[`${componentAge}Components`]?.map((component: TransformedSystemComponent) => {
-      const { annualReserve, avgLife, component: name, monthlyReserve, unitCost } = component;
+      const {
+        annualReserve,
+        avgLife,
+        component: name,
+        monthlyReserve,
+        unitCost,
+        quantity
+      } = component;
 
       return (
         <tr key={component.uid}>
-          <td>1</td>
+          <td>{quantity}</td>
           <td colSpan={5}>{name}</td>
           <td>{formatToUSD(unitCost)}</td>
           <td>{formatToUSD(unitCost)}</td>

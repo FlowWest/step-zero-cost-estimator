@@ -2,12 +2,15 @@ import React from 'react';
 import { View, StyleSheet, Text } from '@react-pdf/renderer';
 import { formatToUSD, formatSubItemText } from '../../../util';
 import { getConsolidationCostDetails } from '../../../util/costUtil';
+import { sumBy } from 'lodash';
 
 const styles = StyleSheet.create({
   defaultText: { fontSize: 10 },
   costTitle: { fontSize: 12, marginBottom: 3 },
+  totalTitle: { fontSize: 15, marginBottom: 3 },
   table: { marginTop: 20, width: '100%' },
   tableWrapper: { display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' },
+  totalWrapper: { marginTop: 15 },
   divider: { marginTop: 5, width: '100%', height: 1, backgroundColor: 'rgba(0,0,0,.4)' },
   costDetails: { display: 'flex', flexDirection: 'column', alignItems: 'center' },
   costDetailsRow: {
@@ -62,7 +65,17 @@ const FeesTable = ({ state }: { state: any }): JSX.Element => {
     );
   });
 
-  return <View style={styles.tableWrapper}>{tables}</View>;
+  return (
+    <>
+      <View style={styles.tableWrapper}>{tables}</View>;
+      <View style={styles.totalWrapper}>
+        <Text style={styles.totalTitle}>
+          Total Consolidation Cost: {formatToUSD(sumBy(costTypeArray, 'total'))}
+        </Text>
+      </View>
+      ;
+    </>
+  );
 };
 
 export default FeesTable;

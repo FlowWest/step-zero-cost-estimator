@@ -369,7 +369,8 @@ export const getSystemComponentValues = ({
       unitCost: 35,
       avgLife: 50,
       uid: Math.random(),
-      requiresMeasurement: true
+      requiresMeasurement: true,
+      measurementUnit: 'Feet'
     },
     {
       component: 'Pipe w/ sand bedding, 6"',
