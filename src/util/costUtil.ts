@@ -239,21 +239,24 @@ export const getSystemComponentValues = ({
       unitCost: 80,
       avgLife: 25,
       uid: Math.random(),
-      requiresMeasurement: true
+      requiresMeasurement: true,
+      measurementUnit: 'Depth in feet'
     },
     {
       component: 'Drilled Well, 8", steel casing',
       unitCost: 130,
       avgLife: 25,
       uid: Math.random(),
-      requiresMeasurement: true
+      requiresMeasurement: true,
+      measurementUnit: 'Depth in feet'
     },
     {
       component: 'Drilled Well, 12", steel casing',
       unitCost: 200,
       avgLife: 25,
       uid: Math.random(),
-      requiresMeasurement: true
+      requiresMeasurement: true,
+      measurementUnit: 'Depth in feet'
     },
     {
       component: 'Wellhead Electrical Controls',
@@ -286,28 +289,32 @@ export const getSystemComponentValues = ({
       unitCost: 1.5,
       avgLife: 10,
       uid: Math.random(),
-      requiresMeasurement: true
+      requiresMeasurement: true,
+      measurementUnit: 'Gallons'
     },
     {
       component: 'Storage Tank, Plastic',
       unitCost: 0.5,
       avgLife: 10,
       uid: Math.random(),
-      requiresMeasurement: true
+      requiresMeasurement: true,
+      measurementUnit: 'Gallons'
     },
     {
       component: 'Storage Tank, Steel',
       unitCost: 1.2,
       avgLife: 50,
       uid: Math.random(),
-      requiresMeasurement: true
+      requiresMeasurement: true,
+      measurementUnit: 'Gallons'
     },
     {
       component: 'Storage Tank, Concrete',
       unitCost: 1.5,
       avgLife: 80,
       uid: Math.random(),
-      requiresMeasurement: true
+      requiresMeasurement: true,
+      measurementUnit: 'Gallons'
     },
     {
       component: 'Master Meter, 2"',
@@ -338,35 +345,40 @@ export const getSystemComponentValues = ({
       unitCost: 20,
       avgLife: 50,
       uid: Math.random(),
-      requiresMeasurement: true
+      requiresMeasurement: true,
+      measurementUnit: 'Feet'
     },
     {
       component: 'Pipe w/ sand bedding, 2"',
       unitCost: 25,
       avgLife: 50,
       uid: Math.random(),
-      requiresMeasurement: true
+      requiresMeasurement: true,
+      measurementUnit: 'Feet'
     },
     {
       component: 'Pipe w/ sand bedding, 3"',
       unitCost: 30,
       avgLife: 50,
       uid: Math.random(),
-      requiresMeasurement: true
+      requiresMeasurement: true,
+      measurementUnit: 'Feet'
     },
     {
       component: 'Pipe w/ sand bedding, 4"',
       unitCost: 35,
       avgLife: 50,
       uid: Math.random(),
-      requiresMeasurement: true
+      requiresMeasurement: true,
+      measurementUnit: 'Feet'
     },
     {
       component: 'Pipe w/ sand bedding, 6"',
       unitCost: 50,
       avgLife: 50,
       uid: Math.random(),
-      requiresMeasurement: true
+      requiresMeasurement: true,
+      measurementUnit: 'Feet'
     },
     {
       component: 'Standpipe Hydrant, 1-1/2"',

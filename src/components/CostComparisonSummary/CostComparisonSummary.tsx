@@ -127,8 +127,8 @@ const CostComparisonSummary = ({
             </Typography>
             <Typography paragraph fontWeight="bold">
               The cost estimates calculated and resources linked in this application are meant for a
-              step zero analysis and is intended for exploratory purposes only. The calculations are
-              not a replacement for a full feasibility analysis.
+              step zero analysis and are intended for exploratory purposes only. The calculations
+              are not a replacement for a full feasibility analysis.
             </Typography>
           </Grid>
           <CostComparisonWrapper />
