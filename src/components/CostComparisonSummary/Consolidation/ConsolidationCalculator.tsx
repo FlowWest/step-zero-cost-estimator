@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   editWaterSystemDescription: { marginBottom: '2rem' }
 }));
 
-const ConsolidationCalculator = () => {
+const ConsolidationCalculator = (): JSX.Element => {
   const [state, dispatch] = useContext(WaterSystemContext) as Array<any>;
   const classes = useStyles();
 

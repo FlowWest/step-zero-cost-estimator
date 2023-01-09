@@ -3,8 +3,9 @@ import { Grid, Button } from '@mui/material';
 import PreviewModal from '../exports/pdf/PreviewModal';
 import { handleExcelExport } from '../exports/excel/excelUtility';
 import { useStaticQuery, graphql } from 'gatsby';
+import { WaterSystemState } from '../../util/interfaces';
 
-const ExportButtonGroup = ({ state }: { state: any }) => {
+const ExportButtonGroup = ({ state }: { state: WaterSystemState }): JSX.Element => {
   const [previewIsOpen, setPreviewIsOpen] = useState(false as boolean);
 
   const queryResponse = useStaticQuery(

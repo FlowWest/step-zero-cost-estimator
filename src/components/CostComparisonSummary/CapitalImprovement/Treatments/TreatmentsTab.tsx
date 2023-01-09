@@ -1,11 +1,24 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Grid, Button } from '@mui/material';
+import { Grid, Button, Divider, Theme } from '@mui/material';
 import AddTreatmentsModal from './AddTreatmentsModal';
 import TreatmentsDataGrid from './TreatmentsDataGrid';
 import { WaterSystemContext } from '../../../../contexts/WaterSystem';
 import { updateCIPCostData } from '../../../../contexts/WaterSystem/actions';
+import ExportButtonGroup from '../../../uiComponents/ExportButtonGroup';
+import WarningMessage from '../../../uiComponents/WarningMessage';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles((theme: Theme) => ({
+  tableContainer: {
+    marginBottom: '2rem'
+  },
+  contentContainer: {
+    paddingTop: '1rem'
+  }
+}));
 
 function TreatmentsTab() {
+  const classes = useStyles();
   const [state, dispatch] = useContext(WaterSystemContext) as any;
   const [open, setOpen] = useState(false);
   const [totalCostValues, setTotalCostValues] = useState([] as Array<any>);
@@ -45,11 +58,28 @@ function TreatmentsTab() {
         </Button>
       </Grid>
       <br />
-      <TreatmentsDataGrid
-        rows={state.selectedTreatments}
-        openAddTreatments={setOpen}
-        setTotalCostValues={setTotalCostValues}
-      />
+      <Grid item xs={12} className={classes.tableContainer}>
+        <TreatmentsDataGrid
+          rows={state.selectedTreatments}
+          openAddTreatments={setOpen}
+          setTotalCostValues={setTotalCostValues}
+        />
+      </Grid>
+      <Grid item>
+        <WarningMessage />
+      </Grid>
+      <Divider />
+      <Grid
+        spacing={2}
+        container
+        item
+        xs={12}
+        className={classes.contentContainer}
+        justifyContent="flex-end"
+        order={{ xs: 4, md: 4 }}
+      >
+        <ExportButtonGroup state={state} />
+      </Grid>
       <AddTreatmentsModal open={open} handleClose={handleClose} />
     </>
   );
