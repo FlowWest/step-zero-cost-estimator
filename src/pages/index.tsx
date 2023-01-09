@@ -122,7 +122,7 @@ const IndexPage: FC = (props: any) => {
               <Button
                 color="error"
                 onClick={() => {
-                  dispatch({ type: 'update_water_system', payload: {} });
+                  dispatch({ type: 'reset_water_system', payload: {} });
                 }}
               >
                 Select a new water system
@@ -148,7 +148,11 @@ const IndexPage: FC = (props: any) => {
         <Grid item xs={12} className={classes.gridItemContainer}>
           <ContentWrapper
             title={`Cost Comparison Summary ${
-              state?.currentWaterSystem?.name ? `for ${state?.currentWaterSystem?.name}` : ''
+              state?.currentWaterSystem?.joinSystemName || state?.currentWaterSystem?.name
+                ? `for ${
+                    state?.currentWaterSystem?.joinSystemName || state?.currentWaterSystem?.name
+                  }`
+                : ''
             }`}
           >
             <CostComparisonSummary
