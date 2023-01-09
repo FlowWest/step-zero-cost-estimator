@@ -44,7 +44,8 @@ const IndexPage: FC = (props: any) => {
   const handleWaterSystemChange = (value: string) => {
     let newWaterSystem;
     const query = allWaterSystems.filter(
-      (obj: WaterSystem) => `${obj.joinSystemName} (${obj.joinSystemPWSID})`.trim() === value.trim()
+      (obj: WaterSystem) =>
+        value && `${obj.joinSystemName} (${obj.joinSystemPWSID})`.trim() === value.trim()
     );
 
     if (query.length !== 0) {
@@ -106,7 +107,7 @@ const IndexPage: FC = (props: any) => {
             it, and the application will use default values to begin the calculation.
           </Typography>
         </Grid>
-        <Grid item xs={12} md={5}>
+        <Grid item xs={8} md={5}>
           <Autocomplete
             dropdownLabel={'Water System'}
             dropdownPlaceholder={'Select or type in your water system'}
@@ -115,26 +116,26 @@ const IndexPage: FC = (props: any) => {
             setSelectedObject={handleWaterSystemChange}
           />
         </Grid>
-        <Grid item xs={12}></Grid>
         {state && Object.keys(state?.currentWaterSystem).length > 0 && (
           <>
-            {state.currentWaterSystem?.joinSystemPWSID && (
-              <Grid item xs={12} md={12}>
-                <Button onClick={handleOpenSystemsDetailsDialog}>
-                  View additional water systems information
-                </Button>
-              </Grid>
-            )}
-            <Grid item xs={12} md={12}>
+            <Grid item xs={12} md={4} className={classes.buttonContainer}>
               <Button
-                className={classes.resetButton}
+                color="error"
                 onClick={() => {
                   dispatch({ type: 'update_water_system', payload: {} });
                 }}
               >
-                Select a new water system and start over
+                Select a new water system
               </Button>
             </Grid>
+            {state.currentWaterSystem?.joinSystemPWSID && (
+              <Grid item xs={12} md={4}>
+                <Button onClick={handleOpenSystemsDetailsDialog} variant="outlined">
+                  View additional water systems information
+                </Button>
+              </Grid>
+            )}
+
             <WaterSystemDetailsDialog
               state={state}
               systemsDetailsDialogIsOpen={systemsDetailsDialogIsOpen}
