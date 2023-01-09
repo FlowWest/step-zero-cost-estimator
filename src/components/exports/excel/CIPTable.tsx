@@ -1,10 +1,11 @@
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import { TransformedSystemComponent } from '../../../util/interfaces';
+import { TransformedSystemComponent, Treatment, WaterSystemState } from '../../../util/interfaces';
 import { formatToUSD } from '../../../util';
 import { startCase } from 'lodash';
+import { getConsolidationCostDetails } from '../../../util/costUtil';
 
-export const ExcelTable = (state: any) => {
+const CIPTable = (state: any): JSX.Element => {
+  console.log('🚀 ~ ExcelTable ~ state', state);
   const connections = state?.consolidationCostParams?.connections;
 
   function renderEmptyData(num: number, type: 'row' | 'cell') {
@@ -18,11 +19,18 @@ export const ExcelTable = (state: any) => {
 
   function getDataRows(componentAge: 'new' | 'existing') {
     return state[`${componentAge}Components`]?.map((component: TransformedSystemComponent) => {
-      const { annualReserve, avgLife, component: name, monthlyReserve, unitCost } = component;
+      const {
+        annualReserve,
+        avgLife,
+        component: name,
+        monthlyReserve,
+        unitCost,
+        quantity
+      } = component;
 
       return (
         <tr key={component.uid}>
-          <td>1</td>
+          <td>{quantity}</td>
           <td colSpan={5}>{name}</td>
           <td>{formatToUSD(unitCost)}</td>
           <td>{formatToUSD(unitCost)}</td>
@@ -36,12 +44,11 @@ export const ExcelTable = (state: any) => {
   }
 
   function generateSubtotals(componentAge: 'new' | 'existing' | 'all') {
-    console.log('state', state);
     const components =
       componentAge === 'all'
         ? [...state?.existingComponents, ...state?.newComponents]
         : [...state[`${componentAge}Components`]];
-    console.log('🚀 ~ generateSubtotals ~ components', components);
+
     const totals = components.reduce(
       (total, currentValue) => {
         return {
@@ -59,7 +66,6 @@ export const ExcelTable = (state: any) => {
         monthlyReservePerCustomer: 0
       }
     );
-    console.log('🚀 ~ totals ~ totals', totals);
 
     return (
       <tr>
@@ -109,79 +115,81 @@ export const ExcelTable = (state: any) => {
   }
 
   return (
-    <table
-      id="test-table"
-      className="table table-striped"
-      style={{ width: '100%', textAlign: 'center' }}
-    >
-      <thead>
-        <tr>
-          <td></td>
-          <th colSpan={4}>CAPITAL IMPROVEMENT PLAN (CIP)</th>
-        </tr>
-        <tr>
-          {renderEmptyData(8, 'cell')}
-          <td colSpan={2}>Date:</td>
-          <td colSpan={2}>{new Date().toLocaleString()}</td>
-        </tr>
-        <tr>
-          {renderEmptyData(8, 'cell')}
-          <td colSpan={2}>System ID No.:</td>
-          <td colSpan={2}>{state?.currentWaterSystem?.joinSystemPWSID}</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td colSpan={2}>System Name:</td>
-          <td colSpan={5}>{state?.currentWaterSystem?.joinSystemName}</td>
-          <td colSpan={2}>Service Connections:</td>
-          <td colSpan={2}>{connections}</td>
-        </tr>
-        {renderEmptyData(1, 'row')}
-        <tr>
-          {renderEmptyData(11, 'cell')}
-          <td>MONTHLY</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td colSpan={5}>*Enter information only in YELLOW shaded cells</td>
-          {renderEmptyData(2, 'cell')}
-          <td>AVG</td>
-          {renderEmptyData(2, 'cell')}
-          <td>RESERVE</td>
-        </tr>
-        <tr>
-          {renderEmptyData(6, 'cell')}
-          <td>UNIT</td>
-          <td>INSTALLED</td>
-          <td>LIFE,</td>
-          <td>ANNUAL</td>
-          <td>MONTHLY</td>
-          <td>PER</td>
-        </tr>
-        <tr>
-          <td>QTY</td>
-          <td colSpan={5}>COMPONENT</td>
-          <td>COST</td>
-          <td>COST</td>
-          <td>YEARS</td>
-          <td>RESERVE</td>
-          <td>RESERVE</td>
-          <td>CUSTOMER</td>
-        </tr>
-      </thead>
-      <tbody>
-        {getDataRows('existing')}
-        {generateSubtotals('existing')}
-        {renderEmptyData(2, 'row')}
-        {getDataRows('new')}
-        {generateSubtotals('new')}
-        {renderEmptyData(1, 'row')}
-        {generateSubtotals('all')}
-        {renderEmptyData(3, 'row')}
-        {renderSignatureAndNotes()}
-      </tbody>
-    </table>
+    <>
+      <table
+        id="test-table"
+        className="table table-striped"
+        style={{ width: '100%', textAlign: 'center' }}
+      >
+        <thead>
+          <tr>
+            <td></td>
+            <th colSpan={4}>CAPITAL IMPROVEMENT PLAN (CIP)</th>
+          </tr>
+          <tr>
+            {renderEmptyData(8, 'cell')}
+            <td colSpan={2}>Date:</td>
+            <td colSpan={3}>{new Date().toLocaleString()}</td>
+          </tr>
+          <tr>
+            {renderEmptyData(8, 'cell')}
+            <td colSpan={2}>System ID No.:</td>
+            <td colSpan={3}>{state?.currentWaterSystem?.joinSystemPWSID}</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colSpan={2}>System Name:</td>
+            <td colSpan={5}>{state?.currentWaterSystem?.joinSystemName}</td>
+            <td colSpan={2}>Service Connections:</td>
+            <td colSpan={3}>{connections}</td>
+          </tr>
+          {renderEmptyData(1, 'row')}
+          <tr>
+            {renderEmptyData(11, 'cell')}
+            <td>MONTHLY</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colSpan={5}>*Enter information only in YELLOW shaded cells</td>
+            {renderEmptyData(2, 'cell')}
+            <td>AVG</td>
+            {renderEmptyData(2, 'cell')}
+            <td>RESERVE</td>
+          </tr>
+          <tr>
+            {renderEmptyData(6, 'cell')}
+            <td>UNIT</td>
+            <td>INSTALLED</td>
+            <td>LIFE,</td>
+            <td>ANNUAL</td>
+            <td>MONTHLY</td>
+            <td>PER</td>
+          </tr>
+          <tr>
+            <td>QTY</td>
+            <td colSpan={5}>COMPONENT</td>
+            <td>COST</td>
+            <td>COST</td>
+            <td>YEARS</td>
+            <td>RESERVE</td>
+            <td>RESERVE</td>
+            <td>CUSTOMER</td>
+          </tr>
+        </thead>
+        <tbody>
+          {getDataRows('existing')}
+          {generateSubtotals('existing')}
+          {renderEmptyData(2, 'row')}
+          {getDataRows('new')}
+          {generateSubtotals('new')}
+          {renderEmptyData(1, 'row')}
+          {generateSubtotals('all')}
+          {renderEmptyData(2, 'row')}
+          {renderSignatureAndNotes()}
+        </tbody>
+      </table>
+    </>
   );
 };
 
-export const generateHtmlString = (element: any) => ReactDOMServer.renderToStaticMarkup(element);
+export default CIPTable;

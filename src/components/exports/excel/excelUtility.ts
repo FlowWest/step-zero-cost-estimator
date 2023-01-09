@@ -1,9 +1,14 @@
+import ReactDOMServer from 'react-dom/server';
 import { utils, writeFile, read } from 'xlsx-js-style';
 import axios from 'axios';
-import { ExcelTable, generateHtmlString } from './ExcelTable';
+import CIPTable from './CIPTable';
+import TreatmentTable from './TreatmentTable';
+import ConsolidationTable from './ConsolidationTable';
+
+export const generateHtmlString = (element: any) => ReactDOMServer.renderToStaticMarkup(element);
 
 const excludedKeys = ['!cols', '!ref', '!fullref', '!merges', '!rows'];
-const highlightedColumns = ['A', 'B', 'C', 'D', 'E', 'F', 'I'];
+const highlightedColumns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'I'];
 const wsDetails = ['K2', 'K3', 'K4'];
 const excludedValues = [
   'CAPITAL IMPROVEMENT PLAN (CIP)',
@@ -13,10 +18,13 @@ const excludedValues = [
   'Service Connections:',
   'QTY',
   'COMPONENT',
+  'UNIT',
+  'COST',
   'AVG',
   'LIFE,',
   'YEARS',
   'ANNUAL',
+  'MONTHLY',
   'RESERVE',
   'Report Prepared by (Title): _________________________________________________________________',
   'Date: ________________________________',
@@ -24,7 +32,18 @@ const excludedValues = [
   'SUBTOTAL Existing CIP Costs',
   'SUBTOTAL New CIP Costs',
   'TOTAL Existing and New Project CIP',
-  'NOTES:'
+  'NOTES:',
+  'CONTAMINANT',
+  'TREATMENT',
+  'CAPITAL COST',
+  'ANNUAL OPERATIONAL COST',
+  'TOTAL Treatment Costs',
+  'CONSOLIDATION COSTS',
+  'TOTAL Material Cost',
+  'TOTAL Administrative Fees',
+  'TOTAL Adjustments',
+  'TOTAL Consolidation Costs',
+  'CATEGORY'
 ];
 const defaultFont = {
   font: {
@@ -34,10 +53,10 @@ const defaultFont = {
     sz: 12
   }
 };
-export const handleExcelExport = async (state: any, templateFileNode: any) => {
-  const htmlString = generateHtmlString(ExcelTable(state));
-  console.log('🚀 ~ handleExcelExportV2 ~ htmlString', htmlString);
-  console.log('🚀 ~ handleExcelExportV2 ~ state', state);
+export const handleExcelExport = async (state: any, templateFileNode: any): Promise<void> => {
+  const cipString = generateHtmlString(CIPTable(state));
+  const treatmentString = generateHtmlString(TreatmentTable(state));
+  const consolidationString = generateHtmlString(ConsolidationTable(state));
 
   const url = templateFileNode.publicURL as string;
 
@@ -49,23 +68,39 @@ export const handleExcelExport = async (state: any, templateFileNode: any) => {
   const data = new Uint8Array(test.data);
   const workbookTest = read(data, { type: 'array', cellStyles: true, cellNF: true }) as any;
 
-  console.log('wbt', workbookTest);
-
   try {
-    const elt = document.createElement('div');
-    elt.innerHTML = htmlString;
-    document.body.appendChild(elt);
+    const cipElement = document.createElement('div');
+    cipElement.innerHTML = cipString;
+    document.body.appendChild(cipElement);
+    const treatmentElement = document.createElement('div');
+    treatmentElement.innerHTML = treatmentString;
+    document.body.appendChild(treatmentElement);
+    const consolidationElement = document.createElement('div');
+    consolidationElement.innerHTML = consolidationString;
+    document.body.appendChild(consolidationElement);
 
     /* generate worksheet */
-    const workbook = utils.table_to_book(elt, { sheet: 'CIP' });
+    //const workbook = utils.table_to_book(elt, { sheet: 'CIP' });
+    const workbook = utils.book_new();
+    const sheet1 = utils.table_to_sheet(cipElement, { sheet: 'CIP' });
+    const sheet2 = utils.table_to_sheet(treatmentElement, { sheet: 'Treatments' });
+    const sheet3 = utils.table_to_sheet(consolidationElement, { sheet: 'Consolidation' });
 
+    utils.book_append_sheet(workbook, sheet1, 'CIP');
+    utils.book_append_sheet(workbook, sheet2, 'Treatments');
+    utils.book_append_sheet(workbook, sheet3, 'Consolidation');
     /* remove element */
-    document.body.removeChild(elt);
+    document.body.removeChild(cipElement);
+    document.body.removeChild(treatmentElement);
+    document.body.removeChild(consolidationElement);
 
     const cipSheet = workbook.Sheets.CIP as Record<string, any>;
-    console.log('🚀 ~ handleExcelExport ~ cipSheet', cipSheet);
+    const consolidationSheet = workbook.Sheets.Consolidation as Record<string, any>;
+    const treatmentsSheet = workbook.Sheets.Treatments as Record<string, any>;
+    //console.log('🚀 ~ handleExcelExport ~ cipSheet', cipSheet);
 
-    const applyDefaultStyles = (sheet: Record<string, any>) => {
+    const applyCIPStyles = (sheet: Record<string, any>) => {
+      console.log('🚀 ~ applyDefaultStyles ~ sheet', sheet);
       for (const key in sheet) {
         if (!excludedKeys.includes(key)) {
           sheet[key].s = defaultFont;
@@ -79,16 +114,105 @@ export const handleExcelExport = async (state: any, templateFileNode: any) => {
         ) {
           sheet[key].s = {
             ...defaultFont,
-            fill: addHighlight()
-            //border: addBorder()
+            fill: addHighlight(),
+            border: addBorder()
           };
         }
 
         if (
           key.split('')[0] === 'J' &&
           !excludedValues.includes(sheet[key].v) &&
-          sheet[key.replace('J', 'I')].t === 'z' &&
-          sheet[key.replace('J', 'B')].v !== 'TOTAL Existing and New Project CIP'
+          sheet[key.replace('J', 'I')]?.t === 'z' &&
+          [
+            'TOTAL Existing and New Project CIP',
+            'TOTAL Material Cost',
+            'TOTAL Administrative Fees',
+            'TOTAL Adjustments',
+            'SUBTOTAL Existing CIP Costs',
+            'SUBTOTAL New CIP Costs'
+          ].includes(sheet[key.replace('J', 'B')]?.v)
+        ) {
+          sheet[key].s = {
+            ...defaultFont,
+            fill: addHighlight('orange'),
+            border: addBorder()
+          };
+        }
+
+        if (key.split('')[0] === 'A' && sheet[key].v === 'NOTES:') {
+          sheet[key].s = {
+            ...defaultFont,
+            border: addBorder(),
+            alignment: {
+              vertical: 'top',
+              horizontal: 'left'
+            }
+          };
+        }
+      }
+
+      // cipSheet.J11.f = 'J10 + 1000';
+    };
+    const applyTreatmentStyles = (sheet: Record<string, any>) => {
+      console.log('🚀 ~ applyDefaultStyles ~ sheet', sheet);
+      for (const key in sheet) {
+        if (!excludedKeys.includes(key)) {
+          sheet[key].s = defaultFont;
+        }
+
+        if (
+          (['J', 'L'].includes(key.split('')[0]) &&
+            !excludedValues.includes(sheet[key].v) &&
+            sheet[key].t !== 'z') ||
+          wsDetails.includes(key)
+        ) {
+          sheet[key].s = {
+            ...defaultFont,
+            fill: addHighlight(),
+            border: addBorder()
+          };
+        }
+
+        if (
+          !excludedValues.includes(sheet[key].v) &&
+          (sheet[key.replace('J', 'A')]?.v === 'TOTAL Treatment Costs' ||
+            sheet[key.replace('L', 'A')]?.v === 'TOTAL Treatment Costs')
+        ) {
+          sheet[key].s = {
+            ...defaultFont,
+            fill: addHighlight('orange'),
+            border: addBorder()
+          };
+        }
+      }
+
+      // cipSheet.J11.f = 'J10 + 1000';
+    };
+    const applyConsolidationStyles = (sheet: Record<string, any>) => {
+      console.log('🚀 ~ applyDefaultStyles ~ sheet', sheet);
+      for (const key in sheet) {
+        if (!excludedKeys.includes(key)) {
+          sheet[key].s = defaultFont;
+        }
+
+        // if (
+        //   (highlightedColumns.includes(key.split('')[0]) &&
+        //     !excludedValues.includes(sheet[key].v) &&
+        //     sheet[key].t !== 'z') ||
+        //   wsDetails.includes(key)
+        // ) {
+        //   sheet[key].s = {
+        //     ...defaultFont,
+        //     fill: addHighlight(),
+        //     border: addBorder()
+        //   };
+        // }
+
+        if (
+          key.split('')[0] === 'J' &&
+          !excludedValues.includes(sheet[key].v) &&
+          (excludedValues.includes(sheet[key.replace('J', 'B')]?.v) ||
+            sheet[key.replace('J', 'A')]?.v === 'TOTAL Consolidation Costs')
         ) {
           sheet[key].s = {
             ...defaultFont,
@@ -108,8 +232,12 @@ export const handleExcelExport = async (state: any, templateFileNode: any) => {
           };
         }
       }
+
+      // cipSheet.J11.f = 'J10 + 1000';
     };
-    applyDefaultStyles(cipSheet);
+    applyCIPStyles(cipSheet);
+    applyTreatmentStyles(treatmentsSheet);
+    applyConsolidationStyles(consolidationSheet);
 
     console.log('wb', workbook);
     writeFile(workbook, `swsbudgetcalculator_${new Date().toLocaleDateString()}.xlsx`);

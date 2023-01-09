@@ -6,6 +6,7 @@ import WaterSystemDetailsPdf from './WaterSystemDetailsPdf';
 import ComponentsTable from './ComponentsTable';
 import FeesTable from './FeesTable';
 import { getConsolidationCostDetails } from '../../../util/costUtil';
+import TreatmentsTable from '../pdf/TreatmentsTable';
 // Create styles
 const styles = StyleSheet.create({
   page: {
@@ -77,6 +78,7 @@ const PdfRender = ({ state }: { state: any }): JSX.Element => {
           <ComponentsTable state={state} type="total" />
           <ComponentsTable state={state} type="existing" />
           <ComponentsTable state={state} type="new" />
+          <TreatmentsTable state={state} />
           <Text style={[styles.disclaimerText, { alignSelf: 'center' }]}>
             The information provided on this page is for a step zero analysis and is intended for
             exploratory purposes only. The calculations are not a replacement for a full feasibility

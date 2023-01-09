@@ -142,6 +142,16 @@ const ComponentDataGrid = ({
       }
     },
     {
+      field: 'measurementUnit',
+      headerName: 'Unit',
+      editable: false,
+      flex: 1.5,
+      type: 'number',
+      headerAlign: 'right',
+      sortComparator: sortComparator,
+      cellClassName: classes.nonEditableCell
+    },
+    {
       field: 'unitCost',
       headerName: 'Unit Cost',
       editable: true,
@@ -330,7 +340,7 @@ const ComponentDataGrid = ({
           }}
           disableSelectionOnClick
           isCellEditable={(params) => {
-            return params?.row?.requiresMeasurement;
+            return params.field === 'measurement' ? params?.row?.requiresMeasurement : true;
           }}
         />
       </div>

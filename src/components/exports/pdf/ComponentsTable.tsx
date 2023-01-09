@@ -142,6 +142,12 @@ const ComponentsTable = ({
               <Text style={styles.headerText}>Component</Text>
             </View>
             <View style={[styles.columnSmall, styles.tableCell]}>
+              <Text style={styles.headerText}>Measurement</Text>
+            </View>
+            <View style={[styles.columnSmall, styles.tableCell]}>
+              <Text style={styles.headerText}>Unit</Text>
+            </View>
+            <View style={[styles.columnSmall, styles.tableCell]}>
               <Text style={styles.headerText}>Unit Cost</Text>
             </View>
             <View style={[styles.columnSmall, styles.tableCell]}>
@@ -168,8 +174,18 @@ const ComponentsTable = ({
                 {
                   component,
                   unitCost,
-                  avgLife
-                }: { component: string; unitCost: number; avgLife: number },
+                  avgLife,
+                  quantity,
+                  measurement,
+                  measurementUnit
+                }: {
+                  component: string;
+                  unitCost: number;
+                  avgLife: number;
+                  quantity: number;
+                  measurement: number;
+                  measurementUnit: string;
+                },
                 idx: number
               ) => {
                 const installedCost = unitCost;
@@ -180,10 +196,16 @@ const ComponentsTable = ({
                 return (
                   <View style={styles.tableRow} key={idx}>
                     <View style={[styles.columnSmall, styles.tableCell]}>
-                      <Text style={styles.cellText}>1</Text>
+                      <Text style={styles.cellText}>{quantity || 1}</Text>
                     </View>
                     <View style={[styles.columnLarge, styles.tableCell]}>
                       <Text style={styles.cellText}>{component}</Text>
+                    </View>
+                    <View style={[styles.columnSmall, styles.tableCell]}>
+                      <Text style={styles.cellText}>{measurement || ''}</Text>
+                    </View>
+                    <View style={[styles.columnSmall, styles.tableCell]}>
+                      <Text style={styles.cellText}>{measurementUnit || ''}</Text>
                     </View>
                     <View style={[styles.columnSmall, styles.tableCell]}>
                       <Text style={styles.cellText}>{formatToUSD(unitCost)}</Text>

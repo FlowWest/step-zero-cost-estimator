@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const TotalConsolidationCost = () => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(WaterSystemContext) as any;
+  const [state] = useContext(WaterSystemContext) as any;
 
   const { currentWaterSystem, consolidationCostParams } = state || {};
   const [consolidationCostDetails, setConsolidationCostDetailset] = useState({} as any);
