@@ -54,9 +54,9 @@ const Resources: FC = () => {
               aria-label="resource categories"
             >
               <Tab label="Water Rates" value="waterRates" />
+              <Tab label="Funding" value="funding" />
               <Tab label="Technical Assistance" value="technicalAssistance" />
               <Tab label="Governance" value="governance" />
-              <Tab label="Funding" value="funding" />
             </Tabs>
           </Box>
         </Grid>
