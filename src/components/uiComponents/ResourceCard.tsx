@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
     backgroundPosition: 'center',
-    height: 150,
     width: 150,
     margin: 25
   },
@@ -55,11 +54,10 @@ const ResourceCard = ({ resource }: { resource: ResourceObject }) => {
       style={{ backgroundColor: theme.palette.background.content }}
     >
       <Grid item style={{ display: 'flex', alignItems: 'center' }}>
-        <Box
+        <img
           className={classes.resourceLogo}
-          style={{
-            backgroundImage: `url(${resource.logo})`
-          }}
+          src={`/images/${resource.logo}`}
+          alt="Water Boards Logo"
         />
       </Grid>
       <Grid item xs={12} sm={8}>
