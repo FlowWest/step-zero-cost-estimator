@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `SAFER Step Zero Cost Estimator`,
+    title: `Step Zero Consolidation Calculator`,
     description: `An application to help small water systems calculate initial, high-level estimates of consolidation versus capital improvement costs`,
     author: {
       name: `FlowWest`,
@@ -40,7 +40,7 @@ module.exports = {
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/fw-logo-transparent.png` // This path is relative to the root of the site.
+        icon: `src/images/favicon.png` // This path is relative to the root of the site.
       }
     },
     {

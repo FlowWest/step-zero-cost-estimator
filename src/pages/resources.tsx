@@ -57,6 +57,8 @@ const Resources: FC = () => {
               <Tab label="Funding" value="funding" />
               <Tab label="Technical Assistance" value="technicalAssistance" />
               <Tab label="Governance" value="governance" />
+              <Tab label="Legislation" value="legislation" />
+              <Tab label="Miscellaneous" value="miscellaneous" />
             </Tabs>
           </Box>
         </Grid>
