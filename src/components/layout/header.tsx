@@ -3,7 +3,6 @@ import { Link as GatsbyLink } from 'gatsby';
 import { AppBar, Grid, Toolbar, Typography, Link, Tooltip } from '@mui/material';
 import { Theme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
-import { BsToggleOn, BsToggleOff } from 'react-icons/bs';
 import Button from '../uiComponents/NavButton';
 import { StaticImage } from 'gatsby-plugin-image';
 
@@ -69,11 +68,20 @@ const Header: FC<HeaderProps> = (props) => {
             </Button>
           </Grid>
         </Grid>
-        {/* <Tooltip title="switch theme">
-          <Button onClick={onSwitch}>
-            {darkModeOn ? <BsToggleOn size="40" /> : <BsToggleOff size="40" />}
-          </Button>
-        </Tooltip> */}
+        <Link
+          to="https://waterfdn.org/"
+          target="_blank"
+          component={GatsbyLink}
+          color="#fff"
+          className={classes.link}
+        >
+          <StaticImage
+            src="../../images/wf-logo-white.png"
+            alt="Step Zero Logo"
+            placeholder="blurred"
+            height={55}
+          />
+        </Link>
       </Toolbar>
     </AppBar>
   );

@@ -64,12 +64,14 @@ const CostComparisonSummary = ({
       </Grid>
     );
   };
-  const formatArray = (arr: any[]) => arr.map((cost) => formatToUSD(cost));
+  const formatArray = (arr: any[]) =>
+    arr.map((value) => (typeof value === 'number' ? formatToUSD(value) : value));
 
   const consolidationCostsArray = [
     consolidationCostDetails ? consolidationCostDetails.total : 0,
     consolidationCostDetails ? consolidationCostDetails.totalCostPerConnection : 0,
-    0
+    'Determined by Receiving System',
+    'Determined by Receiving System'
   ];
 
   let cipTotal = 0;
@@ -83,9 +85,17 @@ const CostComparisonSummary = ({
   const cipCostsArray = [
     cipTotal,
     cipTotal / consolidationCostParams?.connections,
-    cipCostData?.treatmentOperational ? cipCostData?.treatmentOperational : 0
+    cipCostData?.treatmentOperational ? cipCostData?.treatmentOperational : 0,
+    cipCostData?.treatmentOperational
+      ? cipCostData?.treatmentOperational / consolidationCostParams.connections
+      : 0
   ];
-  const categoriesArray = ['Total', 'Cost per Connection', 'Annual O&M Costs'];
+  const categoriesArray = [
+    'Total',
+    'Cost per Connection',
+    'Annual O&M Costs',
+    'Annual O&M Costs per Connection'
+  ];
 
   return (
     <>

@@ -85,6 +85,8 @@ const ComponentsTable = ({
             <View style={[styles.columnSmall, styles.tableCell]}></View>
             <View style={[styles.columnLarge, styles.tableCell]}></View>
             <View style={[styles.columnSmall, styles.tableCell]}></View>
+            <View style={[styles.columnSmall, styles.tableCell]}></View>
+            <View style={[styles.columnSmall, styles.tableCell]}></View>
             <View style={[styles.columnSmall, styles.tableCell]}>
               <Text style={styles.headerText}>Installed Cost</Text>
             </View>
@@ -104,6 +106,8 @@ const ComponentsTable = ({
             <View style={styles.tableRow}>
               <View style={[styles.columnSmall, styles.tableCell]}></View>
               <View style={[styles.columnLarge, styles.tableCell]}></View>
+              <View style={[styles.columnSmall, styles.tableCell]}></View>
+              <View style={[styles.columnSmall, styles.tableCell]}></View>
               <View style={[styles.columnSmall, styles.tableCell]}></View>
               <View style={[styles.columnSmall, styles.tableCell]}>
                 <Text style={styles.cellText}>{formatToUSD(allComponents.installedCost)}</Text>
