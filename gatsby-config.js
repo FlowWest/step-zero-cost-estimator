@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `SAFER Step Zero Cost Estimator`,
+    title: `Step Zero Consolidation Calculator`,
     description: `An application to help small water systems calculate initial, high-level estimates of consolidation versus capital improvement costs`,
     author: {
       name: `FlowWest`,
