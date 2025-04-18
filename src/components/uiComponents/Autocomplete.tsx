@@ -63,7 +63,11 @@ const Autocomplete = ({
           />
         )}
         renderOption={(props, option) => {
-          return <li {...props}>{option}</li>;
+          return (
+            <li {...props} key={props.id}>
+              {option}
+            </li>
+          );
         }}
         renderGroup={(params) => params}
       />
