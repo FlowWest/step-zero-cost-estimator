@@ -47,7 +47,7 @@ const costVariables = [
   { name: 'Rural Adjustment Percentage', value: '0%', adjustable: false },
   { name: 'Planning and Construction Adjustment Percentage', value: '25%', adjustable: false },
   { name: 'Inflation Adjustment Percentage', value: '4.7%', adjustable: false },
-  { name: 'Air Polution Permitting Fees Adjustment Percentage', value: '5%', adjustable: false }
+  { name: 'Air Pollution Permitting Fees Adjustment Percentage', value: '5%', adjustable: false }
 ];
 
 const systemCalculations = [
