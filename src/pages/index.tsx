@@ -61,8 +61,12 @@ const IndexPage: FC = (props: any) => {
 
     dispatch(
       updateWaterSystemAndParams(newWaterSystem, {
-        connections: Number(newWaterSystem.joinConnections) || connections,
-        distance: parseInt(newWaterSystem.distanceFt) || distance
+        connections: !isNaN(Number(newWaterSystem.joinConnections))
+          ? Number(newWaterSystem.joinConnections)
+          : connections,
+        distance: !isNaN(parseInt(newWaterSystem.distanceFt))
+          ? parseInt(newWaterSystem.distanceFt)
+          : distance
       })
     );
   };
