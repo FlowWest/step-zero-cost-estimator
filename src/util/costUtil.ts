@@ -141,6 +141,7 @@ export const getConsolidationCostDetails = ({
   const totalDistance = distance + distanceBuffer;
   const totalPipelineCosts = pipelineCosts * totalDistance;
   // so if total distance = 1000 (distance = 0), indicates intersecting system
+
   const totalServiceFee = distance === 0 ? 5000 : 0;
 
   const totalMaterialCosts = totalPipelineCosts + totalServiceFee + totalConnectionCosts;
