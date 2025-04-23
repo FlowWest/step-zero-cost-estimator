@@ -33,7 +33,7 @@ const systemCalculations = [
   },
   {
     name: 'Generator',
-    formula: `Generator Base Cost + ($341 * MDD Flow Rate) + Regional Adjustment + Air Polution Permitting Fees Adjustment + Inflation Adjustment`
+    formula: `Generator Base Cost + ($341 * MDD Flow Rate) + Regional Adjustment + Air Pollution Permitting Fees Adjustment + Inflation Adjustment`
   },
   {
     name: 'Well Development Cost',
